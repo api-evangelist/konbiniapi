@@ -1,0 +1,36 @@
+{
+  "operationId": "tiktokSearchContent",
+  "summary": "Search Content",
+  "request": {
+    "method": "GET",
+    "url": "https://api.konbiniapi.com/v1/tiktok/search?query=khaby.lame&cursor=0&count=50&order=relevance&published=all-time",
+    "headers": {
+      "Authorization": "Bearer knbn_your_api_key",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Credits-Remaining": 24999,
+      "X-Credits-Used": 1
+    },
+    "body": {
+      "data": {
+        "@context": [
+          "https://www.w3.org/ns/activitystreams#",
+          "https://konbiniapi.com/ns/social#"
+        ],
+        "type": "OrderedCollectionPage",
+        "partOf": "https://api.konbiniapi.com/v1/tiktok/search",
+        "totalItems": 1309,
+        "cursor": "0",
+        "nextCursor": "1772217402000",
+        "next": "https://api.konbiniapi.com/v1/tiktok/search?query=khaby&cursor=1772217402000&count=30",
+        "itemCount": 30,
+        "orderedItems": []
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "operationId": "tiktokGetUserCollections",
+  "summary": "Get User Collections",
+  "request": {
+    "method": "GET",
+    "url": "https://api.konbiniapi.com/v1/tiktok/users/khaby.lame/collections?count=30&cursor=0",
+    "headers": {
+      "Authorization": "Bearer knbn_your_api_key",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Credits-Remaining": 24999,
+      "X-Credits-Used": 1
+    },
+    "body": {
+      "data": {
+        "@context": [
+          "https://www.w3.org/ns/activitystreams#",
+          "https://konbiniapi.com/ns/social#"
+        ],
+        "type": "OrderedCollectionPage",
+        "partOf": "https://api.konbiniapi.com/v1/tiktok/users/khaby.lame/collections",
+        "totalItems": 1309,
+        "cursor": "0",
+        "nextCursor": "1772217402000",
+        "next": "https://api.konbiniapi.com/v1/tiktok/users/khaby.lame/collections?cursor=1772217402000&count=30",
+        "itemCount": 30,
+        "orderedItems": [
+          {
+            "type": "OrderedCollection",
+            "id": "https://www.tiktok.com/@khaby.lame/playlist/7200000000000000001",
+            "name": "Best of 2025",
+            "totalItems": 42,
+            "entityId": "7200000000000000001"
+          }
+        ]
+      }
+    }
+  }
+}

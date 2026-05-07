@@ -1,0 +1,85 @@
+{
+  "name": "TikTokStoryAttachment",
+  "description": "Story media file",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "type",
+    "url"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Video",
+      "format": null
+    },
+    {
+      "name": "url",
+      "type": "array<string>",
+      "required": true,
+      "description": "Media download URLs",
+      "example": [
+        "https://v19-webapp.tiktok.com/video/tos/us/tos-useast5-ve-0068c004/story.mp4"
+      ],
+      "format": null
+    },
+    {
+      "name": "mediaType",
+      "type": "string",
+      "required": false,
+      "description": "MIME type",
+      "example": "video/mp4",
+      "format": null
+    },
+    {
+      "name": "width",
+      "type": "integer",
+      "required": false,
+      "description": "Width in pixels",
+      "example": 576,
+      "format": null
+    },
+    {
+      "name": "height",
+      "type": "integer",
+      "required": false,
+      "description": "Height in pixels",
+      "example": 1024,
+      "format": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": false,
+      "description": "Quality label",
+      "example": "normal_540_0",
+      "format": null
+    },
+    {
+      "name": "headers",
+      "type": "unknown",
+      "required": false,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "codec",
+      "type": "string",
+      "required": false,
+      "description": "Video codec",
+      "example": "h264",
+      "format": null
+    },
+    {
+      "name": "bitrate",
+      "type": "integer",
+      "required": false,
+      "description": "Bitrate in bits per second",
+      "example": 1101943,
+      "format": null
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "name": "TikTokLiveStreamAttachment",
+  "description": "Live stream media source",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "mediaType",
+    "name",
+    "type",
+    "url"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Video",
+      "format": null
+    },
+    {
+      "name": "url",
+      "type": "array<string>",
+      "required": true,
+      "description": "Media download URLs",
+      "example": [
+        "https://webcast.tiktok.com/live/pull/l4/stream.flv"
+      ],
+      "format": null
+    },
+    {
+      "name": "mediaType",
+      "type": "string",
+      "required": true,
+      "description": "MIME type",
+      "example": "video/x-flv",
+      "format": null
+    },
+    {
+      "name": "width",
+      "type": "integer",
+      "required": false,
+      "description": "Width in pixels",
+      "example": 576,
+      "format": null
+    },
+    {
+      "name": "height",
+      "type": "integer",
+      "required": false,
+      "description": "Height in pixels",
+      "example": 1024,
+      "format": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "description": "Stream quality label",
+      "example": "flv",
+      "format": null
+    },
+    {
+      "name": "codec",
+      "type": "string",
+      "required": false,
+      "description": "Video codec",
+      "example": "h264",
+      "format": null
+    },
+    {
+      "name": "bitrate",
+      "type": "integer",
+      "required": false,
+      "description": "Bitrate in bits per second",
+      "example": 2500000,
+      "format": null
+    }
+  ]
+}

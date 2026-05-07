@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-instagram-story-item-schema.json",
+  "title": "InstagramStoryItem",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "Video"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Story item permalink",
+      "example": "https://www.instagram.com/stories/highlights/18067016518767507/"
+    },
+    "entityId": {
+      "type": "string",
+      "description": "Instagram internal media ID",
+      "example": "3214260996432123580"
+    },
+    "published": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Publication date in ISO 8601 format",
+      "example": "2026-02-27T18:36:42.000Z"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Accessibility caption",
+      "example": "Photo by Khabane Lame on March 13, 2026."
+    },
+    "isSponsored": {
+      "type": "boolean",
+      "description": "Whether story is a paid partnership",
+      "example": false
+    },
+    "image": {
+      "allOf": [
+        {
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "ActivityStreams object type",
+                  "example": "Image"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Image URL",
+                  "example": "https://scontent.cdninstagram.com/v/t51.2885-19/avatar.jpg"
+                }
+              },
+              "required": [
+                "type",
+                "url"
+              ],
+              "description": "Image resource"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "width": {
+                  "type": "integer",
+                  "description": "Width in pixels",
+                  "example": 1080
+                },
+                "height": {
+                  "type": "integer",
+                  "description": "Height in pixels",
+                  "example": 1920
+                }
+              }
+            }
+          ],
+          "description": "Image resource with optional dimensions"
+        },
+        {
+          "description": "Story item thumbnail"
+        }
+      ]
+    },
+    "attachment": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "ActivityStreams object type",
+                "example": "Video"
+              },
+              "url": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "description": "Media download URLs",
+                "example": [
+                  "https://scontent.cdninstagram.com/v/t50.2886-16/video.mp4"
+                ]
+              },
+              "mediaType": {
+                "type": "string",
+                "description": "MIME type",
+                "example": "video/mp4"
+              },
+              "width": {
+                "type": "integer",
+                "description": "Width in pixels",
+                "example": 576
+              },
+              "height": {
+                "type": "integer",
+                "description": "Height in pixels",
+                "example": 1024
+              }
+            },
+            "required": [
+              "type",
+              "url"
+            ],
+            "description": "Media file attachment"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "ActivityStreams object type",
+                "example": "Link"
+              },
+              "href": {
+                "type": "string",
+                "format": "uri",
+                "description": "Link URL",
+                "example": "https://linktr.ee/khabylame"
+              },
+              "rel": {
+                "type": "string",
+                "description": "Link relation hint",
+                "example": "preferred"
+              }
+            },
+            "required": [
+              "type",
+              "href"
+            ],
+            "description": "External link"
+          }
+        ]
+      },
+      "description": "Media files and link stickers"
+    },
+    "duration": {
+      "type": "number",
+      "description": "Duration in seconds",
+      "example": 23
+    },
+    "attributedTo": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "ActivityStreams object type",
+              "example": "Person"
+            },
+            "id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Profile URL",
+              "example": "https://www.instagram.com/khaby00/"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Profile URL",
+              "example": "https://www.instagram.com/khaby00/"
+            },
+            "entityId": {
+              "type": "string",
+              "description": "Platform-specific entity ID",
+              "example": "779085683"
+            },
+            "preferredUsername": {
+              "type": "string",
+              "description": "Username or handle",
+              "example": "khaby00"
+            },
+            "name": {
+              "type": "string",
+              "description": "Display name",
+              "example": "Khabane Lame"
+            },
+            "icon": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/InstagramImage"
+                },
+                {
+                  "description": "Author avatar"
+                }
+              ]
+            },
+            "role": {
+              "type": "string",
+              "description": "Role label (e.g. collaborator)",
+              "example": "collaborator"
+            }
+          },
+          "required": [
+            "type",
+            "id",
+            "url",
+            "entityId",
+            "preferredUsername"
+          ],
+          "description": "Compact user profile for embedded contexts"
+        },
+        {
+          "description": "Story author"
+        }
+      ]
+    }
+  },
+  "required": [
+    "type",
+    "entityId"
+  ],
+  "description": "Individual story item"
+}

@@ -1,0 +1,74 @@
+apiCommonsRateLimitsVersion: '0.1'
+provider:
+  id: konbiniapi
+  name: KonbiniAPI
+  url: https://konbiniapi.com/
+  documentation: https://docs.konbiniapi.com/getting-started/credits-and-billing
+
+policy:
+  model: prepaid-credits
+  requestRate:
+    enforced: false
+    notes: >-
+      KonbiniAPI advertises "no rate limits" across all paid plans. Throughput is
+      governed entirely by the credit balance on the account, not by per-second or
+      per-minute throttling windows.
+  concurrency:
+    enforced: false
+    notes: No concurrent-request cap is published.
+  quotas:
+    - id: monthly-credit-quota
+      scope: account
+      window: monthly
+      unit: credits
+      limit: planDependent
+      reconciled: true
+      planLimits:
+        plus: 25000
+        pro: 55000
+        max: 160000
+        ultra: 450000
+        custom: negotiated
+      consumption: 1 credit per successful request (status 200).
+      refundRules:
+        - status: 400
+          refunded: true
+        - status: 4xx
+          refunded: 'partial: 401/402/403/404/429 do not consume credits'
+        - status: 5xx
+          refunded: true
+        - status: upstream-error
+          refunded: true
+      exhaustionBehavior: HTTP 402 returned; no automatic overages.
+
+  metering:
+    responseHeaders:
+      - name: X-Credits-Used
+        description: Credits charged for the current request.
+      - name: X-Credits-Remaining
+        description: Credits remaining after the current request.
+
+  retry:
+    recommended:
+      strategy: exponential-backoff
+      initialDelayMs: 500
+      maxRetries: 3
+      retryableStatusCodes: [429, 500, 502, 503, 504]
+
+  errors:
+    - status: 401
+      meaning: Missing or invalid API key.
+    - status: 402
+      meaning: Account credits exhausted.
+    - status: 403
+      meaning: Account suspended or insufficient permission.
+    - status: 404
+      meaning: Resource not found (also returned for offline live streams).
+
+source:
+  reconciledAt: '2026-05-06'
+  reconciledBy: api-evangelist pipeline
+  notes: >-
+    No throughput rate limit published on the public site or docs as of capture date.
+    Marked reconciled where the credit-quota model is explicit; concurrency limits
+    remain unpublished.

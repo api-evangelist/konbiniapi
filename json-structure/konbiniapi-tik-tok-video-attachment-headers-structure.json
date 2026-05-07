@@ -1,0 +1,27 @@
+{
+  "name": "TikTokVideoAttachmentHeaders",
+  "description": "HTTP headers required for authenticated media download",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "Cookie",
+    "Referer"
+  ],
+  "fields": [
+    {
+      "name": "Cookie",
+      "type": "string",
+      "required": true,
+      "description": "Required cookie header for video download",
+      "example": "tt_chain_token=sTA6PK6OnvhW7YemGVwMig==",
+      "format": null
+    },
+    {
+      "name": "Referer",
+      "type": "string",
+      "required": true,
+      "description": "Required referer header for video download",
+      "example": "https://www.tiktok.com/",
+      "format": null
+    }
+  ]
+}

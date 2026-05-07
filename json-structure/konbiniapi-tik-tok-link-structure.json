@@ -1,0 +1,35 @@
+{
+  "name": "TikTokLink",
+  "description": "External link",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "href",
+    "type"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Link",
+      "format": null
+    },
+    {
+      "name": "href",
+      "type": "string",
+      "required": true,
+      "description": "Link URL",
+      "example": "https://linktr.ee/khaby.lame",
+      "format": "uri"
+    },
+    {
+      "name": "rel",
+      "type": "string",
+      "required": false,
+      "description": "Link relation hint",
+      "example": "preferred",
+      "format": null
+    }
+  ]
+}

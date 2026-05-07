@@ -1,0 +1,197 @@
+{
+  "name": "InstagramPost",
+  "description": "Instagram post (photo, video, or carousel)",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "entityId",
+    "id",
+    "type",
+    "url"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Video",
+      "format": null
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "description": "Post permalink",
+      "example": "https://www.instagram.com/p/CybWViruta1/",
+      "format": "uri"
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "description": "Post URL",
+      "example": "https://www.instagram.com/p/CybWViruta1/",
+      "format": "uri"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": true,
+      "description": "Post shortcode (used as lookup key)",
+      "example": "CybWViruta1",
+      "format": null
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "required": false,
+      "description": "Caption or description",
+      "example": "When you realize there is a simpler way #learnfromkhaby",
+      "format": null
+    },
+    {
+      "name": "published",
+      "type": "string",
+      "required": false,
+      "description": "Publication date in ISO 8601 format",
+      "example": "2026-02-27T18:36:42.000Z",
+      "format": "date-time"
+    },
+    {
+      "name": "likeCount",
+      "type": "integer",
+      "required": false,
+      "description": "Number of likes",
+      "example": 2800000,
+      "format": null
+    },
+    {
+      "name": "commentCount",
+      "type": "integer",
+      "required": false,
+      "description": "Number of comments",
+      "example": 29200,
+      "format": null
+    },
+    {
+      "name": "attributedTo",
+      "type": "unknown",
+      "required": false,
+      "description": "Post author or collaborators",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "location",
+      "type": "$ref:InstagramLocation",
+      "required": false,
+      "description": "Post location tag",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "tag",
+      "type": "array<InstagramTag>",
+      "required": false,
+      "description": "Tagged users or hashtags",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "language",
+      "type": "string",
+      "required": false,
+      "description": "Content language (BCP47 code)",
+      "example": "en",
+      "format": null
+    },
+    {
+      "name": "isEdited",
+      "type": "boolean",
+      "required": false,
+      "description": "Whether the caption has been edited",
+      "example": false,
+      "format": null
+    },
+    {
+      "name": "isSponsored",
+      "type": "boolean",
+      "required": false,
+      "description": "Whether post is a paid partnership",
+      "example": false,
+      "format": null
+    },
+    {
+      "name": "viewCount",
+      "type": "integer",
+      "required": false,
+      "description": "Number of views",
+      "example": 42600000,
+      "format": null
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "description": "Duration in seconds",
+      "example": 23,
+      "format": null
+    },
+    {
+      "name": "contentFormat",
+      "type": "string",
+      "required": false,
+      "description": "Content format (e.g. photo, video, carousel)",
+      "example": "reel",
+      "format": null
+    },
+    {
+      "name": "attachment",
+      "type": "array<InstagramAttachment>",
+      "required": false,
+      "description": "Media files",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "image",
+      "type": "$ref:InstagramImageWithDimensions",
+      "required": false,
+      "description": "Post cover image",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "audio",
+      "type": "$ref:InstagramAudio",
+      "required": false,
+      "description": "Post audio track",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": false,
+      "description": "Alt text or accessibility caption",
+      "example": "Photo of Khabane Lame",
+      "format": null
+    },
+    {
+      "name": "totalItems",
+      "type": "integer",
+      "required": false,
+      "description": "Number of carousel items",
+      "example": 5,
+      "format": null
+    },
+    {
+      "name": "items",
+      "type": "array<InstagramCarouselItem>",
+      "required": false,
+      "description": "Carousel slides",
+      "example": null,
+      "format": null
+    }
+  ]
+}

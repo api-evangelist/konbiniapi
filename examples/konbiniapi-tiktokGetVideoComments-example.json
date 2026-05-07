@@ -1,0 +1,52 @@
+{
+  "operationId": "tiktokGetVideoComments",
+  "summary": "Get Video Comments",
+  "request": {
+    "method": "GET",
+    "url": "https://api.konbiniapi.com/v1/tiktok/videos/7611615657754381599/comments?count=20&cursor=0",
+    "headers": {
+      "Authorization": "Bearer knbn_your_api_key",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Credits-Remaining": 24999,
+      "X-Credits-Used": 1
+    },
+    "body": {
+      "data": {
+        "@context": [
+          "https://www.w3.org/ns/activitystreams#",
+          "https://konbiniapi.com/ns/social#"
+        ],
+        "type": "OrderedCollectionPage",
+        "partOf": "https://api.konbiniapi.com/v1/tiktok/videos/7611615657754381599/comments",
+        "totalItems": 1309,
+        "cursor": "0",
+        "nextCursor": "1772217402000",
+        "next": "https://api.konbiniapi.com/v1/tiktok/videos/7611615657754381599/comments?cursor=1772217402000&count=30",
+        "itemCount": 30,
+        "orderedItems": [
+          {
+            "type": "Note",
+            "id": "https://www.tiktok.com/@khaby.lame/video/7611615657754381599/comment/7611646895321105170",
+            "url": "https://www.tiktok.com/@khaby.lame/video/7611615657754381599/comment/7611646895321105170",
+            "entityId": "7611646895321105170",
+            "content": "This man hasn't been in my fyp for so long",
+            "language": "en",
+            "published": "2026-02-27T20:37:38.000Z",
+            "likeCount": 93210,
+            "replyCount": 96,
+            "status": "1",
+            "isPinned": false,
+            "isLiked": false,
+            "inReplyTo": "https://www.tiktok.com/@khaby.lame/video/7611615657754381599"
+          }
+        ]
+      }
+    }
+  }
+}

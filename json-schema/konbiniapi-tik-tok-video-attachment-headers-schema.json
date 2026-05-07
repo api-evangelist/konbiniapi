@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-tik-tok-video-attachment-headers-schema.json",
+  "title": "TikTokVideoAttachmentHeaders",
+  "type": "object",
+  "properties": {
+    "Cookie": {
+      "type": "string",
+      "description": "Required cookie header for video download",
+      "example": "tt_chain_token=sTA6PK6OnvhW7YemGVwMig=="
+    },
+    "Referer": {
+      "type": "string",
+      "description": "Required referer header for video download",
+      "example": "https://www.tiktok.com/"
+    }
+  },
+  "required": [
+    "Cookie",
+    "Referer"
+  ],
+  "description": "HTTP headers required for authenticated media download"
+}

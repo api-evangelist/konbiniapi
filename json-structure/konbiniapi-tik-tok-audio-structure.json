@@ -1,0 +1,124 @@
+{
+  "name": "TikTokAudio",
+  "description": "Audio or music track",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "duration",
+    "name",
+    "type"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Audio",
+      "format": null
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": false,
+      "description": "Audio permalink",
+      "example": "https://www.tiktok.com/music/original-sound-7611615657754381599",
+      "format": "uri"
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": false,
+      "description": "Audio playback URL",
+      "example": "https://sf16-ies-music.tiktokcdn.com/obj/tos-alisg-v/123456",
+      "format": "uri"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "description": "Track name",
+      "example": "original sound",
+      "format": null
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": true,
+      "description": "Duration in seconds",
+      "example": 23,
+      "format": null
+    },
+    {
+      "name": "mediaType",
+      "type": "string",
+      "required": false,
+      "description": "MIME type",
+      "example": "audio/mpeg",
+      "format": null
+    },
+    {
+      "name": "attributedTo",
+      "type": "unknown",
+      "required": false,
+      "description": "Audio creator or artist",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "icon",
+      "type": "unknown",
+      "required": false,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "image",
+      "type": "array<TikTokImage>",
+      "required": false,
+      "description": "Cover images in multiple sizes",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": false,
+      "description": "Audio ID",
+      "example": "7493556331997071377",
+      "format": null
+    },
+    {
+      "name": "album",
+      "type": "string",
+      "required": false,
+      "description": "Album name",
+      "example": "Greatest Hits",
+      "format": null
+    },
+    {
+      "name": "isOriginal",
+      "type": "boolean",
+      "required": false,
+      "description": "Whether audio is user-created vs a licensed track",
+      "example": false,
+      "format": null
+    },
+    {
+      "name": "isCopyrighted",
+      "type": "boolean",
+      "required": false,
+      "description": "Whether audio has copyright restrictions",
+      "example": false,
+      "format": null
+    },
+    {
+      "name": "videoCount",
+      "type": "integer",
+      "required": false,
+      "description": "Number of videos using this audio",
+      "example": 500000,
+      "format": null
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "operationId": "instagramGetUserHighlights",
+  "summary": "Get User Story Highlights",
+  "request": {
+    "method": "GET",
+    "url": "https://api.konbiniapi.com/v1/instagram/users/khaby00/highlights?cursor=0",
+    "headers": {
+      "Authorization": "Bearer knbn_your_api_key",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Credits-Remaining": 24999,
+      "X-Credits-Used": 1
+    },
+    "body": {
+      "data": {
+        "@context": [
+          "https://www.w3.org/ns/activitystreams#",
+          "https://konbiniapi.com/ns/social#"
+        ],
+        "type": "OrderedCollectionPage",
+        "partOf": "https://api.konbiniapi.com/v1/instagram/users/khaby00/highlights",
+        "totalItems": 1309,
+        "cursor": "0",
+        "nextCursor": "1772217402000",
+        "next": "https://api.konbiniapi.com/v1/instagram/users/khaby00/highlights?cursor=abc123",
+        "itemCount": 30,
+        "orderedItems": [
+          {
+            "type": "OrderedCollection",
+            "id": "https://www.instagram.com/stories/highlights/17890000000000001/",
+            "entityId": "highlight:17890000000000001",
+            "name": "Best of 2025",
+            "totalItems": 42
+          }
+        ]
+      }
+    }
+  }
+}

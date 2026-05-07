@@ -1,0 +1,64 @@
+{
+  "name": "InstagramHighlight",
+  "description": "Story highlight collection",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "entityId",
+    "id",
+    "totalItems",
+    "type"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "OrderedCollection",
+      "format": null
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "description": "Collection permalink",
+      "example": "https://www.instagram.com/stories/highlights/17890000000000001/",
+      "format": "uri"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": true,
+      "description": "Instagram internal highlight ID",
+      "example": "highlight:17890000000000001",
+      "format": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": false,
+      "description": "Collection name",
+      "example": "Best of 2025",
+      "format": null
+    },
+    {
+      "name": "image",
+      "type": "unknown",
+      "required": false,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "totalItems",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "required": true,
+      "description": "Number of items in collection",
+      "example": 42,
+      "format": null
+    }
+  ]
+}

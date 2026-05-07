@@ -1,0 +1,85 @@
+finopsFramework:
+  version: focus-1.0
+  alignment: api-commons-finops-0.1
+
+provider:
+  id: konbiniapi
+  name: KonbiniAPI
+  url: https://konbiniapi.com/
+
+billingSurface:
+  pricingModel: prepaid-credits
+  unit: credit
+  unitDefinition: One credit equals one successful API request.
+  currency: USD
+  cycle: monthly
+  paymentProvider: Stripe
+  rollover: false
+  overage: none
+
+charges:
+  - chargeType: Usage
+    chargeCategory: Subscription
+    serviceName: KonbiniAPI
+    serviceCategory: Social Media Data
+    chargeDescription: >-
+      Monthly subscription that includes a fixed credit allowance. Each successful
+      API request consumes 1 credit; failed requests refund the credit (X-Credits-Used: 0).
+    pricingMethod: Tier
+    pricingCurrency: USD
+    tiers:
+      - sku: plus
+        listPrice: 49.00
+        includedQuantity: 25000
+      - sku: pro
+        listPrice: 99.00
+        includedQuantity: 55000
+      - sku: max
+        listPrice: 199.00
+        includedQuantity: 160000
+      - sku: ultra
+        listPrice: 499.00
+        includedQuantity: 450000
+      - sku: custom
+        listPrice: null
+        includedQuantity: null
+
+costAllocation:
+  taggingSupport:
+    apiKeyTagging: true
+    notes: >-
+      Each account holds one rotatable API key, with credits tied to the account
+      rather than the key. There is no native multi-tenant tagging — teams that need
+      project- or environment-level chargeback should split workloads across
+      separate accounts.
+
+reconciliationData:
+  invoiceSource: Stripe receipts
+  meteringSource:
+    responseHeaders:
+      - X-Credits-Used
+      - X-Credits-Remaining
+    dashboard: https://app.konbiniapi.com
+  refundEvents:
+    - HTTP 4xx (selected) and 5xx are refunded automatically at request time.
+
+practices:
+  inform:
+    - Track X-Credits-Remaining in production telemetry to project burn-down.
+    - Tag outgoing requests with internal cost-center labels in your client wrapper
+      (KonbiniAPI does not echo custom tags back).
+  optimize:
+    - Avoid duplicate calls; the API does not cache, so identical lookups burn credits.
+    - Use search endpoints with narrow filters before deep-fetching individual resources.
+    - Choose the smallest tier that satisfies monthly burn; credits do not roll over.
+  operate:
+    - Alert on X-Credits-Remaining below a configurable threshold (e.g., 10%).
+    - Implement HTTP 402 handling that pages the operator before traffic stalls.
+
+source:
+  reconciledAt: '2026-05-06'
+  reconciledBy: api-evangelist pipeline
+  reconciled: true
+  notes: >-
+    Public pricing and metering captured from konbiniapi.com/pricing and
+    docs.konbiniapi.com on 2026-05-06. Custom tier values omitted (negotiated).

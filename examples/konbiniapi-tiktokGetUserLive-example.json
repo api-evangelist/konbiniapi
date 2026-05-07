@@ -1,0 +1,51 @@
+{
+  "operationId": "tiktokGetUserLive",
+  "summary": "Get User Live Stream",
+  "request": {
+    "method": "GET",
+    "url": "https://api.konbiniapi.com/v1/tiktok/users/khaby.lame/live",
+    "headers": {
+      "Authorization": "Bearer knbn_your_api_key",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Credits-Remaining": 24999,
+      "X-Credits-Used": 1
+    },
+    "body": {
+      "data": {
+        "@context": [
+          "https://www.w3.org/ns/activitystreams#",
+          "https://konbiniapi.com/ns/social#"
+        ],
+        "type": "Video",
+        "id": "https://www.tiktok.com/@khaby.lame/live",
+        "url": "https://www.tiktok.com/@khaby.lame/live",
+        "entityId": "7600000000000000001",
+        "published": "2026-02-27T18:36:42.000Z",
+        "isLive": true,
+        "viewCount": 42600000,
+        "viewerCount": 15000,
+        "content": "When you realize there is a simpler way #learnfromkhaby",
+        "attachment": [
+          {
+            "type": "Video",
+            "url": [
+              "https://webcast.tiktok.com/live/pull/l4/stream.flv"
+            ],
+            "mediaType": "video/x-flv",
+            "width": 576,
+            "height": 1024,
+            "name": "flv",
+            "codec": "h264",
+            "bitrate": 2500000
+          }
+        ]
+      }
+    }
+  }
+}

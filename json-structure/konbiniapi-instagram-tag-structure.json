@@ -1,0 +1,36 @@
+{
+  "name": "InstagramTag",
+  "description": "Hashtag or user mention",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "href",
+    "name",
+    "type"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Tag",
+      "format": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "description": "Tag name",
+      "example": "learnfromkhaby",
+      "format": null
+    },
+    {
+      "name": "href",
+      "type": "string",
+      "required": true,
+      "description": "Tag URL",
+      "example": "https://www.instagram.com/explore/tags/learnfromkhaby/",
+      "format": "uri"
+    }
+  ]
+}

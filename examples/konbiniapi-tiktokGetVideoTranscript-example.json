@@ -1,0 +1,36 @@
+{
+  "operationId": "tiktokGetVideoTranscript",
+  "summary": "Get Video Transcript",
+  "request": {
+    "method": "GET",
+    "url": "https://api.konbiniapi.com/v1/tiktok/videos/7611615657754381599/transcripts/en",
+    "headers": {
+      "Authorization": "Bearer knbn_your_api_key",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Credits-Remaining": 24999,
+      "X-Credits-Used": 1
+    },
+    "body": {
+      "data": {
+        "@context": [
+          "https://www.w3.org/ns/activitystreams#",
+          "https://konbiniapi.com/ns/social#"
+        ],
+        "type": "Document",
+        "id": "https://www.tiktok.com/@khaby.lame/video/7611615657754381599/transcript/en-US",
+        "url": "https://www.tiktok.com/@khaby.lame/video/7611615657754381599",
+        "mediaType": "text/vtt",
+        "language": "en-US",
+        "size": 1024,
+        "source": "ASR",
+        "content": "WEBVTT\n\n00:00:00.000 --> 00:00:02.000\nHello everyone"
+      }
+    }
+  }
+}

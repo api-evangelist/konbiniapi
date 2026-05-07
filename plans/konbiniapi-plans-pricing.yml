@@ -1,0 +1,115 @@
+apiCommonsPlansVersion: '0.1'
+provider:
+  id: konbiniapi
+  name: KonbiniAPI
+  url: https://konbiniapi.com/
+  pricingUrl: https://konbiniapi.com/pricing
+  termsUrl: https://konbiniapi.com/terms
+  signupUrl: https://app.konbiniapi.com
+
+unit:
+  id: credit
+  description: One credit equals one successful API request. Failed requests (400, 5xx, upstream) are auto-refunded (X-Credits-Used = 0).
+
+billing:
+  currency: USD
+  cycle: monthly
+  rollover: false
+  overage: none
+  exhaustionBehavior: 'Returns HTTP 402; no automatic charges.'
+  paymentProvider: Stripe
+  refundPolicy: >-
+    No refunds for used credits. Pro-rated refunds available within 48 hours of purchase
+    for unused plan credits via support email request.
+
+plans:
+  - id: plus
+    name: Plus
+    price: 49.00
+    currency: USD
+    period: month
+    credits: 25000
+    features:
+      - REST API access
+      - MCP (Model Context Protocol) access
+      - Instagram and TikTok APIs
+      - Real-time data (no caching)
+      - No rate limits
+      - No charge for failed requests
+      - Standard email support
+    reconciled: true
+
+  - id: pro
+    name: Pro
+    price: 99.00
+    currency: USD
+    period: month
+    credits: 55000
+    features:
+      - REST API access
+      - MCP access
+      - Instagram and TikTok APIs
+      - Real-time data
+      - No rate limits
+      - No charge for failed requests
+      - Standard email support
+    reconciled: true
+
+  - id: max
+    name: Max
+    price: 199.00
+    currency: USD
+    period: month
+    credits: 160000
+    features:
+      - REST API access
+      - MCP access
+      - Instagram and TikTok APIs
+      - Real-time data
+      - No rate limits
+      - No charge for failed requests
+      - Priority email support
+    reconciled: true
+
+  - id: ultra
+    name: Ultra
+    price: 499.00
+    currency: USD
+    period: month
+    credits: 450000
+    features:
+      - REST API access
+      - MCP access
+      - Instagram and TikTok APIs
+      - Real-time data
+      - No rate limits
+      - No charge for failed requests
+      - Priority email support
+    reconciled: true
+
+  - id: custom
+    name: Custom
+    price: null
+    currency: USD
+    period: month
+    credits: null
+    features:
+      - Enterprise-grade volume
+      - Custom SLA negotiated with sales
+      - Dedicated support
+    reconciled: false
+    contact: hello@konbiniapi.com
+
+metering:
+  responseHeaders:
+    - name: X-Credits-Used
+      description: Credits consumed by this request (0 if refunded).
+    - name: X-Credits-Remaining
+      description: Credits remaining on the account after the request.
+
+source:
+  reconciledAt: '2026-05-06'
+  reconciledBy: api-evangelist pipeline
+  notes: >-
+    Pricing fetched from https://konbiniapi.com/pricing. Custom tier requires direct
+    sales engagement and has not been independently reconciled.

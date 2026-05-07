@@ -1,0 +1,51 @@
+{
+  "name": "InstagramCarouselItem",
+  "description": "Individual slide in a carousel post",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "entityId",
+    "type"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Image",
+      "format": null
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": true,
+      "description": "Instagram internal media ID",
+      "example": "3214260996432123574",
+      "format": null
+    },
+    {
+      "name": "image",
+      "type": "unknown",
+      "required": false,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "attachment",
+      "type": "array<InstagramAttachment>",
+      "required": false,
+      "description": "Media files",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": false,
+      "description": "Alt text",
+      "example": "Photo of Khabane Lame",
+      "format": null
+    }
+  ]
+}

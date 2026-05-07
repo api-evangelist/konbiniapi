@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-instagram-embedded-user-schema.json",
+  "title": "InstagramEmbeddedUser",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "Person"
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Profile URL",
+      "example": "https://www.instagram.com/khaby00/"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Profile URL",
+      "example": "https://www.instagram.com/khaby00/"
+    },
+    "entityId": {
+      "type": "string",
+      "description": "Platform-specific entity ID",
+      "example": "779085683"
+    },
+    "preferredUsername": {
+      "type": "string",
+      "description": "Username or handle",
+      "example": "khaby00"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name",
+      "example": "Khabane Lame"
+    },
+    "icon": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "ActivityStreams object type",
+              "example": "Image"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Image URL",
+              "example": "https://scontent.cdninstagram.com/v/t51.2885-19/avatar.jpg"
+            }
+          },
+          "required": [
+            "type",
+            "url"
+          ],
+          "description": "Image resource"
+        },
+        {
+          "description": "Author avatar"
+        }
+      ]
+    },
+    "role": {
+      "type": "string",
+      "description": "Role label (e.g. collaborator)",
+      "example": "collaborator"
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "url",
+    "entityId",
+    "preferredUsername"
+  ],
+  "description": "Compact user profile for embedded contexts"
+}

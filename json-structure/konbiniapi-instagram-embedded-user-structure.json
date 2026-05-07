@@ -1,0 +1,78 @@
+{
+  "name": "InstagramEmbeddedUser",
+  "description": "Compact user profile for embedded contexts",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "entityId",
+    "id",
+    "preferredUsername",
+    "type",
+    "url"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Person",
+      "format": null
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "description": "Profile URL",
+      "example": "https://www.instagram.com/khaby00/",
+      "format": "uri"
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "description": "Profile URL",
+      "example": "https://www.instagram.com/khaby00/",
+      "format": "uri"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": true,
+      "description": "Platform-specific entity ID",
+      "example": "779085683",
+      "format": null
+    },
+    {
+      "name": "preferredUsername",
+      "type": "string",
+      "required": true,
+      "description": "Username or handle",
+      "example": "khaby00",
+      "format": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": false,
+      "description": "Display name",
+      "example": "Khabane Lame",
+      "format": null
+    },
+    {
+      "name": "icon",
+      "type": "unknown",
+      "required": false,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "role",
+      "type": "string",
+      "required": false,
+      "description": "Role label (e.g. collaborator)",
+      "example": "collaborator",
+      "format": null
+    }
+  ]
+}

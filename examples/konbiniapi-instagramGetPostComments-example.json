@@ -1,0 +1,47 @@
+{
+  "operationId": "instagramGetPostComments",
+  "summary": "Get Post Comments",
+  "request": {
+    "method": "GET",
+    "url": "https://api.konbiniapi.com/v1/instagram/posts/C7Pr2n4oHkG/comments?count=15&cursor=0",
+    "headers": {
+      "Authorization": "Bearer knbn_your_api_key",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Credits-Remaining": 24999,
+      "X-Credits-Used": 1
+    },
+    "body": {
+      "data": {
+        "@context": [
+          "https://www.w3.org/ns/activitystreams#",
+          "https://konbiniapi.com/ns/social#"
+        ],
+        "type": "OrderedCollectionPage",
+        "partOf": "https://api.konbiniapi.com/v1/instagram/posts/CybWViruta1/comments",
+        "totalItems": 1309,
+        "cursor": "0",
+        "nextCursor": "1772217402000",
+        "next": "https://api.konbiniapi.com/v1/instagram/posts/CybWViruta1/comments?cursor=abc123&count=15",
+        "itemCount": 30,
+        "orderedItems": [
+          {
+            "type": "Note",
+            "id": "https://www.instagram.com/p/CybWViruta1/c/17890000000000001/",
+            "entityId": "17890000000000001",
+            "content": "This man hasn't been in my fyp for so long",
+            "published": "2026-02-27T20:37:38.000Z",
+            "likeCount": 93210,
+            "replyCount": 12,
+            "inReplyTo": "https://www.instagram.com/p/CybWViruta1/"
+          }
+        ]
+      }
+    }
+  }
+}

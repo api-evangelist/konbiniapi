@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-tik-tok-story-attachment-schema.json",
+  "title": "TikTokStoryAttachment",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "Video"
+    },
+    "url": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "Media download URLs",
+      "example": [
+        "https://v19-webapp.tiktok.com/video/tos/us/tos-useast5-ve-0068c004/story.mp4"
+      ]
+    },
+    "mediaType": {
+      "type": "string",
+      "description": "MIME type",
+      "example": "video/mp4"
+    },
+    "width": {
+      "type": "integer",
+      "description": "Width in pixels",
+      "example": 576
+    },
+    "height": {
+      "type": "integer",
+      "description": "Height in pixels",
+      "example": 1024
+    },
+    "name": {
+      "type": "string",
+      "description": "Quality label",
+      "example": "normal_540_0"
+    },
+    "headers": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "Cookie": {
+              "type": "string",
+              "description": "Required cookie header for video download",
+              "example": "tt_chain_token=sTA6PK6OnvhW7YemGVwMig=="
+            },
+            "Referer": {
+              "type": "string",
+              "description": "Required referer header for video download",
+              "example": "https://www.tiktok.com/"
+            }
+          },
+          "required": [
+            "Cookie",
+            "Referer"
+          ],
+          "description": "HTTP headers required for authenticated media download"
+        },
+        {
+          "description": "Authentication headers for story download"
+        }
+      ]
+    },
+    "codec": {
+      "type": "string",
+      "description": "Video codec",
+      "example": "h264"
+    },
+    "bitrate": {
+      "type": "integer",
+      "description": "Bitrate in bits per second",
+      "example": 1101943
+    }
+  },
+  "required": [
+    "type",
+    "url"
+  ],
+  "description": "Story media file"
+}

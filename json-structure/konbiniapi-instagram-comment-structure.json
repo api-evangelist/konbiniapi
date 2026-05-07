@@ -1,0 +1,89 @@
+{
+  "name": "InstagramComment",
+  "description": "Post comment",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "attributedTo",
+    "content",
+    "entityId",
+    "id",
+    "inReplyTo",
+    "likeCount",
+    "replyCount",
+    "type"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Note",
+      "format": null
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "description": "Comment permalink",
+      "example": "https://www.instagram.com/p/CybWViruta1/c/17890000000000001/",
+      "format": "uri"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": true,
+      "description": "Instagram internal comment ID",
+      "example": "17890000000000001",
+      "format": null
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "required": true,
+      "description": "Comment text",
+      "example": "This man hasn't been in my fyp for so long",
+      "format": null
+    },
+    {
+      "name": "published",
+      "type": "string",
+      "required": false,
+      "description": "Publication date in ISO 8601 format",
+      "example": "2026-02-27T20:37:38.000Z",
+      "format": "date-time"
+    },
+    {
+      "name": "likeCount",
+      "type": "integer",
+      "required": true,
+      "description": "Number of likes",
+      "example": 93210,
+      "format": null
+    },
+    {
+      "name": "replyCount",
+      "type": "integer",
+      "required": true,
+      "description": "Number of replies",
+      "example": 12,
+      "format": null
+    },
+    {
+      "name": "attributedTo",
+      "type": "unknown",
+      "required": true,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "inReplyTo",
+      "type": "string",
+      "required": true,
+      "description": "Post permalink",
+      "example": "https://www.instagram.com/p/CybWViruta1/",
+      "format": "uri"
+    }
+  ]
+}

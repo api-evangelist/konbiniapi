@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-tik-tok-embedded-user-schema.json",
+  "title": "TikTokEmbeddedUser",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "Person"
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Profile URL",
+      "example": "https://www.tiktok.com/@khaby.lame"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Profile URL",
+      "example": "https://www.tiktok.com/@khaby.lame"
+    },
+    "entityId": {
+      "type": "string",
+      "description": "TikTok secUid",
+      "example": "MS4wLjABAAAAwAg0rSzO65WQfz4RzQgGv2Xdv108BgPXhRrrmNVIHQZ9PO8-flwwRtEppYTS0OjA"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name",
+      "example": "Khabane Lame"
+    },
+    "preferredUsername": {
+      "type": "string",
+      "description": "Username or handle",
+      "example": "khaby.lame"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Bio text",
+      "example": "Just a guy who reacts"
+    },
+    "attachment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "ActivityStreams object type",
+            "example": "Link"
+          },
+          "href": {
+            "type": "string",
+            "format": "uri",
+            "description": "Link URL",
+            "example": "https://linktr.ee/khaby.lame"
+          },
+          "rel": {
+            "type": "string",
+            "description": "Link relation hint",
+            "example": "preferred"
+          }
+        },
+        "required": [
+          "type",
+          "href"
+        ],
+        "description": "External link"
+      },
+      "description": "External links in bio"
+    },
+    "published": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Account creation date in ISO 8601 format",
+      "example": "2020-03-15T00:00:00.000Z"
+    },
+    "isPrivate": {
+      "type": "boolean",
+      "description": "Whether account is private",
+      "example": false
+    },
+    "isVerified": {
+      "type": "boolean",
+      "description": "Whether account is verified",
+      "example": true
+    },
+    "isLive": {
+      "type": "boolean",
+      "description": "Whether user is currently live streaming",
+      "example": false
+    },
+    "hasLikes": {
+      "type": "boolean",
+      "description": "Whether user's liked videos are public",
+      "example": true
+    },
+    "hasPlaylists": {
+      "type": "boolean",
+      "description": "Whether user has playlists",
+      "example": true
+    },
+    "followerCount": {
+      "type": "integer",
+      "description": "Number of followers",
+      "example": 160300000
+    },
+    "followingCount": {
+      "type": "integer",
+      "description": "Number of accounts followed",
+      "example": 85
+    },
+    "language": {
+      "type": "string",
+      "description": "User language preference (BCP47 code)",
+      "example": "en"
+    },
+    "likeCount": {
+      "type": "integer",
+      "description": "Total likes received across all content",
+      "example": 2600000000
+    },
+    "likedCount": {
+      "type": "integer",
+      "description": "Number of videos the user has liked",
+      "example": 5300
+    },
+    "mediaCount": {
+      "type": "integer",
+      "description": "Number of posts",
+      "example": 1309
+    },
+    "icon": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "ActivityStreams object type",
+              "example": "Image"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Image URL",
+              "example": "https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg"
+            },
+            "width": {
+              "type": "integer",
+              "description": "Width in pixels",
+              "example": 576
+            },
+            "height": {
+              "type": "integer",
+              "description": "Height in pixels",
+              "example": 1024
+            }
+          },
+          "required": [
+            "type",
+            "url"
+          ],
+          "description": "Image resource with optional dimensions"
+        },
+        {
+          "description": "Author avatar"
+        }
+      ]
+    },
+    "image": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "ActivityStreams object type",
+            "example": "Image"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Image URL",
+            "example": "https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg"
+          },
+          "width": {
+            "type": "integer",
+            "description": "Width in pixels",
+            "example": 576
+          },
+          "height": {
+            "type": "integer",
+            "description": "Height in pixels",
+            "example": 1024
+          }
+        },
+        "required": [
+          "type",
+          "url"
+        ],
+        "description": "Image resource with optional dimensions"
+      },
+      "description": "Profile pictures in multiple sizes"
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "url",
+    "isPrivate",
+    "isVerified"
+  ],
+  "description": "Compact user profile for embedded contexts"
+}

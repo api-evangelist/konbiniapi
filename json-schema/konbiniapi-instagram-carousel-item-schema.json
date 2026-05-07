@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-instagram-carousel-item-schema.json",
+  "title": "InstagramCarouselItem",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "Image"
+    },
+    "entityId": {
+      "type": "string",
+      "description": "Instagram internal media ID",
+      "example": "3214260996432123574"
+    },
+    "image": {
+      "allOf": [
+        {
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "ActivityStreams object type",
+                  "example": "Image"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Image URL",
+                  "example": "https://scontent.cdninstagram.com/v/t51.2885-19/avatar.jpg"
+                }
+              },
+              "required": [
+                "type",
+                "url"
+              ],
+              "description": "Image resource"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "width": {
+                  "type": "integer",
+                  "description": "Width in pixels",
+                  "example": 1080
+                },
+                "height": {
+                  "type": "integer",
+                  "description": "Height in pixels",
+                  "example": 1920
+                }
+              }
+            }
+          ],
+          "description": "Image resource with optional dimensions"
+        },
+        {
+          "description": "Item thumbnail"
+        }
+      ]
+    },
+    "attachment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "ActivityStreams object type",
+            "example": "Video"
+          },
+          "url": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "Media download URLs",
+            "example": [
+              "https://scontent.cdninstagram.com/v/t50.2886-16/video.mp4"
+            ]
+          },
+          "mediaType": {
+            "type": "string",
+            "description": "MIME type",
+            "example": "video/mp4"
+          },
+          "width": {
+            "type": "integer",
+            "description": "Width in pixels",
+            "example": 576
+          },
+          "height": {
+            "type": "integer",
+            "description": "Height in pixels",
+            "example": 1024
+          }
+        },
+        "required": [
+          "type",
+          "url"
+        ],
+        "description": "Media file attachment"
+      },
+      "description": "Media files"
+    },
+    "name": {
+      "type": "string",
+      "description": "Alt text",
+      "example": "Photo of Khabane Lame"
+    }
+  },
+  "required": [
+    "type",
+    "entityId"
+  ],
+  "description": "Individual slide in a carousel post"
+}

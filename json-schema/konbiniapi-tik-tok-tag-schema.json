@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-tik-tok-tag-schema.json",
+  "title": "TikTokTag",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "Tag"
+    },
+    "name": {
+      "type": "string",
+      "description": "Tag name",
+      "example": "learnfromkhaby"
+    },
+    "href": {
+      "type": "string",
+      "format": "uri",
+      "description": "Tag URL",
+      "example": "https://www.tiktok.com/tag/learnfromkhaby"
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Tag permalink",
+      "example": "https://www.tiktok.com/tag/learnfromkhaby"
+    },
+    "entityId": {
+      "type": "string",
+      "description": "TikTok internal tag ID",
+      "example": "1697657584273413"
+    }
+  },
+  "required": [
+    "type",
+    "name"
+  ],
+  "description": "Hashtag or mention"
+}

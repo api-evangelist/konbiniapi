@@ -1,0 +1,126 @@
+{
+  "name": "TikTokComment",
+  "description": "Video comment",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "attributedTo",
+    "content",
+    "id",
+    "likeCount",
+    "type"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Note",
+      "format": null
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "description": "Comment permalink",
+      "example": "https://www.tiktok.com/@khaby.lame/video/7611615657754381599/comment/7611646895321105170",
+      "format": "uri"
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": false,
+      "description": "Comment permalink",
+      "example": "https://www.tiktok.com/@khaby.lame/video/7611615657754381599/comment/7611646895321105170",
+      "format": "uri"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": false,
+      "description": "TikTok internal comment ID",
+      "example": "7611646895321105170",
+      "format": null
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "required": true,
+      "description": "Comment text",
+      "example": "This man hasn't been in my fyp for so long",
+      "format": null
+    },
+    {
+      "name": "language",
+      "type": "string",
+      "required": false,
+      "description": "Comment language code",
+      "example": "en",
+      "format": null
+    },
+    {
+      "name": "published",
+      "type": "string",
+      "required": false,
+      "description": "Publication date in ISO 8601 format",
+      "example": "2026-02-27T20:37:38.000Z",
+      "format": "date-time"
+    },
+    {
+      "name": "likeCount",
+      "type": "integer",
+      "required": true,
+      "description": "Number of likes",
+      "example": 93210,
+      "format": null
+    },
+    {
+      "name": "replyCount",
+      "type": "integer",
+      "required": false,
+      "description": "Number of replies",
+      "example": 96,
+      "format": null
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "required": false,
+      "description": "Moderation status",
+      "example": "1",
+      "format": null
+    },
+    {
+      "name": "isPinned",
+      "type": "boolean",
+      "required": false,
+      "description": "Whether comment is pinned",
+      "example": false,
+      "format": null
+    },
+    {
+      "name": "isLiked",
+      "type": "boolean",
+      "required": false,
+      "description": "Whether comment is liked by the video author",
+      "example": false,
+      "format": null
+    },
+    {
+      "name": "attributedTo",
+      "type": "unknown",
+      "required": true,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "inReplyTo",
+      "type": "string",
+      "required": false,
+      "description": "URL of parent content",
+      "example": "https://www.tiktok.com/@khaby.lame/video/7611615657754381599",
+      "format": "uri"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-tik-tok-live-stream-attachment-schema.json",
+  "title": "TikTokLiveStreamAttachment",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "Video"
+    },
+    "url": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "Media download URLs",
+      "example": [
+        "https://webcast.tiktok.com/live/pull/l4/stream.flv"
+      ]
+    },
+    "mediaType": {
+      "type": "string",
+      "description": "MIME type",
+      "example": "video/x-flv"
+    },
+    "width": {
+      "type": "integer",
+      "description": "Width in pixels",
+      "example": 576
+    },
+    "height": {
+      "type": "integer",
+      "description": "Height in pixels",
+      "example": 1024
+    },
+    "name": {
+      "type": "string",
+      "description": "Stream quality label",
+      "example": "flv"
+    },
+    "codec": {
+      "type": "string",
+      "description": "Video codec",
+      "example": "h264"
+    },
+    "bitrate": {
+      "type": "integer",
+      "description": "Bitrate in bits per second",
+      "example": 2500000
+    }
+  },
+  "required": [
+    "type",
+    "url",
+    "mediaType",
+    "name"
+  ],
+  "description": "Live stream media source"
+}

@@ -1,0 +1,67 @@
+{
+  "operationId": "tiktokGetUserStories",
+  "summary": "Get User Stories",
+  "request": {
+    "method": "GET",
+    "url": "https://api.konbiniapi.com/v1/tiktok/users/khaby.lame/stories?count=4&cursor=0",
+    "headers": {
+      "Authorization": "Bearer knbn_your_api_key",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Credits-Remaining": 24999,
+      "X-Credits-Used": 1
+    },
+    "body": {
+      "data": {
+        "@context": [
+          "https://www.w3.org/ns/activitystreams#",
+          "https://konbiniapi.com/ns/social#"
+        ],
+        "type": "OrderedCollectionPage",
+        "partOf": "https://api.konbiniapi.com/v1/tiktok/users/khaby.lame/stories",
+        "totalItems": 1309,
+        "cursor": "0",
+        "nextCursor": "1772217402000",
+        "next": "https://api.konbiniapi.com/v1/tiktok/users/khaby.lame/stories?cursor=1772217402000&count=30",
+        "itemCount": 30,
+        "orderedItems": [
+          {
+            "type": "Video",
+            "id": "https://www.tiktok.com/@khaby.lame/video/7600000000000000000",
+            "url": "https://www.tiktok.com/@khaby.lame/video/7600000000000000000",
+            "entityId": "7600000000000000000",
+            "content": "When you realize there is a simpler way #learnfromkhaby",
+            "published": "2026-02-27T18:36:42.000Z",
+            "endTime": "2026-02-28T18:36:42.000Z",
+            "viewCount": 42600000,
+            "likeCount": 2800000,
+            "commentCount": 29200,
+            "repostCount": 0,
+            "shareCount": 157700,
+            "saveCount": 153238,
+            "duration": 23,
+            "attachment": [
+              {
+                "type": "Video",
+                "url": [
+                  "https://v19-webapp.tiktok.com/video/tos/us/tos-useast5-ve-0068c004/story.mp4"
+                ],
+                "mediaType": "video/mp4",
+                "width": 576,
+                "height": 1024,
+                "name": "normal_540_0",
+                "codec": "h264",
+                "bitrate": 1101943
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

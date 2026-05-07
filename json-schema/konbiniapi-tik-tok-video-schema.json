@@ -1,0 +1,981 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-tik-tok-video-schema.json",
+  "title": "TikTokVideo",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "Video"
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Video permalink",
+      "example": "https://www.tiktok.com/@khaby.lame/video/7611615657754381599"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Video URL",
+      "example": "https://www.tiktok.com/@khaby.lame/video/7611615657754381599"
+    },
+    "entityId": {
+      "type": "string",
+      "description": "TikTok internal video ID",
+      "example": "7611615657754381599"
+    },
+    "content": {
+      "type": "string",
+      "description": "Caption or description",
+      "example": "When you realize there is a simpler way #learnfromkhaby"
+    },
+    "published": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Publication date in ISO 8601 format",
+      "example": "2026-02-27T18:36:42.000Z"
+    },
+    "duration": {
+      "type": "number",
+      "description": "Duration in seconds",
+      "example": 23
+    },
+    "viewCount": {
+      "type": "integer",
+      "description": "Number of views",
+      "example": 42600000
+    },
+    "likeCount": {
+      "type": "integer",
+      "description": "Number of likes",
+      "example": 2800000
+    },
+    "commentCount": {
+      "type": "integer",
+      "description": "Number of comments",
+      "example": 29200
+    },
+    "repostCount": {
+      "type": "integer",
+      "description": "Number of reposts",
+      "example": 0
+    },
+    "shareCount": {
+      "type": "integer",
+      "description": "Number of shares",
+      "example": 157700
+    },
+    "saveCount": {
+      "type": "integer",
+      "description": "Number of saves",
+      "example": 153238
+    },
+    "language": {
+      "type": "string",
+      "description": "Content language (BCP47 code)",
+      "example": "en"
+    },
+    "isSponsored": {
+      "type": "boolean",
+      "description": "Whether the video is a promoted ad",
+      "example": false
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "ActivityStreams object type",
+          "example": "Place"
+        },
+        "id": {
+          "type": "string",
+          "description": "Location ID",
+          "example": "213385402"
+        },
+        "name": {
+          "type": "string",
+          "description": "Location name or country code",
+          "example": "Los Angeles, California"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Location page URL"
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Geographic latitude",
+          "example": 34.0522
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Geographic longitude",
+          "example": -118.2437
+        }
+      },
+      "required": [
+        "type",
+        "name"
+      ],
+      "description": "Location where the video was created",
+      "example": {
+        "type": "Place",
+        "name": "US"
+      }
+    },
+    "tag": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "ActivityStreams object type",
+            "example": "Tag"
+          },
+          "name": {
+            "type": "string",
+            "description": "Tag name",
+            "example": "learnfromkhaby"
+          },
+          "href": {
+            "type": "string",
+            "format": "uri",
+            "description": "Tag URL",
+            "example": "https://www.tiktok.com/tag/learnfromkhaby"
+          },
+          "id": {
+            "type": "string",
+            "format": "uri",
+            "description": "Tag permalink",
+            "example": "https://www.tiktok.com/tag/learnfromkhaby"
+          },
+          "entityId": {
+            "type": "string",
+            "description": "TikTok internal tag ID",
+            "example": "1697657584273413"
+          }
+        },
+        "required": [
+          "type",
+          "name"
+        ],
+        "description": "Hashtag or mention"
+      },
+      "description": "Hashtags and mentions"
+    },
+    "attributedTo": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "ActivityStreams object type",
+          "example": "Person"
+        },
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "description": "Profile URL",
+          "example": "https://www.tiktok.com/@khaby.lame"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Profile URL",
+          "example": "https://www.tiktok.com/@khaby.lame"
+        },
+        "entityId": {
+          "type": "string",
+          "description": "TikTok secUid",
+          "example": "MS4wLjABAAAAwAg0rSzO65WQfz4RzQgGv2Xdv108BgPXhRrrmNVIHQZ9PO8-flwwRtEppYTS0OjA"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name",
+          "example": "Khabane Lame"
+        },
+        "preferredUsername": {
+          "type": "string",
+          "description": "Username or handle",
+          "example": "khaby.lame"
+        },
+        "summary": {
+          "type": "string",
+          "description": "Bio text",
+          "example": "Just a guy who reacts"
+        },
+        "attachment": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "ActivityStreams object type",
+                "example": "Link"
+              },
+              "href": {
+                "type": "string",
+                "format": "uri",
+                "description": "Link URL",
+                "example": "https://linktr.ee/khaby.lame"
+              },
+              "rel": {
+                "type": "string",
+                "description": "Link relation hint",
+                "example": "preferred"
+              }
+            },
+            "required": [
+              "type",
+              "href"
+            ],
+            "description": "External link"
+          },
+          "description": "External links in bio"
+        },
+        "published": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account creation date in ISO 8601 format",
+          "example": "2020-03-15T00:00:00.000Z"
+        },
+        "isPrivate": {
+          "type": "boolean",
+          "description": "Whether account is private",
+          "example": false
+        },
+        "isVerified": {
+          "type": "boolean",
+          "description": "Whether account is verified",
+          "example": true
+        },
+        "isLive": {
+          "type": "boolean",
+          "description": "Whether user is currently live streaming",
+          "example": false
+        },
+        "hasLikes": {
+          "type": "boolean",
+          "description": "Whether user's liked videos are public",
+          "example": true
+        },
+        "hasPlaylists": {
+          "type": "boolean",
+          "description": "Whether user has playlists",
+          "example": true
+        },
+        "followerCount": {
+          "type": "integer",
+          "description": "Number of followers",
+          "example": 160300000
+        },
+        "followingCount": {
+          "type": "integer",
+          "description": "Number of accounts followed",
+          "example": 85
+        },
+        "language": {
+          "type": "string",
+          "description": "User language preference (BCP47 code)",
+          "example": "en"
+        },
+        "likeCount": {
+          "type": "integer",
+          "description": "Total likes received across all content",
+          "example": 2600000000
+        },
+        "likedCount": {
+          "type": "integer",
+          "description": "Number of videos the user has liked",
+          "example": 5300
+        },
+        "mediaCount": {
+          "type": "integer",
+          "description": "Number of posts",
+          "example": 1309
+        },
+        "icon": {
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "ActivityStreams object type",
+                  "example": "Image"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Image URL",
+                  "example": "https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg"
+                },
+                "width": {
+                  "type": "integer",
+                  "description": "Width in pixels",
+                  "example": 576
+                },
+                "height": {
+                  "type": "integer",
+                  "description": "Height in pixels",
+                  "example": 1024
+                }
+              },
+              "required": [
+                "type",
+                "url"
+              ],
+              "description": "Image resource with optional dimensions"
+            },
+            {
+              "description": "Author avatar"
+            }
+          ]
+        },
+        "image": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "ActivityStreams object type",
+                "example": "Image"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Image URL",
+                "example": "https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg"
+              },
+              "width": {
+                "type": "integer",
+                "description": "Width in pixels",
+                "example": 576
+              },
+              "height": {
+                "type": "integer",
+                "description": "Height in pixels",
+                "example": 1024
+              }
+            },
+            "required": [
+              "type",
+              "url"
+            ],
+            "description": "Image resource with optional dimensions"
+          },
+          "description": "Profile pictures in multiple sizes"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "url",
+        "isPrivate",
+        "isVerified"
+      ],
+      "description": "Compact user profile for embedded contexts"
+    },
+    "attachment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "ActivityStreams object type",
+            "example": "Video"
+          },
+          "name": {
+            "type": "string",
+            "description": "Quality label (e.g. h264_540p_829898-0)",
+            "example": "normal_540_0"
+          },
+          "url": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "Media download URLs",
+            "example": [
+              "https://v19-webapp.tiktok.com/video/tos/us/tos-useast5-ve-0068c004/video.mp4"
+            ]
+          },
+          "headers": {
+            "type": "object",
+            "properties": {
+              "Cookie": {
+                "type": "string",
+                "description": "Required cookie header for video download",
+                "example": "tt_chain_token=sTA6PK6OnvhW7YemGVwMig=="
+              },
+              "Referer": {
+                "type": "string",
+                "description": "Required referer header for video download",
+                "example": "https://www.tiktok.com/"
+              }
+            },
+            "required": [
+              "Cookie",
+              "Referer"
+            ],
+            "description": "HTTP headers required for authenticated media download"
+          },
+          "mediaType": {
+            "type": "string",
+            "description": "MIME type",
+            "example": "video/mp4"
+          },
+          "codec": {
+            "type": "string",
+            "description": "Video codec (e.g. h264, h265)",
+            "example": "h264"
+          },
+          "width": {
+            "type": "integer",
+            "description": "Width in pixels",
+            "example": 576
+          },
+          "height": {
+            "type": "integer",
+            "description": "Height in pixels",
+            "example": 1024
+          },
+          "bitrate": {
+            "type": "integer",
+            "description": "Bitrate in bits per second",
+            "example": 1101943
+          }
+        },
+        "required": [
+          "type",
+          "name",
+          "url",
+          "mediaType",
+          "codec",
+          "width",
+          "height",
+          "bitrate"
+        ],
+        "description": "Video media file with download details"
+      },
+      "description": "Video files in multiple qualities"
+    },
+    "image": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "ActivityStreams object type",
+              "example": "Image"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Image URL",
+              "example": "https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg"
+            },
+            "width": {
+              "type": "integer",
+              "description": "Width in pixels",
+              "example": 576
+            },
+            "height": {
+              "type": "integer",
+              "description": "Height in pixels",
+              "example": 1024
+            }
+          },
+          "required": [
+            "type",
+            "url"
+          ],
+          "description": "Image resource with optional dimensions"
+        },
+        {
+          "description": "Video thumbnail"
+        }
+      ]
+    },
+    "preview": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "ActivityStreams object type",
+              "example": "Image"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Image URL",
+              "example": "https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg"
+            },
+            "width": {
+              "type": "integer",
+              "description": "Width in pixels",
+              "example": 576
+            },
+            "height": {
+              "type": "integer",
+              "description": "Height in pixels",
+              "example": 1024
+            }
+          },
+          "required": [
+            "type",
+            "url"
+          ],
+          "description": "Image resource with optional dimensions"
+        },
+        {
+          "description": "Animated preview thumbnail"
+        }
+      ]
+    },
+    "audio": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "ActivityStreams object type",
+          "example": "Audio"
+        },
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "description": "Audio permalink",
+          "example": "https://www.tiktok.com/music/original-sound-7611615657754381599"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Audio playback URL",
+          "example": "https://sf16-ies-music.tiktokcdn.com/obj/tos-alisg-v/123456"
+        },
+        "name": {
+          "type": "string",
+          "description": "Track name",
+          "example": "original sound"
+        },
+        "duration": {
+          "type": "number",
+          "description": "Duration in seconds",
+          "example": 23
+        },
+        "mediaType": {
+          "type": "string",
+          "description": "MIME type",
+          "example": "audio/mpeg"
+        },
+        "attributedTo": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "ActivityStreams object type",
+                  "example": "Person"
+                },
+                "id": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Profile URL",
+                  "example": "https://www.tiktok.com/@khaby.lame"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Profile URL",
+                  "example": "https://www.tiktok.com/@khaby.lame"
+                },
+                "entityId": {
+                  "type": "string",
+                  "description": "TikTok secUid",
+                  "example": "MS4wLjABAAAAwAg0rSzO65WQfz4RzQgGv2Xdv108BgPXhRrrmNVIHQZ9PO8-flwwRtEppYTS0OjA"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Display name",
+                  "example": "Khabane Lame"
+                },
+                "preferredUsername": {
+                  "type": "string",
+                  "description": "Username or handle",
+                  "example": "khaby.lame"
+                },
+                "summary": {
+                  "type": "string",
+                  "description": "Bio text",
+                  "example": "Just a guy who reacts"
+                },
+                "attachment": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TikTokLink"
+                  },
+                  "description": "External links in bio"
+                },
+                "published": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Account creation date in ISO 8601 format",
+                  "example": "2020-03-15T00:00:00.000Z"
+                },
+                "isPrivate": {
+                  "type": "boolean",
+                  "description": "Whether account is private",
+                  "example": false
+                },
+                "isVerified": {
+                  "type": "boolean",
+                  "description": "Whether account is verified",
+                  "example": true
+                },
+                "isLive": {
+                  "type": "boolean",
+                  "description": "Whether user is currently live streaming",
+                  "example": false
+                },
+                "hasLikes": {
+                  "type": "boolean",
+                  "description": "Whether user's liked videos are public",
+                  "example": true
+                },
+                "hasPlaylists": {
+                  "type": "boolean",
+                  "description": "Whether user has playlists",
+                  "example": true
+                },
+                "followerCount": {
+                  "type": "integer",
+                  "description": "Number of followers",
+                  "example": 160300000
+                },
+                "followingCount": {
+                  "type": "integer",
+                  "description": "Number of accounts followed",
+                  "example": 85
+                },
+                "language": {
+                  "type": "string",
+                  "description": "User language preference (BCP47 code)",
+                  "example": "en"
+                },
+                "likeCount": {
+                  "type": "integer",
+                  "description": "Total likes received across all content",
+                  "example": 2600000000
+                },
+                "likedCount": {
+                  "type": "integer",
+                  "description": "Number of videos the user has liked",
+                  "example": 5300
+                },
+                "mediaCount": {
+                  "type": "integer",
+                  "description": "Number of posts",
+                  "example": 1309
+                },
+                "icon": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/TikTokImage"
+                    },
+                    {
+                      "description": "Author avatar"
+                    }
+                  ]
+                },
+                "image": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TikTokImage"
+                  },
+                  "description": "Profile pictures in multiple sizes"
+                }
+              },
+              "required": [
+                "type",
+                "id",
+                "url",
+                "isPrivate",
+                "isVerified"
+              ],
+              "description": "Compact user profile for embedded contexts"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "ActivityStreams object type",
+                    "example": "Person"
+                  },
+                  "id": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "Profile URL",
+                    "example": "https://www.tiktok.com/@khaby.lame"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "Profile URL",
+                    "example": "https://www.tiktok.com/@khaby.lame"
+                  },
+                  "entityId": {
+                    "type": "string",
+                    "description": "TikTok secUid",
+                    "example": "MS4wLjABAAAAwAg0rSzO65WQfz4RzQgGv2Xdv108BgPXhRrrmNVIHQZ9PO8-flwwRtEppYTS0OjA"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Display name",
+                    "example": "Khabane Lame"
+                  },
+                  "preferredUsername": {
+                    "type": "string",
+                    "description": "Username or handle",
+                    "example": "khaby.lame"
+                  },
+                  "summary": {
+                    "type": "string",
+                    "description": "Bio text",
+                    "example": "Just a guy who reacts"
+                  },
+                  "attachment": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/TikTokLink"
+                    },
+                    "description": "External links in bio"
+                  },
+                  "published": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Account creation date in ISO 8601 format",
+                    "example": "2020-03-15T00:00:00.000Z"
+                  },
+                  "isPrivate": {
+                    "type": "boolean",
+                    "description": "Whether account is private",
+                    "example": false
+                  },
+                  "isVerified": {
+                    "type": "boolean",
+                    "description": "Whether account is verified",
+                    "example": true
+                  },
+                  "isLive": {
+                    "type": "boolean",
+                    "description": "Whether user is currently live streaming",
+                    "example": false
+                  },
+                  "hasLikes": {
+                    "type": "boolean",
+                    "description": "Whether user's liked videos are public",
+                    "example": true
+                  },
+                  "hasPlaylists": {
+                    "type": "boolean",
+                    "description": "Whether user has playlists",
+                    "example": true
+                  },
+                  "followerCount": {
+                    "type": "integer",
+                    "description": "Number of followers",
+                    "example": 160300000
+                  },
+                  "followingCount": {
+                    "type": "integer",
+                    "description": "Number of accounts followed",
+                    "example": 85
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "User language preference (BCP47 code)",
+                    "example": "en"
+                  },
+                  "likeCount": {
+                    "type": "integer",
+                    "description": "Total likes received across all content",
+                    "example": 2600000000
+                  },
+                  "likedCount": {
+                    "type": "integer",
+                    "description": "Number of videos the user has liked",
+                    "example": 5300
+                  },
+                  "mediaCount": {
+                    "type": "integer",
+                    "description": "Number of posts",
+                    "example": 1309
+                  },
+                  "icon": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/TikTokImage"
+                      },
+                      {
+                        "description": "Author avatar"
+                      }
+                    ]
+                  },
+                  "image": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/TikTokImage"
+                    },
+                    "description": "Profile pictures in multiple sizes"
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "url",
+                  "isPrivate",
+                  "isVerified"
+                ],
+                "description": "Compact user profile for embedded contexts"
+              }
+            }
+          ],
+          "description": "Audio creator or artist"
+        },
+        "icon": {
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "ActivityStreams object type",
+                  "example": "Image"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Image URL",
+                  "example": "https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg"
+                },
+                "width": {
+                  "type": "integer",
+                  "description": "Width in pixels",
+                  "example": 576
+                },
+                "height": {
+                  "type": "integer",
+                  "description": "Height in pixels",
+                  "example": 1024
+                }
+              },
+              "required": [
+                "type",
+                "url"
+              ],
+              "description": "Image resource with optional dimensions"
+            },
+            {
+              "description": "Thumbnail image"
+            }
+          ]
+        },
+        "image": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "ActivityStreams object type",
+                "example": "Image"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Image URL",
+                "example": "https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg"
+              },
+              "width": {
+                "type": "integer",
+                "description": "Width in pixels",
+                "example": 576
+              },
+              "height": {
+                "type": "integer",
+                "description": "Height in pixels",
+                "example": 1024
+              }
+            },
+            "required": [
+              "type",
+              "url"
+            ],
+            "description": "Image resource with optional dimensions"
+          },
+          "description": "Cover images in multiple sizes"
+        },
+        "entityId": {
+          "type": "string",
+          "description": "Audio ID",
+          "example": "7493556331997071377"
+        },
+        "album": {
+          "type": "string",
+          "description": "Album name",
+          "example": "Greatest Hits"
+        },
+        "isOriginal": {
+          "type": "boolean",
+          "description": "Whether audio is user-created vs a licensed track",
+          "example": false
+        },
+        "isCopyrighted": {
+          "type": "boolean",
+          "description": "Whether audio has copyright restrictions",
+          "example": false
+        },
+        "videoCount": {
+          "type": "integer",
+          "description": "Number of videos using this audio",
+          "example": 500000
+        }
+      },
+      "required": [
+        "type",
+        "name",
+        "duration"
+      ],
+      "description": "Audio or music track"
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "url",
+    "entityId",
+    "published",
+    "viewCount",
+    "likeCount",
+    "commentCount",
+    "repostCount",
+    "shareCount",
+    "saveCount",
+    "attributedTo"
+  ],
+  "description": "Video post"
+}

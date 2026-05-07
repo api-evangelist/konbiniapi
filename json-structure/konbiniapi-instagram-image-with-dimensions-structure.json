@@ -1,0 +1,7 @@
+{
+  "name": "InstagramImageWithDimensions",
+  "description": "Image resource with optional dimensions",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [],
+  "fields": []
+}

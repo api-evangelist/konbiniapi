@@ -1,0 +1,43 @@
+{
+  "name": "TikTokImage",
+  "description": "Image resource with optional dimensions",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "type",
+    "url"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Image",
+      "format": null
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "description": "Image URL",
+      "example": "https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg",
+      "format": "uri"
+    },
+    {
+      "name": "width",
+      "type": "integer",
+      "required": false,
+      "description": "Width in pixels",
+      "example": 576,
+      "format": null
+    },
+    {
+      "name": "height",
+      "type": "integer",
+      "required": false,
+      "description": "Height in pixels",
+      "example": 1024,
+      "format": null
+    }
+  ]
+}

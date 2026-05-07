@@ -1,0 +1,27 @@
+{
+  "name": "InstagramImage",
+  "description": "Image resource",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "type",
+    "url"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Image",
+      "format": null
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "description": "Image URL",
+      "example": "https://scontent.cdninstagram.com/v/t51.2885-19/avatar.jpg",
+      "format": "uri"
+    }
+  ]
+}

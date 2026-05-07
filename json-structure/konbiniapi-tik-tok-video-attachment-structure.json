@@ -1,0 +1,91 @@
+{
+  "name": "TikTokVideoAttachment",
+  "description": "Video media file with download details",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "bitrate",
+    "codec",
+    "height",
+    "mediaType",
+    "name",
+    "type",
+    "url",
+    "width"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Video",
+      "format": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "description": "Quality label (e.g. h264_540p_829898-0)",
+      "example": "normal_540_0",
+      "format": null
+    },
+    {
+      "name": "url",
+      "type": "array<string>",
+      "required": true,
+      "description": "Media download URLs",
+      "example": [
+        "https://v19-webapp.tiktok.com/video/tos/us/tos-useast5-ve-0068c004/video.mp4"
+      ],
+      "format": null
+    },
+    {
+      "name": "headers",
+      "type": "$ref:TikTokVideoAttachmentHeaders",
+      "required": false,
+      "description": "Authentication headers for video download",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "mediaType",
+      "type": "string",
+      "required": true,
+      "description": "MIME type",
+      "example": "video/mp4",
+      "format": null
+    },
+    {
+      "name": "codec",
+      "type": "string",
+      "required": true,
+      "description": "Video codec (e.g. h264, h265)",
+      "example": "h264",
+      "format": null
+    },
+    {
+      "name": "width",
+      "type": "integer",
+      "required": true,
+      "description": "Width in pixels",
+      "example": 576,
+      "format": null
+    },
+    {
+      "name": "height",
+      "type": "integer",
+      "required": true,
+      "description": "Height in pixels",
+      "example": 1024,
+      "format": null
+    },
+    {
+      "name": "bitrate",
+      "type": "integer",
+      "required": true,
+      "description": "Bitrate in bits per second",
+      "example": 1101943,
+      "format": null
+    }
+  ]
+}

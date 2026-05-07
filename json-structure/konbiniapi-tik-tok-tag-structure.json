@@ -1,0 +1,51 @@
+{
+  "name": "TikTokTag",
+  "description": "Hashtag or mention",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "name",
+    "type"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Tag",
+      "format": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "description": "Tag name",
+      "example": "learnfromkhaby",
+      "format": null
+    },
+    {
+      "name": "href",
+      "type": "string",
+      "required": false,
+      "description": "Tag URL",
+      "example": "https://www.tiktok.com/tag/learnfromkhaby",
+      "format": "uri"
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": false,
+      "description": "Tag permalink",
+      "example": "https://www.tiktok.com/tag/learnfromkhaby",
+      "format": "uri"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": false,
+      "description": "TikTok internal tag ID",
+      "example": "1697657584273413",
+      "format": null
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "name": "TikTokEmbeddedUser",
+  "description": "Compact user profile for embedded contexts",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "id",
+    "isPrivate",
+    "isVerified",
+    "type",
+    "url"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Person",
+      "format": null
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "description": "Profile URL",
+      "example": "https://www.tiktok.com/@khaby.lame",
+      "format": "uri"
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "description": "Profile URL",
+      "example": "https://www.tiktok.com/@khaby.lame",
+      "format": "uri"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": false,
+      "description": "TikTok secUid",
+      "example": "MS4wLjABAAAAwAg0rSzO65WQfz4RzQgGv2Xdv108BgPXhRrrmNVIHQZ9PO8-flwwRtEppYTS0OjA",
+      "format": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": false,
+      "description": "Display name",
+      "example": "Khabane Lame",
+      "format": null
+    },
+    {
+      "name": "preferredUsername",
+      "type": "string",
+      "required": false,
+      "description": "Username or handle",
+      "example": "khaby.lame",
+      "format": null
+    },
+    {
+      "name": "summary",
+      "type": "string",
+      "required": false,
+      "description": "Bio text",
+      "example": "Just a guy who reacts",
+      "format": null
+    },
+    {
+      "name": "attachment",
+      "type": "array<TikTokLink>",
+      "required": false,
+      "description": "External links in bio",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "published",
+      "type": "string",
+      "required": false,
+      "description": "Account creation date in ISO 8601 format",
+      "example": "2020-03-15T00:00:00.000Z",
+      "format": "date-time"
+    },
+    {
+      "name": "isPrivate",
+      "type": "boolean",
+      "required": true,
+      "description": "Whether account is private",
+      "example": false,
+      "format": null
+    },
+    {
+      "name": "isVerified",
+      "type": "boolean",
+      "required": true,
+      "description": "Whether account is verified",
+      "example": true,
+      "format": null
+    },
+    {
+      "name": "isLive",
+      "type": "boolean",
+      "required": false,
+      "description": "Whether user is currently live streaming",
+      "example": false,
+      "format": null
+    },
+    {
+      "name": "hasLikes",
+      "type": "boolean",
+      "required": false,
+      "description": "Whether user's liked videos are public",
+      "example": true,
+      "format": null
+    },
+    {
+      "name": "hasPlaylists",
+      "type": "boolean",
+      "required": false,
+      "description": "Whether user has playlists",
+      "example": true,
+      "format": null
+    },
+    {
+      "name": "followerCount",
+      "type": "integer",
+      "required": false,
+      "description": "Number of followers",
+      "example": 160300000,
+      "format": null
+    },
+    {
+      "name": "followingCount",
+      "type": "integer",
+      "required": false,
+      "description": "Number of accounts followed",
+      "example": 85,
+      "format": null
+    },
+    {
+      "name": "language",
+      "type": "string",
+      "required": false,
+      "description": "User language preference (BCP47 code)",
+      "example": "en",
+      "format": null
+    },
+    {
+      "name": "likeCount",
+      "type": "integer",
+      "required": false,
+      "description": "Total likes received across all content",
+      "example": 2600000000,
+      "format": null
+    },
+    {
+      "name": "likedCount",
+      "type": "integer",
+      "required": false,
+      "description": "Number of videos the user has liked",
+      "example": 5300,
+      "format": null
+    },
+    {
+      "name": "mediaCount",
+      "type": "integer",
+      "required": false,
+      "description": "Number of posts",
+      "example": 1309,
+      "format": null
+    },
+    {
+      "name": "icon",
+      "type": "unknown",
+      "required": false,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "image",
+      "type": "array<TikTokImage>",
+      "required": false,
+      "description": "Profile pictures in multiple sizes",
+      "example": null,
+      "format": null
+    }
+  ]
+}

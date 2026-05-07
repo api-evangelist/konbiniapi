@@ -1,0 +1,142 @@
+{
+  "operationId": "tiktokGetAudioVideos",
+  "summary": "Get Videos with Audio",
+  "request": {
+    "method": "GET",
+    "url": "https://api.konbiniapi.com/v1/tiktok/audios/6988100049893232686/videos?count=30&cursor=0",
+    "headers": {
+      "Authorization": "Bearer knbn_your_api_key",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Credits-Remaining": 24999,
+      "X-Credits-Used": 1
+    },
+    "body": {
+      "data": {
+        "@context": [
+          "https://www.w3.org/ns/activitystreams#",
+          "https://konbiniapi.com/ns/social#"
+        ],
+        "type": "OrderedCollectionPage",
+        "partOf": "https://api.konbiniapi.com/v1/tiktok/audios/7611615657754381599/videos",
+        "totalItems": 1309,
+        "cursor": "0",
+        "nextCursor": "1772217402000",
+        "next": "https://api.konbiniapi.com/v1/tiktok/audios/7611615657754381599/videos?cursor=1772217402000&count=30",
+        "itemCount": 30,
+        "orderedItems": [
+          {
+            "type": "Video",
+            "id": "https://www.tiktok.com/@khaby.lame/video/7611615657754381599",
+            "url": "https://www.tiktok.com/@khaby.lame/video/7611615657754381599",
+            "entityId": "7611615657754381599",
+            "content": "When you realize there is a simpler way #learnfromkhaby",
+            "published": "2026-02-27T18:36:42.000Z",
+            "duration": 23,
+            "viewCount": 42600000,
+            "likeCount": 2800000,
+            "commentCount": 29200,
+            "repostCount": 0,
+            "shareCount": 157700,
+            "saveCount": 153238,
+            "language": "en",
+            "isSponsored": false,
+            "location": {
+              "type": "Place",
+              "name": "US"
+            },
+            "tag": [
+              {
+                "type": "Tag",
+                "name": "learnfromkhaby",
+                "href": "https://www.tiktok.com/tag/learnfromkhaby",
+                "id": "https://www.tiktok.com/tag/learnfromkhaby",
+                "entityId": "1697657584273413"
+              }
+            ],
+            "attributedTo": {
+              "type": "Person",
+              "id": "https://www.tiktok.com/@khaby.lame",
+              "url": "https://www.tiktok.com/@khaby.lame",
+              "entityId": "MS4wLjABAAAAwAg0rSzO65WQfz4RzQgGv2Xdv108BgPXhRrrmNVIHQZ9PO8-flwwRtEppYTS0OjA",
+              "name": "Khabane Lame",
+              "preferredUsername": "khaby.lame",
+              "summary": "Just a guy who reacts",
+              "attachment": [
+                {
+                  "type": "Link",
+                  "href": "https://linktr.ee/khaby.lame",
+                  "rel": "preferred"
+                }
+              ],
+              "published": "2020-03-15T00:00:00.000Z",
+              "isPrivate": false,
+              "isVerified": true,
+              "isLive": false,
+              "hasLikes": true,
+              "hasPlaylists": true,
+              "followerCount": 160300000,
+              "followingCount": 85,
+              "language": "en",
+              "likeCount": 2600000000,
+              "likedCount": 5300,
+              "mediaCount": 1309,
+              "image": [
+                {
+                  "type": "Image",
+                  "url": "https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg",
+                  "width": 576,
+                  "height": 1024
+                }
+              ]
+            },
+            "attachment": [
+              {
+                "type": "Video",
+                "name": "normal_540_0",
+                "url": [
+                  "https://v19-webapp.tiktok.com/video/tos/us/tos-useast5-ve-0068c004/video.mp4"
+                ],
+                "headers": {
+                  "Cookie": "tt_chain_token=sTA6PK6OnvhW7YemGVwMig==",
+                  "Referer": "https://www.tiktok.com/"
+                },
+                "mediaType": "video/mp4",
+                "codec": "h264",
+                "width": 576,
+                "height": 1024,
+                "bitrate": 1101943
+              }
+            ],
+            "audio": {
+              "type": "Audio",
+              "id": "https://www.tiktok.com/music/original-sound-7611615657754381599",
+              "url": "https://sf16-ies-music.tiktokcdn.com/obj/tos-alisg-v/123456",
+              "name": "original sound",
+              "duration": 23,
+              "mediaType": "audio/mpeg",
+              "image": [
+                {
+                  "type": "Image",
+                  "url": "https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg",
+                  "width": 576,
+                  "height": 1024
+                }
+              ],
+              "entityId": "7493556331997071377",
+              "album": "Greatest Hits",
+              "isOriginal": false,
+              "isCopyrighted": false,
+              "videoCount": 500000
+            }
+          }
+        ]
+      }
+    }
+  }
+}

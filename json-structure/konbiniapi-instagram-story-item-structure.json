@@ -1,0 +1,91 @@
+{
+  "name": "InstagramStoryItem",
+  "description": "Individual story item",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "entityId",
+    "type"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Video",
+      "format": null
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": false,
+      "description": "Story item permalink",
+      "example": "https://www.instagram.com/stories/highlights/18067016518767507/",
+      "format": "uri"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": true,
+      "description": "Instagram internal media ID",
+      "example": "3214260996432123580",
+      "format": null
+    },
+    {
+      "name": "published",
+      "type": "string",
+      "required": false,
+      "description": "Publication date in ISO 8601 format",
+      "example": "2026-02-27T18:36:42.000Z",
+      "format": "date-time"
+    },
+    {
+      "name": "summary",
+      "type": "string",
+      "required": false,
+      "description": "Accessibility caption",
+      "example": "Photo by Khabane Lame on March 13, 2026.",
+      "format": null
+    },
+    {
+      "name": "isSponsored",
+      "type": "boolean",
+      "required": false,
+      "description": "Whether story is a paid partnership",
+      "example": false,
+      "format": null
+    },
+    {
+      "name": "image",
+      "type": "unknown",
+      "required": false,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "attachment",
+      "type": "array<object>",
+      "required": false,
+      "description": "Media files and link stickers",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "description": "Duration in seconds",
+      "example": 23,
+      "format": null
+    },
+    {
+      "name": "attributedTo",
+      "type": "unknown",
+      "required": false,
+      "description": null,
+      "example": null,
+      "format": null
+    }
+  ]
+}

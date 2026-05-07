@@ -1,0 +1,173 @@
+{
+  "name": "TikTokStory",
+  "description": "Story post",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "attributedTo",
+    "commentCount",
+    "entityId",
+    "id",
+    "likeCount",
+    "published",
+    "repostCount",
+    "saveCount",
+    "shareCount",
+    "type",
+    "url",
+    "viewCount"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Video",
+      "format": null
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "description": "Story permalink",
+      "example": "https://www.tiktok.com/@khaby.lame/video/7600000000000000000",
+      "format": "uri"
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "description": "Story URL",
+      "example": "https://www.tiktok.com/@khaby.lame/video/7600000000000000000",
+      "format": "uri"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": true,
+      "description": "TikTok internal story ID",
+      "example": "7600000000000000000",
+      "format": null
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "required": false,
+      "description": "Caption or description",
+      "example": "When you realize there is a simpler way #learnfromkhaby",
+      "format": null
+    },
+    {
+      "name": "published",
+      "type": "string",
+      "required": true,
+      "description": "Publication date in ISO 8601 format",
+      "example": "2026-02-27T18:36:42.000Z",
+      "format": "date-time"
+    },
+    {
+      "name": "endTime",
+      "type": "string",
+      "required": false,
+      "description": "Story expiration date in ISO 8601 format",
+      "example": "2026-02-28T18:36:42.000Z",
+      "format": "date-time"
+    },
+    {
+      "name": "viewCount",
+      "type": "integer",
+      "required": true,
+      "description": "Number of views",
+      "example": 42600000,
+      "format": null
+    },
+    {
+      "name": "likeCount",
+      "type": "integer",
+      "required": true,
+      "description": "Number of likes",
+      "example": 2800000,
+      "format": null
+    },
+    {
+      "name": "commentCount",
+      "type": "integer",
+      "required": true,
+      "description": "Number of comments",
+      "example": 29200,
+      "format": null
+    },
+    {
+      "name": "repostCount",
+      "type": "integer",
+      "required": true,
+      "description": "Number of reposts",
+      "example": 0,
+      "format": null
+    },
+    {
+      "name": "shareCount",
+      "type": "integer",
+      "required": true,
+      "description": "Number of shares",
+      "example": 157700,
+      "format": null
+    },
+    {
+      "name": "saveCount",
+      "type": "integer",
+      "required": true,
+      "description": "Number of saves",
+      "example": 153238,
+      "format": null
+    },
+    {
+      "name": "attributedTo",
+      "type": "unknown",
+      "required": true,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "description": "Duration in seconds",
+      "example": 23,
+      "format": null
+    },
+    {
+      "name": "attachment",
+      "type": "array<TikTokStoryAttachment>",
+      "required": false,
+      "description": "Video files",
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "image",
+      "type": "unknown",
+      "required": false,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "preview",
+      "type": "unknown",
+      "required": false,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "audio",
+      "type": "unknown",
+      "required": false,
+      "description": null,
+      "example": null,
+      "format": null
+    }
+  ]
+}

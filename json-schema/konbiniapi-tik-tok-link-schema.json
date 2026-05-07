@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-tik-tok-link-schema.json",
+  "title": "TikTokLink",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "Link"
+    },
+    "href": {
+      "type": "string",
+      "format": "uri",
+      "description": "Link URL",
+      "example": "https://linktr.ee/khaby.lame"
+    },
+    "rel": {
+      "type": "string",
+      "description": "Link relation hint",
+      "example": "preferred"
+    }
+  },
+  "required": [
+    "type",
+    "href"
+  ],
+  "description": "External link"
+}

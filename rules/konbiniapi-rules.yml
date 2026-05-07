@@ -1,0 +1,130 @@
+extends:
+  - spectral:oas
+documentationUrl: https://docs.konbiniapi.com
+functions: []
+rules:
+  # KonbiniAPI conventions: derived from konbiniapi-openapi.yml
+  konbiniapi-paths-must-be-versioned:
+    description: All paths must be prefixed with /v1/ for KonbiniAPI versioning.
+    message: 'Path "{{property}}" must start with /v1/.'
+    severity: error
+    given: $.paths
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        match: '^/v1/'
+
+  konbiniapi-paths-must-include-platform:
+    description: All paths must include the platform segment (instagram or tiktok).
+    message: 'Path "{{property}}" must include /tiktok/ or /instagram/.'
+    severity: error
+    given: $.paths
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        match: '^/v1/(tiktok|instagram)/'
+
+  konbiniapi-operations-must-be-get:
+    description: KonbiniAPI is a read-only data layer. Only GET operations are supported.
+    message: '{{path}} uses {{property}}; KonbiniAPI only supports GET.'
+    severity: error
+    given: $.paths.*
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          not:
+            anyOf:
+              - required: ['post']
+              - required: ['put']
+              - required: ['patch']
+              - required: ['delete']
+
+  konbiniapi-operation-summary-title-case:
+    description: Operation summaries must use Title Case.
+    message: 'Summary "{{value}}" should be Title Case.'
+    severity: warn
+    given: $.paths.*.get.summary
+    then:
+      function: pattern
+      functionOptions:
+        match: '^([A-Z0-9][A-Za-z0-9]*)( (a|an|and|the|or|but|for|with|to|of|in|on|at|by|from|as|is|vs|API|URL|MCP|HTTP|HTTPS|TikTok|Instagram|ID|IDs|HD|UHD)| [A-Z0-9][A-Za-z0-9]*)*$'
+
+  konbiniapi-operation-must-have-operationid:
+    description: Every operation must have an operationId in camelCase.
+    message: 'operationId "{{value}}" must be camelCase.'
+    severity: error
+    given: $.paths.*.get
+    then:
+      field: operationId
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-zA-Z0-9]+$'
+
+  konbiniapi-response-must-include-credit-headers:
+    description: Successful responses must declare X-Credits-Remaining and X-Credits-Used headers.
+    message: '200 response missing credit-tracking headers.'
+    severity: warn
+    given: $.paths.*.get.responses["200"]
+    then:
+      field: headers
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required: [X-Credits-Remaining, X-Credits-Used]
+
+  konbiniapi-must-use-bearer-auth:
+    description: Global security must use a Bearer (HTTP) scheme.
+    message: 'KonbiniAPI requires Bearer token authentication.'
+    severity: error
+    given: $.components.securitySchemes
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          patternProperties:
+            '^.*$':
+              type: object
+              properties:
+                type: { const: http }
+                scheme: { const: bearer }
+
+  konbiniapi-server-must-be-https:
+    description: All servers must use HTTPS.
+    message: 'Server URL "{{value}}" must use HTTPS.'
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: '^https://'
+
+  konbiniapi-schemas-pascal-case:
+    description: Component schema names must use PascalCase.
+    message: 'Schema "{{property}}" must be PascalCase.'
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        match: '^[A-Z][A-Za-z0-9]+$'
+
+  konbiniapi-must-tag-operations:
+    description: Every operation must be tagged with Instagram or TikTok.
+    message: 'Operation must be tagged Instagram or TikTok.'
+    severity: error
+    given: $.paths.*.get.tags
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 1
+          contains:
+            enum: [Instagram, TikTok]

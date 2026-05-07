@@ -1,0 +1,70 @@
+{
+  "name": "InstagramAudio",
+  "description": "Audio track metadata",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "artist",
+    "entityId",
+    "isOriginal",
+    "name",
+    "type"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Audio",
+      "format": null
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": false,
+      "description": "Audio permalink",
+      "example": "https://www.instagram.com/reels/audio/293394603591002/",
+      "format": "uri"
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": true,
+      "description": "Platform-specific audio ID",
+      "example": "293394603591002",
+      "format": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "description": "Track name",
+      "example": "Original audio",
+      "format": null
+    },
+    {
+      "name": "artist",
+      "type": "string",
+      "required": true,
+      "description": "Artist name",
+      "example": "khaby00",
+      "format": null
+    },
+    {
+      "name": "isOriginal",
+      "type": "boolean",
+      "required": true,
+      "description": "Whether audio is user-created vs a licensed track",
+      "example": true,
+      "format": null
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "description": "Duration in seconds",
+      "example": 85.216,
+      "format": null
+    }
+  ]
+}

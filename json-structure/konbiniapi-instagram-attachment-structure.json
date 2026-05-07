@@ -1,0 +1,53 @@
+{
+  "name": "InstagramAttachment",
+  "description": "Media file attachment",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "type",
+    "url"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Video",
+      "format": null
+    },
+    {
+      "name": "url",
+      "type": "array<string>",
+      "required": true,
+      "description": "Media download URLs",
+      "example": [
+        "https://scontent.cdninstagram.com/v/t50.2886-16/video.mp4"
+      ],
+      "format": null
+    },
+    {
+      "name": "mediaType",
+      "type": "string",
+      "required": false,
+      "description": "MIME type",
+      "example": "video/mp4",
+      "format": null
+    },
+    {
+      "name": "width",
+      "type": "integer",
+      "required": false,
+      "description": "Width in pixels",
+      "example": 576,
+      "format": null
+    },
+    {
+      "name": "height",
+      "type": "integer",
+      "required": false,
+      "description": "Height in pixels",
+      "example": 1024,
+      "format": null
+    }
+  ]
+}

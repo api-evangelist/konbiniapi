@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-instagram-comment-schema.json",
+  "title": "InstagramComment",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "Note"
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Comment permalink",
+      "example": "https://www.instagram.com/p/CybWViruta1/c/17890000000000001/"
+    },
+    "entityId": {
+      "type": "string",
+      "description": "Instagram internal comment ID",
+      "example": "17890000000000001"
+    },
+    "content": {
+      "type": "string",
+      "description": "Comment text",
+      "example": "This man hasn't been in my fyp for so long"
+    },
+    "published": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Publication date in ISO 8601 format",
+      "example": "2026-02-27T20:37:38.000Z"
+    },
+    "likeCount": {
+      "type": "integer",
+      "description": "Number of likes",
+      "example": 93210
+    },
+    "replyCount": {
+      "type": "integer",
+      "description": "Number of replies",
+      "example": 12
+    },
+    "attributedTo": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "ActivityStreams object type",
+              "example": "Person"
+            },
+            "id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Profile URL",
+              "example": "https://www.instagram.com/khaby00/"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Profile URL",
+              "example": "https://www.instagram.com/khaby00/"
+            },
+            "entityId": {
+              "type": "string",
+              "description": "Platform-specific entity ID",
+              "example": "779085683"
+            },
+            "preferredUsername": {
+              "type": "string",
+              "description": "Username or handle",
+              "example": "khaby00"
+            },
+            "name": {
+              "type": "string",
+              "description": "Display name",
+              "example": "Khabane Lame"
+            },
+            "icon": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/InstagramImage"
+                },
+                {
+                  "description": "Author avatar"
+                }
+              ]
+            },
+            "role": {
+              "type": "string",
+              "description": "Role label (e.g. collaborator)",
+              "example": "collaborator"
+            }
+          },
+          "required": [
+            "type",
+            "id",
+            "url",
+            "entityId",
+            "preferredUsername"
+          ],
+          "description": "Compact user profile for embedded contexts"
+        },
+        {
+          "description": "Comment author"
+        }
+      ]
+    },
+    "inReplyTo": {
+      "type": "string",
+      "format": "uri",
+      "description": "Post permalink",
+      "example": "https://www.instagram.com/p/CybWViruta1/"
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "entityId",
+    "content",
+    "likeCount",
+    "replyCount",
+    "attributedTo",
+    "inReplyTo"
+  ],
+  "description": "Post comment"
+}

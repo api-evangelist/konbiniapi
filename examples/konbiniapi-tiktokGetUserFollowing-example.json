@@ -1,0 +1,73 @@
+{
+  "operationId": "tiktokGetUserFollowing",
+  "summary": "Get User Following List",
+  "request": {
+    "method": "GET",
+    "url": "https://api.konbiniapi.com/v1/tiktok/users/khaby.lame/following?count=30&cursor=0",
+    "headers": {
+      "Authorization": "Bearer knbn_your_api_key",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Credits-Remaining": 24999,
+      "X-Credits-Used": 1
+    },
+    "body": {
+      "data": {
+        "@context": [
+          "https://www.w3.org/ns/activitystreams#",
+          "https://konbiniapi.com/ns/social#"
+        ],
+        "type": "OrderedCollectionPage",
+        "partOf": "https://api.konbiniapi.com/v1/tiktok/users/khaby.lame/following",
+        "totalItems": 1309,
+        "cursor": "0",
+        "nextCursor": "1772217402000",
+        "next": "https://api.konbiniapi.com/v1/tiktok/users/khaby.lame/following?cursor=1772217402000&count=30",
+        "itemCount": 30,
+        "orderedItems": [
+          {
+            "type": "Person",
+            "id": "https://www.tiktok.com/@khaby.lame",
+            "url": "https://www.tiktok.com/@khaby.lame",
+            "entityId": "MS4wLjABAAAAwAg0rSzO65WQfz4RzQgGv2Xdv108BgPXhRrrmNVIHQZ9PO8-flwwRtEppYTS0OjA",
+            "name": "Khabane Lame",
+            "preferredUsername": "khaby.lame",
+            "summary": "Just a guy who reacts",
+            "attachment": [
+              {
+                "type": "Link",
+                "href": "https://linktr.ee/khaby.lame",
+                "rel": "preferred"
+              }
+            ],
+            "published": "2020-03-15T00:00:00.000Z",
+            "isPrivate": false,
+            "isVerified": true,
+            "isLive": false,
+            "hasLikes": true,
+            "hasPlaylists": true,
+            "followerCount": 160300000,
+            "followingCount": 85,
+            "language": "en",
+            "likeCount": 2600000000,
+            "likedCount": 5300,
+            "mediaCount": 1309,
+            "image": [
+              {
+                "type": "Image",
+                "url": "https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg",
+                "width": 576,
+                "height": 1024
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

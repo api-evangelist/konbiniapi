@@ -1,0 +1,137 @@
+vocabulary:
+  id: konbiniapi
+  name: KonbiniAPI Vocabulary
+  description: >-
+    Operational vocabulary mapping KonbiniAPI's social-data domain (Instagram + TikTok normalized
+    into ActivityStreams 2.0) to capability dimensions. Captures actor, object, activity, and
+    metric concepts the API surfaces.
+  source:
+    url: https://docs.konbiniapi.com
+    openapi: openapi/konbiniapi-openapi.yml
+  alignments:
+    - https://www.w3.org/TR/activitystreams-core/
+    - https://www.w3.org/TR/activitystreams-vocabulary/
+    - https://schema.org/SocialMediaPosting
+
+  dimensions:
+    actors:
+      - id: instagram-user
+        label: Instagram User
+        as_type: Person
+        description: A public Instagram account (creator, business, or personal).
+      - id: tiktok-user
+        label: TikTok User
+        as_type: Person
+        description: A public TikTok account, including verification status and creator metrics.
+
+    objects:
+      - id: instagram-post
+        label: Instagram Post
+        as_type: Note
+        description: Photo, video, or carousel post addressable by shortcode.
+      - id: instagram-reel
+        label: Instagram Reel
+        as_type: Video
+        description: Short-form vertical video on Instagram.
+      - id: instagram-story-highlight
+        label: Instagram Story Highlight
+        as_type: Collection
+        description: A persistent grouping of stories pinned to a profile.
+      - id: instagram-comment
+        label: Instagram Comment
+        as_type: Note
+      - id: instagram-location
+        label: Instagram Location
+        as_type: Place
+      - id: tiktok-video
+        label: TikTok Video
+        as_type: Video
+        description: Vertical video with multiple quality renditions and metadata.
+      - id: tiktok-story
+        label: TikTok Story
+        as_type: Video
+      - id: tiktok-comment
+        label: TikTok Comment
+        as_type: Note
+      - id: tiktok-collection
+        label: TikTok Collection
+        as_type: Collection
+        description: A user-curated playlist or mix of videos.
+      - id: tiktok-audio
+        label: TikTok Audio
+        as_type: Audio
+      - id: tiktok-tag
+        label: TikTok Hashtag/Challenge
+        as_type: Tag
+      - id: tiktok-live-stream
+        label: TikTok Live Stream
+        as_type: Video
+      - id: video-transcript
+        label: Video Transcript
+        format: WebVTT
+        description: ASR-generated transcript with optional translation.
+
+    activities:
+      - id: read-profile
+        label: Read Profile
+        as_verb: Read
+      - id: read-feed
+        label: Read User Feed
+      - id: read-engagement
+        label: Read Engagement (likes/comments/replies)
+      - id: search
+        label: Search Content
+      - id: discover
+        label: Discover via Tag/Audio/Location
+
+    metrics:
+      - id: follower-count
+        unit: count
+      - id: like-count
+        unit: count
+      - id: comment-count
+        unit: count
+      - id: share-count
+        unit: count
+      - id: view-count
+        unit: count
+      - id: play-count
+        unit: count
+
+    capabilities:
+      - id: profile-lookup
+        operations: [tiktokGetUser, instagramGetUser]
+      - id: feed-pagination
+        operations:
+          - tiktokGetUserVideos
+          - tiktokGetUserStories
+          - tiktokGetUserCollections
+          - instagramGetUserPosts
+          - instagramGetUserReels
+          - instagramGetUserTagged
+      - id: comment-threads
+        operations:
+          - tiktokGetVideoComments
+          - tiktokGetCommentReplies
+          - instagramGetPostComments
+      - id: media-discovery
+        operations:
+          - tiktokSearch
+          - tiktokSearchVideos
+          - tiktokSearchUsers
+          - instagramSearch
+          - tiktokGetTagVideos
+          - tiktokGetAudioVideos
+          - instagramGetLocationPosts
+      - id: transcript-extraction
+        operations: [tiktokGetVideoTranscript]
+      - id: live-status
+        operations: [tiktokGetUserLive]
+
+  finops:
+    unit: credit
+    pricing-model: prepaid-credits
+    refund-policy: failed-requests-refunded
+    metering-headers:
+      - X-Credits-Used
+      - X-Credits-Remaining

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-instagram-highlight-schema.json",
+  "title": "InstagramHighlight",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "OrderedCollection"
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Collection permalink",
+      "example": "https://www.instagram.com/stories/highlights/17890000000000001/"
+    },
+    "entityId": {
+      "type": "string",
+      "description": "Instagram internal highlight ID",
+      "example": "highlight:17890000000000001"
+    },
+    "name": {
+      "type": "string",
+      "description": "Collection name",
+      "example": "Best of 2025"
+    },
+    "image": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "ActivityStreams object type",
+              "example": "Image"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Image URL",
+              "example": "https://scontent.cdninstagram.com/v/t51.2885-19/avatar.jpg"
+            }
+          },
+          "required": [
+            "type",
+            "url"
+          ],
+          "description": "Image resource"
+        },
+        {
+          "description": "Highlight cover image"
+        }
+      ]
+    },
+    "totalItems": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Number of items in collection",
+      "example": 42
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "entityId",
+    "totalItems"
+  ],
+  "description": "Story highlight collection"
+}

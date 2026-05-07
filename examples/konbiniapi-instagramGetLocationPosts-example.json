@@ -1,0 +1,108 @@
+{
+  "operationId": "instagramGetLocationPosts",
+  "summary": "Get Posts by Location",
+  "request": {
+    "method": "GET",
+    "url": "https://api.konbiniapi.com/v1/instagram/locations/213480498?count=21&cursor=0",
+    "headers": {
+      "Authorization": "Bearer knbn_your_api_key",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Credits-Remaining": 24999,
+      "X-Credits-Used": 1
+    },
+    "body": {
+      "data": {
+        "@context": [
+          "https://www.w3.org/ns/activitystreams#",
+          "https://konbiniapi.com/ns/social#"
+        ],
+        "type": "OrderedCollectionPage",
+        "partOf": "https://api.konbiniapi.com/v1/instagram/locations/213385402/posts",
+        "totalItems": 1309,
+        "cursor": "0",
+        "nextCursor": "1772217402000",
+        "next": "https://api.konbiniapi.com/v1/instagram/locations/213385402/posts?cursor=abc123&count=21",
+        "itemCount": 30,
+        "orderedItems": [
+          {
+            "type": "Video",
+            "id": "https://www.instagram.com/p/CybWViruta1/",
+            "url": "https://www.instagram.com/p/CybWViruta1/",
+            "entityId": "CybWViruta1",
+            "content": "When you realize there is a simpler way #learnfromkhaby",
+            "published": "2026-02-27T18:36:42.000Z",
+            "likeCount": 2800000,
+            "commentCount": 29200,
+            "location": {
+              "type": "Place",
+              "id": "213385402",
+              "name": "Los Angeles, California",
+              "url": "https://www.instagram.com/explore/locations/213385402/",
+              "latitude": 34.0522,
+              "longitude": -118.2437
+            },
+            "tag": [
+              {
+                "type": "Tag",
+                "name": "learnfromkhaby",
+                "href": "https://www.instagram.com/explore/tags/learnfromkhaby/"
+              }
+            ],
+            "language": "en",
+            "isEdited": false,
+            "isSponsored": false,
+            "viewCount": 42600000,
+            "duration": 23,
+            "contentFormat": "reel",
+            "attachment": [
+              {
+                "type": "Video",
+                "url": [
+                  "https://scontent.cdninstagram.com/v/t50.2886-16/video.mp4"
+                ],
+                "mediaType": "video/mp4",
+                "width": 576,
+                "height": 1024
+              }
+            ],
+            "audio": {
+              "type": "Audio",
+              "id": "https://www.instagram.com/reels/audio/293394603591002/",
+              "entityId": "293394603591002",
+              "name": "Original audio",
+              "artist": "khaby00",
+              "isOriginal": true,
+              "duration": 85.216
+            },
+            "name": "Photo of Khabane Lame",
+            "totalItems": 5,
+            "items": [
+              {
+                "type": "Image",
+                "entityId": "3214260996432123574",
+                "attachment": [
+                  {
+                    "type": "Video",
+                    "url": [
+                      "https://scontent.cdninstagram.com/v/t50.2886-16/video.mp4"
+                    ],
+                    "mediaType": "video/mp4",
+                    "width": 576,
+                    "height": 1024
+                  }
+                ],
+                "name": "Photo of Khabane Lame"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

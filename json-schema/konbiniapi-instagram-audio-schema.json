@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-instagram-audio-schema.json",
+  "title": "InstagramAudio",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "Audio"
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Audio permalink",
+      "example": "https://www.instagram.com/reels/audio/293394603591002/"
+    },
+    "entityId": {
+      "type": "string",
+      "description": "Platform-specific audio ID",
+      "example": "293394603591002"
+    },
+    "name": {
+      "type": "string",
+      "description": "Track name",
+      "example": "Original audio"
+    },
+    "artist": {
+      "type": "string",
+      "description": "Artist name",
+      "example": "khaby00"
+    },
+    "isOriginal": {
+      "type": "boolean",
+      "description": "Whether audio is user-created vs a licensed track",
+      "example": true
+    },
+    "duration": {
+      "type": "number",
+      "description": "Duration in seconds",
+      "example": 85.216
+    }
+  },
+  "required": [
+    "type",
+    "entityId",
+    "name",
+    "artist",
+    "isOriginal"
+  ],
+  "description": "Audio track metadata"
+}

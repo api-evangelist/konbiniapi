@@ -1,0 +1,74 @@
+{
+  "name": "TikTokCollection",
+  "description": "Video collection or playlist",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "attributedTo",
+    "entityId",
+    "id",
+    "name",
+    "totalItems",
+    "type"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "OrderedCollection",
+      "format": null
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "description": "Collection permalink",
+      "example": "https://www.tiktok.com/@khaby.lame/playlist/7200000000000000001",
+      "format": "uri"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "description": "Collection name",
+      "example": "Best of 2025",
+      "format": null
+    },
+    {
+      "name": "image",
+      "type": "unknown",
+      "required": false,
+      "description": null,
+      "example": null,
+      "format": null
+    },
+    {
+      "name": "totalItems",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "required": true,
+      "description": "Number of items in collection",
+      "example": 42,
+      "format": null
+    },
+    {
+      "name": "entityId",
+      "type": "string",
+      "required": true,
+      "description": "TikTok internal collection ID",
+      "example": "7200000000000000001",
+      "format": null
+    },
+    {
+      "name": "attributedTo",
+      "type": "unknown",
+      "required": true,
+      "description": null,
+      "example": null,
+      "format": null
+    }
+  ]
+}

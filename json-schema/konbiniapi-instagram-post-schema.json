@@ -1,0 +1,537 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/konbiniapi/main/json-schema/konbiniapi-instagram-post-schema.json",
+  "title": "InstagramPost",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "ActivityStreams object type",
+      "example": "Video"
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Post permalink",
+      "example": "https://www.instagram.com/p/CybWViruta1/"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Post URL",
+      "example": "https://www.instagram.com/p/CybWViruta1/"
+    },
+    "entityId": {
+      "type": "string",
+      "description": "Post shortcode (used as lookup key)",
+      "example": "CybWViruta1"
+    },
+    "content": {
+      "type": "string",
+      "description": "Caption or description",
+      "example": "When you realize there is a simpler way #learnfromkhaby"
+    },
+    "published": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Publication date in ISO 8601 format",
+      "example": "2026-02-27T18:36:42.000Z"
+    },
+    "likeCount": {
+      "type": "integer",
+      "description": "Number of likes",
+      "example": 2800000
+    },
+    "commentCount": {
+      "type": "integer",
+      "description": "Number of comments",
+      "example": 29200
+    },
+    "attributedTo": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "ActivityStreams object type",
+              "example": "Person"
+            },
+            "id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Profile URL",
+              "example": "https://www.instagram.com/khaby00/"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Profile URL",
+              "example": "https://www.instagram.com/khaby00/"
+            },
+            "entityId": {
+              "type": "string",
+              "description": "Platform-specific entity ID",
+              "example": "779085683"
+            },
+            "preferredUsername": {
+              "type": "string",
+              "description": "Username or handle",
+              "example": "khaby00"
+            },
+            "name": {
+              "type": "string",
+              "description": "Display name",
+              "example": "Khabane Lame"
+            },
+            "icon": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/InstagramImage"
+                },
+                {
+                  "description": "Author avatar"
+                }
+              ]
+            },
+            "role": {
+              "type": "string",
+              "description": "Role label (e.g. collaborator)",
+              "example": "collaborator"
+            }
+          },
+          "required": [
+            "type",
+            "id",
+            "url",
+            "entityId",
+            "preferredUsername"
+          ],
+          "description": "Compact user profile for embedded contexts"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "ActivityStreams object type",
+                "example": "Person"
+              },
+              "id": {
+                "type": "string",
+                "format": "uri",
+                "description": "Profile URL",
+                "example": "https://www.instagram.com/khaby00/"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Profile URL",
+                "example": "https://www.instagram.com/khaby00/"
+              },
+              "entityId": {
+                "type": "string",
+                "description": "Platform-specific entity ID",
+                "example": "779085683"
+              },
+              "preferredUsername": {
+                "type": "string",
+                "description": "Username or handle",
+                "example": "khaby00"
+              },
+              "name": {
+                "type": "string",
+                "description": "Display name",
+                "example": "Khabane Lame"
+              },
+              "icon": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/InstagramImage"
+                  },
+                  {
+                    "description": "Author avatar"
+                  }
+                ]
+              },
+              "role": {
+                "type": "string",
+                "description": "Role label (e.g. collaborator)",
+                "example": "collaborator"
+              }
+            },
+            "required": [
+              "type",
+              "id",
+              "url",
+              "entityId",
+              "preferredUsername"
+            ],
+            "description": "Compact user profile for embedded contexts"
+          }
+        }
+      ],
+      "description": "Post author or collaborators"
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "ActivityStreams object type",
+          "example": "Place"
+        },
+        "id": {
+          "type": "string",
+          "description": "Location ID",
+          "example": "213385402"
+        },
+        "name": {
+          "type": "string",
+          "description": "Location name or country code",
+          "example": "Los Angeles, California"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Location page URL",
+          "example": "https://www.instagram.com/explore/locations/213385402/"
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Geographic latitude",
+          "example": 34.0522
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Geographic longitude",
+          "example": -118.2437
+        }
+      },
+      "required": [
+        "type",
+        "name"
+      ],
+      "description": "Geographic location"
+    },
+    "tag": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "ActivityStreams object type",
+            "example": "Tag"
+          },
+          "name": {
+            "type": "string",
+            "description": "Tag name",
+            "example": "learnfromkhaby"
+          },
+          "href": {
+            "type": "string",
+            "format": "uri",
+            "description": "Tag URL",
+            "example": "https://www.instagram.com/explore/tags/learnfromkhaby/"
+          }
+        },
+        "required": [
+          "type",
+          "name",
+          "href"
+        ],
+        "description": "Hashtag or user mention"
+      },
+      "description": "Tagged users or hashtags"
+    },
+    "language": {
+      "type": "string",
+      "description": "Content language (BCP47 code)",
+      "example": "en"
+    },
+    "isEdited": {
+      "type": "boolean",
+      "description": "Whether the caption has been edited",
+      "example": false
+    },
+    "isSponsored": {
+      "type": "boolean",
+      "description": "Whether post is a paid partnership",
+      "example": false
+    },
+    "viewCount": {
+      "type": "integer",
+      "description": "Number of views",
+      "example": 42600000
+    },
+    "duration": {
+      "type": "number",
+      "description": "Duration in seconds",
+      "example": 23
+    },
+    "contentFormat": {
+      "type": "string",
+      "description": "Content format (e.g. photo, video, carousel)",
+      "example": "reel"
+    },
+    "attachment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "ActivityStreams object type",
+            "example": "Video"
+          },
+          "url": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "Media download URLs",
+            "example": [
+              "https://scontent.cdninstagram.com/v/t50.2886-16/video.mp4"
+            ]
+          },
+          "mediaType": {
+            "type": "string",
+            "description": "MIME type",
+            "example": "video/mp4"
+          },
+          "width": {
+            "type": "integer",
+            "description": "Width in pixels",
+            "example": 576
+          },
+          "height": {
+            "type": "integer",
+            "description": "Height in pixels",
+            "example": 1024
+          }
+        },
+        "required": [
+          "type",
+          "url"
+        ],
+        "description": "Media file attachment"
+      },
+      "description": "Media files"
+    },
+    "image": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "ActivityStreams object type",
+              "example": "Image"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Image URL",
+              "example": "https://scontent.cdninstagram.com/v/t51.2885-19/avatar.jpg"
+            }
+          },
+          "required": [
+            "type",
+            "url"
+          ],
+          "description": "Image resource"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "width": {
+              "type": "integer",
+              "description": "Width in pixels",
+              "example": 1080
+            },
+            "height": {
+              "type": "integer",
+              "description": "Height in pixels",
+              "example": 1920
+            }
+          }
+        }
+      ],
+      "description": "Image resource with optional dimensions"
+    },
+    "audio": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "ActivityStreams object type",
+          "example": "Audio"
+        },
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "description": "Audio permalink",
+          "example": "https://www.instagram.com/reels/audio/293394603591002/"
+        },
+        "entityId": {
+          "type": "string",
+          "description": "Platform-specific audio ID",
+          "example": "293394603591002"
+        },
+        "name": {
+          "type": "string",
+          "description": "Track name",
+          "example": "Original audio"
+        },
+        "artist": {
+          "type": "string",
+          "description": "Artist name",
+          "example": "khaby00"
+        },
+        "isOriginal": {
+          "type": "boolean",
+          "description": "Whether audio is user-created vs a licensed track",
+          "example": true
+        },
+        "duration": {
+          "type": "number",
+          "description": "Duration in seconds",
+          "example": 85.216
+        }
+      },
+      "required": [
+        "type",
+        "entityId",
+        "name",
+        "artist",
+        "isOriginal"
+      ],
+      "description": "Audio track metadata"
+    },
+    "name": {
+      "type": "string",
+      "description": "Alt text or accessibility caption",
+      "example": "Photo of Khabane Lame"
+    },
+    "totalItems": {
+      "type": "integer",
+      "description": "Number of carousel items",
+      "example": 5
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "ActivityStreams object type",
+            "example": "Image"
+          },
+          "entityId": {
+            "type": "string",
+            "description": "Instagram internal media ID",
+            "example": "3214260996432123574"
+          },
+          "image": {
+            "allOf": [
+              {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/InstagramImage"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "width": {
+                        "type": "integer",
+                        "description": "Width in pixels",
+                        "example": 1080
+                      },
+                      "height": {
+                        "type": "integer",
+                        "description": "Height in pixels",
+                        "example": 1920
+                      }
+                    }
+                  }
+                ],
+                "description": "Image resource with optional dimensions"
+              },
+              {
+                "description": "Item thumbnail"
+              }
+            ]
+          },
+          "attachment": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "ActivityStreams object type",
+                  "example": "Video"
+                },
+                "url": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "description": "Media download URLs",
+                  "example": [
+                    "https://scontent.cdninstagram.com/v/t50.2886-16/video.mp4"
+                  ]
+                },
+                "mediaType": {
+                  "type": "string",
+                  "description": "MIME type",
+                  "example": "video/mp4"
+                },
+                "width": {
+                  "type": "integer",
+                  "description": "Width in pixels",
+                  "example": 576
+                },
+                "height": {
+                  "type": "integer",
+                  "description": "Height in pixels",
+                  "example": 1024
+                }
+              },
+              "required": [
+                "type",
+                "url"
+              ],
+              "description": "Media file attachment"
+            },
+            "description": "Media files"
+          },
+          "name": {
+            "type": "string",
+            "description": "Alt text",
+            "example": "Photo of Khabane Lame"
+          }
+        },
+        "required": [
+          "type",
+          "entityId"
+        ],
+        "description": "Individual slide in a carousel post"
+      },
+      "description": "Carousel slides"
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "url",
+    "entityId"
+  ],
+  "description": "Instagram post (photo, video, or carousel)"
+}

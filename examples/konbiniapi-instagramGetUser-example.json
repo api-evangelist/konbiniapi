@@ -1,0 +1,69 @@
+{
+  "operationId": "instagramGetUser",
+  "summary": "Get User Profile",
+  "request": {
+    "method": "GET",
+    "url": "https://api.konbiniapi.com/v1/instagram/users/khaby00",
+    "headers": {
+      "Authorization": "Bearer knbn_your_api_key",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Credits-Remaining": 24999,
+      "X-Credits-Used": 1
+    },
+    "body": {
+      "data": {
+        "@context": [
+          "https://www.w3.org/ns/activitystreams#",
+          "https://konbiniapi.com/ns/social#"
+        ],
+        "type": "Person",
+        "id": "https://www.instagram.com/khaby00/",
+        "url": "https://www.instagram.com/khaby00/",
+        "entityId": "779085683",
+        "name": "Khabane Lame",
+        "preferredUsername": "khaby00",
+        "summary": "Just a guy who reacts",
+        "attachment": [
+          {
+            "type": "Link",
+            "href": "https://linktr.ee/khabylame",
+            "rel": "preferred"
+          }
+        ],
+        "isPrivate": false,
+        "isVerified": true,
+        "isPaidVerified": false,
+        "isBusiness": false,
+        "isProfessional": true,
+        "category": "Public figure",
+        "pronouns": [
+          "he/him"
+        ],
+        "hasVideos": true,
+        "hasChannel": false,
+        "hasMicroblog": true,
+        "followerCount": 77560380,
+        "followingCount": 1004,
+        "mediaCount": 626,
+        "videoCount": 120,
+        "highlightCount": 10,
+        "icon": {
+          "type": "Image",
+          "url": "https://scontent.cdninstagram.com/v/t51.2885-19/avatar.jpg"
+        },
+        "image": [
+          {
+            "type": "Image",
+            "url": "https://scontent.cdninstagram.com/v/t51.2885-19/avatar.jpg"
+          }
+        ]
+      }
+    }
+  }
+}

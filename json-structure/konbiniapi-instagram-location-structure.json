@@ -1,0 +1,59 @@
+{
+  "name": "InstagramLocation",
+  "description": "Geographic location",
+  "as_type": "See ActivityStreams 2.0",
+  "required_fields": [
+    "name",
+    "type"
+  ],
+  "fields": [
+    {
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "description": "ActivityStreams object type",
+      "example": "Place",
+      "format": null
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": false,
+      "description": "Location ID",
+      "example": "213385402",
+      "format": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "description": "Location name or country code",
+      "example": "Los Angeles, California",
+      "format": null
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "required": false,
+      "description": "Location page URL",
+      "example": "https://www.instagram.com/explore/locations/213385402/",
+      "format": "uri"
+    },
+    {
+      "name": "latitude",
+      "type": "number",
+      "required": false,
+      "description": "Geographic latitude",
+      "example": 34.0522,
+      "format": null
+    },
+    {
+      "name": "longitude",
+      "type": "number",
+      "required": false,
+      "description": "Geographic longitude",
+      "example": -118.2437,
+      "format": null
+    }
+  ]
+}
