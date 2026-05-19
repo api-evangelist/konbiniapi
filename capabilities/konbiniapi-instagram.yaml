@@ -1,0 +1,536 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: KonbiniAPI — Instagram
+  description: 'KonbiniAPI — Instagram. 10 operations. Lead operation: Get Highlight Stories. Self-contained Naftiko capability
+    covering one Konbiniapi business surface.'
+  tags:
+  - Konbiniapi
+  - Instagram
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    KONBINIAPI_API_KEY: KONBINIAPI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: konbiniapi-instagram
+    baseUri: https://api.konbiniapi.com
+    description: KonbiniAPI — Instagram business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-instagram-highlights-highlightId
+      path: /v1/instagram/highlights/{highlightId}
+      operations:
+      - name: instagramgethighlightstories
+        method: GET
+        description: Get Highlight Stories
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: highlightId
+          in: path
+          type: string
+          description: Instagram highlight ID
+          required: true
+    - name: v1-instagram-locations-locationId
+      path: /v1/instagram/locations/{locationId}
+      operations:
+      - name: instagramgetlocationposts
+        method: GET
+        description: Get Posts by Location
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: locationId
+          in: path
+          type: string
+          description: Instagram/Facebook location ID (numeric)
+          required: true
+        - name: count
+          in: query
+          type: integer
+          description: Page size (fixed at 21 by the platform)
+        - name: cursor
+          in: query
+          type: string
+          description: Pagination cursor
+    - name: v1-instagram-posts-postId
+      path: /v1/instagram/posts/{postId}
+      operations:
+      - name: instagramgetpost
+        method: GET
+        description: Get Post Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: postId
+          in: path
+          type: string
+          description: Post shortcode (from instagram.com/p/{shortcode}/)
+          required: true
+    - name: v1-instagram-posts-postId-comments
+      path: /v1/instagram/posts/{postId}/comments
+      operations:
+      - name: instagramgetpostcomments
+        method: GET
+        description: Get Post Comments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: postId
+          in: path
+          type: string
+          description: Post shortcode (from instagram.com/p/{shortcode}/)
+          required: true
+        - name: count
+          in: query
+          type: integer
+          description: Page size (fixed at 15 by the platform)
+        - name: cursor
+          in: query
+          type: string
+          description: Pagination cursor
+    - name: v1-instagram-search
+      path: /v1/instagram/search
+      operations:
+      - name: instagramsearchmedia
+        method: GET
+        description: Search Media
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          description: Search query
+          required: true
+        - name: count
+          in: query
+          type: integer
+          description: 'Number of results to fetch (maximum: 24)'
+        - name: cursor
+          in: query
+          type: string
+          description: Pagination cursor
+    - name: v1-instagram-users-username
+      path: /v1/instagram/users/{username}
+      operations:
+      - name: instagramgetuser
+        method: GET
+        description: Get User Profile
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: username
+          in: path
+          type: string
+          description: Instagram username (with or without @ symbol)
+          required: true
+    - name: v1-instagram-users-username-highlights
+      path: /v1/instagram/users/{username}/highlights
+      operations:
+      - name: instagramgetuserhighlights
+        method: GET
+        description: Get User Story Highlights
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: username
+          in: path
+          type: string
+          description: Instagram username (with or without @ symbol)
+          required: true
+        - name: cursor
+          in: query
+          type: string
+          description: Pagination cursor
+    - name: v1-instagram-users-username-posts
+      path: /v1/instagram/users/{username}/posts
+      operations:
+      - name: instagramgetuserposts
+        method: GET
+        description: Get User Posts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: username
+          in: path
+          type: string
+          description: Instagram username (with or without @ symbol)
+          required: true
+        - name: count
+          in: query
+          type: integer
+          description: 'Number of posts to fetch (maximum: 12)'
+        - name: cursor
+          in: query
+          type: string
+          description: Pagination cursor
+    - name: v1-instagram-users-username-reels
+      path: /v1/instagram/users/{username}/reels
+      operations:
+      - name: instagramgetuserreels
+        method: GET
+        description: Get User Reels
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: username
+          in: path
+          type: string
+          description: Instagram username (with or without @ symbol)
+          required: true
+        - name: count
+          in: query
+          type: integer
+          description: 'Number of reels to fetch (maximum: 12)'
+        - name: cursor
+          in: query
+          type: string
+          description: Pagination cursor
+    - name: v1-instagram-users-username-tagged
+      path: /v1/instagram/users/{username}/tagged
+      operations:
+      - name: instagramgetusertagged
+        method: GET
+        description: Get User Tagged Posts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: username
+          in: path
+          type: string
+          description: Instagram username (with or without @ symbol)
+          required: true
+        - name: count
+          in: query
+          type: integer
+          description: 'Number of posts to fetch (maximum: 12)'
+        - name: cursor
+          in: query
+          type: string
+          description: Pagination cursor
+    authentication:
+      type: bearer
+      token: '{{env.KONBINIAPI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: konbiniapi-instagram-rest
+    port: 8080
+    description: REST adapter for KonbiniAPI — Instagram. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/instagram/highlights/{highlightid}
+      name: v1-instagram-highlights-highlightid
+      description: REST surface for v1-instagram-highlights-highlightId.
+      operations:
+      - method: GET
+        name: instagramgethighlightstories
+        description: Get Highlight Stories
+        call: konbiniapi-instagram.instagramgethighlightstories
+        with:
+          highlightId: rest.highlightId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/instagram/locations/{locationid}
+      name: v1-instagram-locations-locationid
+      description: REST surface for v1-instagram-locations-locationId.
+      operations:
+      - method: GET
+        name: instagramgetlocationposts
+        description: Get Posts by Location
+        call: konbiniapi-instagram.instagramgetlocationposts
+        with:
+          locationId: rest.locationId
+          count: rest.count
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/instagram/posts/{postid}
+      name: v1-instagram-posts-postid
+      description: REST surface for v1-instagram-posts-postId.
+      operations:
+      - method: GET
+        name: instagramgetpost
+        description: Get Post Details
+        call: konbiniapi-instagram.instagramgetpost
+        with:
+          postId: rest.postId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/instagram/posts/{postid}/comments
+      name: v1-instagram-posts-postid-comments
+      description: REST surface for v1-instagram-posts-postId-comments.
+      operations:
+      - method: GET
+        name: instagramgetpostcomments
+        description: Get Post Comments
+        call: konbiniapi-instagram.instagramgetpostcomments
+        with:
+          postId: rest.postId
+          count: rest.count
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/instagram/search
+      name: v1-instagram-search
+      description: REST surface for v1-instagram-search.
+      operations:
+      - method: GET
+        name: instagramsearchmedia
+        description: Search Media
+        call: konbiniapi-instagram.instagramsearchmedia
+        with:
+          query: rest.query
+          count: rest.count
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/instagram/users/{username}
+      name: v1-instagram-users-username
+      description: REST surface for v1-instagram-users-username.
+      operations:
+      - method: GET
+        name: instagramgetuser
+        description: Get User Profile
+        call: konbiniapi-instagram.instagramgetuser
+        with:
+          username: rest.username
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/instagram/users/{username}/highlights
+      name: v1-instagram-users-username-highlights
+      description: REST surface for v1-instagram-users-username-highlights.
+      operations:
+      - method: GET
+        name: instagramgetuserhighlights
+        description: Get User Story Highlights
+        call: konbiniapi-instagram.instagramgetuserhighlights
+        with:
+          username: rest.username
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/instagram/users/{username}/posts
+      name: v1-instagram-users-username-posts
+      description: REST surface for v1-instagram-users-username-posts.
+      operations:
+      - method: GET
+        name: instagramgetuserposts
+        description: Get User Posts
+        call: konbiniapi-instagram.instagramgetuserposts
+        with:
+          username: rest.username
+          count: rest.count
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/instagram/users/{username}/reels
+      name: v1-instagram-users-username-reels
+      description: REST surface for v1-instagram-users-username-reels.
+      operations:
+      - method: GET
+        name: instagramgetuserreels
+        description: Get User Reels
+        call: konbiniapi-instagram.instagramgetuserreels
+        with:
+          username: rest.username
+          count: rest.count
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/instagram/users/{username}/tagged
+      name: v1-instagram-users-username-tagged
+      description: REST surface for v1-instagram-users-username-tagged.
+      operations:
+      - method: GET
+        name: instagramgetusertagged
+        description: Get User Tagged Posts
+        call: konbiniapi-instagram.instagramgetusertagged
+        with:
+          username: rest.username
+          count: rest.count
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: konbiniapi-instagram-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for KonbiniAPI — Instagram. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-highlight-stories
+      description: Get Highlight Stories
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: konbiniapi-instagram.instagramgethighlightstories
+      with:
+        highlightId: tools.highlightId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-posts-location
+      description: Get Posts by Location
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: konbiniapi-instagram.instagramgetlocationposts
+      with:
+        locationId: tools.locationId
+        count: tools.count
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-post-details
+      description: Get Post Details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: konbiniapi-instagram.instagramgetpost
+      with:
+        postId: tools.postId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-post-comments
+      description: Get Post Comments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: konbiniapi-instagram.instagramgetpostcomments
+      with:
+        postId: tools.postId
+        count: tools.count
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: search-media
+      description: Search Media
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: konbiniapi-instagram.instagramsearchmedia
+      with:
+        query: tools.query
+        count: tools.count
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-user-profile
+      description: Get User Profile
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: konbiniapi-instagram.instagramgetuser
+      with:
+        username: tools.username
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-user-story-highlights
+      description: Get User Story Highlights
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: konbiniapi-instagram.instagramgetuserhighlights
+      with:
+        username: tools.username
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-user-posts
+      description: Get User Posts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: konbiniapi-instagram.instagramgetuserposts
+      with:
+        username: tools.username
+        count: tools.count
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-user-reels
+      description: Get User Reels
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: konbiniapi-instagram.instagramgetuserreels
+      with:
+        username: tools.username
+        count: tools.count
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-user-tagged-posts
+      description: Get User Tagged Posts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: konbiniapi-instagram.instagramgetusertagged
+      with:
+        username: tools.username
+        count: tools.count
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
