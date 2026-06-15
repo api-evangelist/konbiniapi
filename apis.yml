@@ -3,109 +3,106 @@ url: https://raw.githubusercontent.com/api-evangelist/konbiniapi/refs/heads/main
 name: KonbiniAPI
 type: Index
 image: https://konbiniapi.com/konbini-logo.svg
-description: KonbiniAPI is the social data layer for Instagram and TikTok, normalizing real-time public profile, post, video,
-  comment, audio, location, and search data into a consistent ActivityStreams 2.0 (W3C) format. The service exposes one Bearer-authenticated
-  REST API and an MCP (Model Context Protocol) interface so developers, AI agents, and automation platforms can fetch normalized
-  social data without managing platform-specific JSON quirks, TLS fingerprinting, sessions, or pagination internals.
+description: >-
+  KonbiniAPI is the social data layer for Instagram and TikTok, normalizing real-time public profile, post, video,
+  comment, audio, location, and search data into a consistent ActivityStreams 2.0 (W3C) format. The service exposes one
+  Bearer-authenticated REST API and an MCP (Model Context Protocol) interface so developers, AI agents, and automation
+  platforms can fetch normalized social data without managing platform-specific JSON quirks, TLS fingerprinting,
+  sessions, or pagination internals.
 created: '2026-05-06'
 modified: '2026-05-19'
 specificationVersion: '0.20'
 tags:
-- API
-- Social Media
-- Instagram
-- TikTok
-- ActivityStreams 2.0
-- Scraping
-- Data Extraction
-- Public Data
-- Influencer Marketing
-- Social Listening
-- Creator Tools
-- MCP
-- Model Context Protocol
-url-source: https://konbiniapi.com/
-apis:
-- aid: konbiniapi:main
-  name: KonbiniAPI Main Spec
-  description: Unified Instagram and TikTok REST API (30 endpoints) returning normalized ActivityStreams 2.0 JSON. Covers
-    user profiles, posts, reels, videos, stories, highlights, comments, replies, transcripts, audios, hashtags/tags, collections,
-    locations, live streams, and cross-platform search. Every authenticated response includes X-Credits-Remaining and X-Credits-Used
-    headers, and failed requests are auto-refunded.
-  image: https://konbiniapi.com/konbini-logo.svg
-  humanURL: https://docs.konbiniapi.com
-  baseURL: https://api.konbiniapi.com/v1
-  version: v1
-  tags:
+  - API
   - Social Media
   - Instagram
   - TikTok
   - ActivityStreams 2.0
-  - Unified
+  - Scraping
+  - Data Extraction
   - Public Data
-  properties:
+  - Influencer Marketing
+  - Social Listening
+  - Creator Tools
+  - MCP
+  - Model Context Protocol
+url-source: https://konbiniapi.com/
+apis:
+  - aid: konbiniapi:main
+    name: KonbiniAPI Main Spec
+    description: >-
+      Unified Instagram and TikTok REST API (30 endpoints) returning normalized ActivityStreams 2.0 JSON. Covers user
+      profiles, posts, reels, videos, stories, highlights, comments, replies, transcripts, audios, hashtags/tags,
+      collections, locations, live streams, and cross-platform search. Every authenticated response includes
+      X-Credits-Remaining and X-Credits-Used headers, and failed requests are auto-refunded.
+    image: https://konbiniapi.com/konbini-logo.svg
+    humanURL: https://docs.konbiniapi.com
+    baseURL: https://api.konbiniapi.com/v1
+    version: v1
+    tags:
+      - Social Media
+      - Instagram
+      - TikTok
+      - ActivityStreams 2.0
+      - Unified
+      - Public Data
+    properties:
+      - type: Documentation
+        url: https://docs.konbiniapi.com
+      - type: OpenAPI
+        url: https://docs.konbiniapi.com/openapi.json
+      - x-local-path: openapi/konbiniapi-openapi.yml
+        type: OpenAPI
+      - type: PostmanWorkspace
+        url: https://www.postman.com/konbiniapi
+      - type: OpenAIPluginManifest
+        url: https://konbiniapi.com/.well-known/ai-plugin.json
+      - type: X-llms-txt
+        url: https://konbiniapi.com/llms.txt
+      - type: X-llms-full-txt
+        url: https://konbiniapi.com/llms-full.txt
+      - type: X-mcp
+        url: https://docs.konbiniapi.com/getting-started/mcp
+      - type: JSONSchema
+        x-local-path: json-schema/
+      - type: JSONStructure
+        x-local-path: json-structure/
+      - type: JSONLD
+        x-local-path: json-ld/konbiniapi-context.jsonld
+      - type: SpectralRules
+        x-local-path: rules/konbiniapi-rules.yml
+      - type: Vocabulary
+        x-local-path: vocabulary/konbiniapi-vocabulary.yml
+      - type: Plans
+        x-local-path: plans/konbiniapi-plans-pricing.yml
+      - type: RateLimits
+        x-local-path: rate-limits/konbiniapi-rate-limits.yml
+      - type: FinOps
+        x-local-path: finops/konbiniapi-finops.yml
+    contact:
+      - FN: KonbiniAPI Support
+        email: hello@konbiniapi.com
+common:
+  - type: Authentication
+    url: https://docs.konbiniapi.com/getting-started/authentication
+  - type: GettingStarted
+    url: https://docs.konbiniapi.com/getting-started/quickstart
   - type: Documentation
     url: https://docs.konbiniapi.com
-  - type: OpenAPI
-    url: https://docs.konbiniapi.com/openapi.json
-  - x-local-path: openapi/konbiniapi-openapi.yml
-    type: OpenAPI
-  - type: PostmanWorkspace
-    url: https://www.postman.com/konbiniapi
-  - type: OpenAIPluginManifest
-    url: https://konbiniapi.com/.well-known/ai-plugin.json
-  - type: X-llms-txt
-    url: https://konbiniapi.com/llms.txt
-  - type: X-llms-full-txt
-    url: https://konbiniapi.com/llms-full.txt
-  - type: X-mcp
-    url: https://docs.konbiniapi.com/getting-started/mcp
-  - type: JSONSchema
-    x-local-path: json-schema/
-  - type: JSONStructure
-    x-local-path: json-structure/
-  - type: JSONLD
-    x-local-path: json-ld/konbiniapi-context.jsonld
-  - type: SpectralRules
-    x-local-path: rules/konbiniapi-rules.yml
-  - type: NaftikoCapabilities
-    x-local-path: capabilities/
-  - type: Vocabulary
-    x-local-path: vocabulary/konbiniapi-vocabulary.yml
-  - type: Plans
-    x-local-path: plans/konbiniapi-plans-pricing.yml
-  - type: RateLimits
-    x-local-path: rate-limits/konbiniapi-rate-limits.yml
-  - type: FinOps
-    x-local-path: finops/konbiniapi-finops.yml
-  - type: NaftikoCapability
-    url: capabilities/konbiniapi-instagram.yaml
-  - type: NaftikoCapability
-    url: capabilities/konbiniapi-tiktok.yaml
-  contact:
-  - FN: KonbiniAPI Support
-    email: hello@konbiniapi.com
-common:
-- type: Authentication
-  url: https://docs.konbiniapi.com/getting-started/authentication
-- type: GettingStarted
-  url: https://docs.konbiniapi.com/getting-started/quickstart
-- type: Documentation
-  url: https://docs.konbiniapi.com
-- type: SignUp
-  url: https://app.konbiniapi.com
-- type: Pricing
-  url: https://konbiniapi.com/pricing
-- type: TermsOfService
-  url: https://konbiniapi.com/terms
-- type: PrivacyPolicy
-  url: https://konbiniapi.com/privacy
-- type: GitHubOrg
-  url: https://github.com/konbiniapi
-- type: Contact
-  url: mailto:hello@konbiniapi.com
+  - type: SignUp
+    url: https://app.konbiniapi.com
+  - type: Pricing
+    url: https://konbiniapi.com/pricing
+  - type: TermsOfService
+    url: https://konbiniapi.com/terms
+  - type: PrivacyPolicy
+    url: https://konbiniapi.com/privacy
+  - type: GitHubOrg
+    url: https://github.com/konbiniapi
+  - type: Contact
+    url: mailto:hello@konbiniapi.com
 maintainers:
-- FN: KonbiniAPI Team
-  email: hello@konbiniapi.com
-  X-twitter: konbiniapi
-  x-github: konbiniapi
+  - FN: KonbiniAPI Team
+    email: hello@konbiniapi.com
+    X-twitter: konbiniapi
+    x-github: konbiniapi

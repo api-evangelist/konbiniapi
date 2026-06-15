@@ -1,0 +1,908 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "KonbiniAPI",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "TikTok",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get User Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/users/:username",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "TikTok username (with or without @ symbol)"
+              }
+            ]
+          },
+          "docs": "Returns profile information for a TikTok user including bio, follower counts, verification status, and profile picture. Look up any public TikTok account by username."
+        },
+        {
+          "info": {
+            "name": "Get User Videos",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/users/:username/videos",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "TikTok username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of videos to fetch (maximum: 35)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order: newest (default), popular, or oldest"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of videos from a user's profile. Supports sorting by newest, popular, or oldest. Maximum 35 videos per page."
+        },
+        {
+          "info": {
+            "name": "Get User Liked Videos",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/users/:username/likes",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "TikTok username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of videos to fetch (maximum: 35)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of videos liked by a TikTok user. Note: Users may have their likes set to private, in which case an empty list will be returned."
+        },
+        {
+          "info": {
+            "name": "Get User Reposts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/users/:username/reposts",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "TikTok username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of videos to fetch (maximum: 30)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order: newest (default), popular, or oldest"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of videos reposted by a TikTok user. Note: Users may have their reposts set to private, in which case an empty list will be returned."
+        },
+        {
+          "info": {
+            "name": "Get User Collections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/users/:username/collections",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "TikTok username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of collections to fetch (maximum: 30)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of video collections (playlists and mixes) on a TikTok user's profile. Includes collection name, cover image, and video count."
+        },
+        {
+          "info": {
+            "name": "Get User Stories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/users/:username/stories",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "TikTok username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of stories to fetch (maximum: 35)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of active stories for a TikTok user. Stories expire after 24 hours and include both images and videos with engagement data."
+        },
+        {
+          "info": {
+            "name": "Get User Following List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/users/:username/following",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "TikTok username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of users to fetch (maximum: 30)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of accounts a TikTok user follows. Maximum 30 per page. Includes profile details for each followed account."
+        },
+        {
+          "info": {
+            "name": "Get User Followers List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/users/:username/followers",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "TikTok username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of users to fetch (maximum: 30)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of accounts following a TikTok user. Maximum 30 per page. Includes profile details for each follower account."
+        },
+        {
+          "info": {
+            "name": "Get User Live Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/users/:username/live",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "TikTok username (with or without @ symbol)"
+              }
+            ]
+          },
+          "docs": "Returns the current live stream for a user, including stream URLs and viewer count. Returns 404 if the user is not currently live."
+        },
+        {
+          "info": {
+            "name": "Get Video Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/videos/:videoId",
+            "params": [
+              {
+                "name": "videoId",
+                "value": "",
+                "type": "path",
+                "description": "TikTok video ID"
+              }
+            ]
+          },
+          "docs": "Returns details for a single TikTok video including engagement counts, media files in multiple qualities, audio track, author info, and hashtags."
+        },
+        {
+          "info": {
+            "name": "Get Video Comments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/videos/:videoId/comments",
+            "params": [
+              {
+                "name": "videoId",
+                "value": "",
+                "type": "path",
+                "description": "TikTok video ID"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of comments to fetch (maximum: 50)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of top-level comments on a video. Maximum 50 per page. Use the replies endpoint to fetch threaded replies."
+        },
+        {
+          "info": {
+            "name": "Get Comment Replies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/videos/:videoId/comments/:commentId/replies",
+            "params": [
+              {
+                "name": "videoId",
+                "value": "",
+                "type": "path",
+                "description": "TikTok video ID"
+              },
+              {
+                "name": "commentId",
+                "value": "",
+                "type": "path",
+                "description": "TikTok comment ID"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of replies to fetch (maximum: 50)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of replies to a TikTok comment. Maximum 50 per page. Includes author info, like counts, and reply timestamps."
+        },
+        {
+          "info": {
+            "name": "Get Video Transcript",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/videos/:videoId/transcripts/:language",
+            "params": [
+              {
+                "name": "videoId",
+                "value": "",
+                "type": "path",
+                "description": "TikTok video ID"
+              },
+              {
+                "name": "language",
+                "value": "",
+                "type": "path",
+                "description": "BCP47 language code"
+              }
+            ]
+          },
+          "docs": "Returns the transcript for a video in a specific language. Supports both auto-generated (ASR) and machine-translated subtitles. Returns WebVTT format."
+        },
+        {
+          "info": {
+            "name": "Get Videos with Tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/tags/:tagName",
+            "params": [
+              {
+                "name": "tagName",
+                "value": "",
+                "type": "path",
+                "description": "Tag name"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of videos to fetch (maximum: 30)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns TikTok videos associated with a hashtag or challenge. The tag name is resolved to an internal ID automatically. Includes video details and engagement counts."
+        },
+        {
+          "info": {
+            "name": "Get Collection Videos",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/collections/:collectionId",
+            "params": [
+              {
+                "name": "collectionId",
+                "value": "",
+                "type": "path",
+                "description": "TikTok collection ID (mix ID)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of videos to fetch (maximum: 35)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of videos in a TikTok collection (playlist or mix). Maximum 35 per page. Includes full video details and engagement counts."
+        },
+        {
+          "info": {
+            "name": "Get Audio Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/audios/:audioId",
+            "params": [
+              {
+                "name": "audioId",
+                "value": "",
+                "type": "path",
+                "description": "TikTok audio/music ID"
+              }
+            ]
+          },
+          "docs": "Returns metadata for a TikTok audio track including title, artist, duration, usage count, and cover image. Look up any sound by its audio ID."
+        },
+        {
+          "info": {
+            "name": "Get Videos with Audio",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/audios/:audioId/videos",
+            "params": [
+              {
+                "name": "audioId",
+                "value": "",
+                "type": "path",
+                "description": "TikTok audio/music ID"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of videos to fetch (maximum: 30)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of TikTok videos using a specific audio track. Maximum 30 per page. Discover trending content by sound or music."
+        },
+        {
+          "info": {
+            "name": "Search Content",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/search",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to fetch (maximum: 100, actual results may vary)"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order: relevance (default), most-liked, or date-posted"
+              },
+              {
+                "name": "published",
+                "value": "",
+                "type": "query",
+                "description": "Filter by publish time: all-time (default), yesterday, this-week, this-month, last-3-months, or last-6-months"
+              }
+            ]
+          },
+          "docs": "General search that returns mixed results including videos and user profiles. Supports sorting and publish-time filters."
+        },
+        {
+          "info": {
+            "name": "Search Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/search/users",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Page size (fixed at 10 by the platform)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Searches TikTok for user profiles matching a query. Fixed page size of 10 (platform limit). Returns profile details including follower counts and verification status."
+        },
+        {
+          "info": {
+            "name": "Search Videos",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/tiktok/search/videos",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of videos to fetch (maximum: 100, actual results may vary)"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order: relevance (default), most-liked, or date-posted"
+              },
+              {
+                "name": "published",
+                "value": "",
+                "type": "query",
+                "description": "Filter by publish time: all-time (default), yesterday, this-week, this-month, last-3-months, or last-6-months"
+              }
+            ]
+          },
+          "docs": "Searches TikTok for videos matching a query. Supports filtering by publish time and sorting by relevance, likes, or date."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Instagram",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get User Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/users/:username",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Instagram username (with or without @ symbol)"
+              }
+            ]
+          },
+          "docs": "Returns profile information for an Instagram user including bio, follower counts, profile picture, and account metadata. Look up any public Instagram account by username."
+        },
+        {
+          "info": {
+            "name": "Get User Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/users/:username/posts",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Instagram username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of posts to fetch (maximum: 12)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of posts from an Instagram user's profile feed. Maximum 12 posts per page. Includes photos, videos, carousels, and engagement counts."
+        },
+        {
+          "info": {
+            "name": "Get User Reels",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/users/:username/reels",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Instagram username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of reels to fetch (maximum: 12)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of reels from an Instagram user's profile. Maximum 12 reels per page. Includes video URLs, captions, and engagement counts."
+        },
+        {
+          "info": {
+            "name": "Get User Tagged Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/users/:username/tagged",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Instagram username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of posts to fetch (maximum: 12)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns Instagram posts where the user has been tagged by other accounts. Maximum 12 posts per page. Includes full post details and engagement counts."
+        },
+        {
+          "info": {
+            "name": "Get User Story Highlights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/users/:username/highlights",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Instagram username (with or without @ symbol)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns the list of story highlight reels on a user's profile. Use the highlight endpoint to get individual stories within a highlight."
+        },
+        {
+          "info": {
+            "name": "Get Post Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/posts/:postId",
+            "params": [
+              {
+                "name": "postId",
+                "value": "",
+                "type": "path",
+                "description": "Post shortcode (from instagram.com/p/{shortcode}/)"
+              }
+            ]
+          },
+          "docs": "Returns details for a single post by its shortcode, including media, captions, and engagement counts. Supports photos, videos, and carousels."
+        },
+        {
+          "info": {
+            "name": "Get Post Comments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/posts/:postId/comments",
+            "params": [
+              {
+                "name": "postId",
+                "value": "",
+                "type": "path",
+                "description": "Post shortcode (from instagram.com/p/{shortcode}/)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Page size (fixed at 15 by the platform)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns top-level comments on an Instagram post. Fixed page size of 15 (platform limit). Includes comment text, author info, like counts, and timestamps."
+        },
+        {
+          "info": {
+            "name": "Search Media",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/search",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to fetch (maximum: 24)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Searches Instagram for reels and videos matching a keyword. Maximum 24 results per page. Returns video details including captions and engagement counts."
+        },
+        {
+          "info": {
+            "name": "Get Posts by Location",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/locations/:locationId",
+            "params": [
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "path",
+                "description": "Instagram/Facebook location ID (numeric)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Page size (fixed at 21 by the platform)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns recent posts tagged at a location. Fixed page size of 21 (platform limit). The location ID is a numeric Facebook Places ID."
+        },
+        {
+          "info": {
+            "name": "Get Highlight Stories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/highlights/:highlightId",
+            "params": [
+              {
+                "name": "highlightId",
+                "value": "",
+                "type": "path",
+                "description": "Instagram highlight ID"
+              }
+            ]
+          },
+          "docs": "Returns all story items within a highlight reel, including images and videos. The highlight ID comes from the highlights list endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
