@@ -89,7 +89,7 @@ common:
     url: https://docs.konbiniapi.com/getting-started/quickstart
   - type: Documentation
     url: https://docs.konbiniapi.com
-  - type: SignUp
+  - type: Signup
     url: https://app.konbiniapi.com
   - type: Pricing
     url: https://konbiniapi.com/pricing
