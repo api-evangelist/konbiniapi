@@ -83,6 +83,12 @@ apis:
       - FN: KonbiniAPI Support
         email: hello@konbiniapi.com
 common:
+  - type: VulnerabilityDisclosure
+    url: security/konbiniapi-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/konbiniapi-domain-security.yml
+  - type: Authentication
+    url: authentication/konbiniapi-authentication.yml
   - type: Authentication
     url: https://docs.konbiniapi.com/getting-started/authentication
   - type: GettingStarted

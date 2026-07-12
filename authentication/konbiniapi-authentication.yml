@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/konbiniapi-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: apiKey
+  type: http
+  scheme: bearer
+  description: |-
+    Send your API key in the Authorization header as a Bearer token.
+    Example: `Authorization: Bearer <your-api-key>`
+  sources:
+  - openapi/konbiniapi-openapi.yml

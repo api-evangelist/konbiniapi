@@ -1,0 +1,21 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: docs.konbiniapi.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  5 15:04:00 2026 GMT
+  hsts: true
+  hsts_max_age: 63072000
+- host: api.konbiniapi.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 24 18:47:55 2026 GMT
+  hsts: null
+domains:
+- domain: konbiniapi.com
+  dnssec: true
+  caa: []
+  spf: true
+  dmarc: false
