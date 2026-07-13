@@ -1,0 +1,47 @@
+# konbiniapi — JSON Schema Spectral ruleset (strengthened)
+# Plain Spectral. Rules measured from this provider's own JSON Schema
+# conventions by strengthen_jsonschema.py, then self-validated against them.
+#
+# Provenance:
+#   - schema-declares-$schema: 26/26 roots
+#   - schema-draft-consistency: 2020-12 @ 100%
+#   - schema-has-title: 26/26 roots
+#   - property-name-casing: snake @ 68% (n=654)
+rules:
+  schema-declares-$schema:
+    description: Every JSON Schema document should declare its $schema (draft).
+    severity: warn
+    given: $
+    then:
+      field: $schema
+      function: truthy
+  schema-draft-consistency:
+    description: $schema should reference the 2020-12 draft (this API's convention).
+    severity: warn
+    given: $.$schema
+    then:
+      function: pattern
+      functionOptions:
+        match: 2020\-12
+  schema-has-title:
+    description: JSON Schema documents should declare a title.
+    severity: info
+    given: $
+    then:
+      field: title
+      function: truthy
+  property-name-casing:
+    description: Schema properties should be snake_case (the dominant convention in this API).
+    severity: info
+    given: $..properties
+    then:
+      field: '@key'
+      function: casing
+      functionOptions:
+        type: snake
+  no-empty-descriptions:
+    description: Descriptions must not be empty strings.
+    severity: warn
+    given: $..description
+    then:
+      function: truthy
