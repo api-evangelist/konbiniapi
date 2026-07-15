@@ -1,0 +1,314 @@
+generated: '2026-07-15'
+method: generated
+source: openapi/konbiniapi-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 30
+  by_action_class:
+    connected: 30
+  by_consequence:
+    read: 30
+  human_in_the_loop_required: 0
+operations:
+- path: /v1/tiktok/users/{username}
+  method: get
+  operationId: tiktokGetUser
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/users/{username}/videos
+  method: get
+  operationId: tiktokGetUserVideos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/users/{username}/likes
+  method: get
+  operationId: tiktokGetUserLikes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/users/{username}/reposts
+  method: get
+  operationId: tiktokGetUserReposts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/users/{username}/collections
+  method: get
+  operationId: tiktokGetUserCollections
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/users/{username}/stories
+  method: get
+  operationId: tiktokGetUserStories
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/users/{username}/following
+  method: get
+  operationId: tiktokGetUserFollowing
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/users/{username}/followers
+  method: get
+  operationId: tiktokGetUserFollowers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/users/{username}/live
+  method: get
+  operationId: tiktokGetUserLive
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/videos/{videoId}
+  method: get
+  operationId: tiktokGetVideo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/videos/{videoId}/comments
+  method: get
+  operationId: tiktokGetVideoComments
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/videos/{videoId}/comments/{commentId}/replies
+  method: get
+  operationId: tiktokGetCommentReplies
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/videos/{videoId}/transcripts/{language}
+  method: get
+  operationId: tiktokGetVideoTranscript
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/tags/{tagName}
+  method: get
+  operationId: tiktokGetTagVideos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/collections/{collectionId}
+  method: get
+  operationId: tiktokGetCollectionVideos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/audios/{audioId}
+  method: get
+  operationId: tiktokGetAudio
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/audios/{audioId}/videos
+  method: get
+  operationId: tiktokGetAudioVideos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/search
+  method: get
+  operationId: tiktokSearchContent
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/search/users
+  method: get
+  operationId: tiktokSearchUsers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/tiktok/search/videos
+  method: get
+  operationId: tiktokSearchVideos
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/instagram/users/{username}
+  method: get
+  operationId: instagramGetUser
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/instagram/users/{username}/posts
+  method: get
+  operationId: instagramGetUserPosts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/instagram/users/{username}/reels
+  method: get
+  operationId: instagramGetUserReels
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/instagram/users/{username}/tagged
+  method: get
+  operationId: instagramGetUserTagged
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/instagram/users/{username}/highlights
+  method: get
+  operationId: instagramGetUserHighlights
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/instagram/posts/{postId}
+  method: get
+  operationId: instagramGetPost
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/instagram/posts/{postId}/comments
+  method: get
+  operationId: instagramGetPostComments
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/instagram/search
+  method: get
+  operationId: instagramSearchMedia
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/instagram/locations/{locationId}
+  method: get
+  operationId: instagramGetLocationPosts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/instagram/highlights/{highlightId}
+  method: get
+  operationId: instagramGetHighlightStories
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none

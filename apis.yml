@@ -83,6 +83,8 @@ apis:
       - FN: KonbiniAPI Support
         email: hello@konbiniapi.com
 common:
+  - type: AgenticAccess
+    url: agentic-access/konbiniapi-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/konbiniapi-vulnerability-disclosure.yml
   - type: DomainSecurity
