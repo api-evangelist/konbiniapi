@@ -2,6 +2,19 @@ aid: konbiniapi
 url: https://raw.githubusercontent.com/api-evangelist/konbiniapi/refs/heads/main/apis.yml
 name: KonbiniAPI
 type: Index
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 image: https://konbiniapi.com/konbini-logo.svg
 description: >-
   KonbiniAPI is the social data layer for Instagram and TikTok, normalizing real-time public profile, post, video,
@@ -28,60 +41,82 @@ tags:
   - Model Context Protocol
 url-source: https://konbiniapi.com/
 apis:
-  - aid: konbiniapi:main
-    name: KonbiniAPI Main Spec
-    description: >-
-      Unified Instagram and TikTok REST API (30 endpoints) returning normalized ActivityStreams 2.0 JSON. Covers user
-      profiles, posts, reels, videos, stories, highlights, comments, replies, transcripts, audios, hashtags/tags,
-      collections, locations, live streams, and cross-platform search. Every authenticated response includes
-      X-Credits-Remaining and X-Credits-Used headers, and failed requests are auto-refunded.
-    image: https://konbiniapi.com/konbini-logo.svg
-    humanURL: https://docs.konbiniapi.com
-    baseURL: https://api.konbiniapi.com/v1
-    version: v1
-    tags:
-      - Social Media
-      - Instagram
-      - TikTok
-      - ActivityStreams 2.0
-      - Unified
-      - Public Data
-    properties:
-      - type: Documentation
-        url: https://docs.konbiniapi.com
-      - type: OpenAPI
-        url: https://docs.konbiniapi.com/openapi.json
-      - x-local-path: openapi/konbiniapi-openapi.yml
-        type: OpenAPI
-      - type: PostmanWorkspace
-        url: https://www.postman.com/konbiniapi
-      - type: OpenAIPluginManifest
-        url: https://konbiniapi.com/.well-known/ai-plugin.json
-      - type: X-llms-txt
-        url: https://konbiniapi.com/llms.txt
-      - type: X-llms-full-txt
-        url: https://konbiniapi.com/llms-full.txt
-      - type: X-mcp
-        url: https://docs.konbiniapi.com/getting-started/mcp
-      - type: JSONSchema
-        x-local-path: json-schema/
-      - type: JSONStructure
-        x-local-path: json-structure/
-      - type: JSONLD
-        x-local-path: json-ld/konbiniapi-context.jsonld
-      - type: SpectralRules
-        x-local-path: rules/konbiniapi-rules.yml
-      - type: Vocabulary
-        x-local-path: vocabulary/konbiniapi-vocabulary.yml
-      - type: Plans
-        x-local-path: plans/konbiniapi-plans-pricing.yml
-      - type: RateLimits
-        x-local-path: rate-limits/konbiniapi-rate-limits.yml
-      - type: FinOps
-        x-local-path: finops/konbiniapi-finops.yml
-    contact:
-      - FN: KonbiniAPI Support
-        email: hello@konbiniapi.com
+- aid: konbiniapi:konbiniapi-instagram-api
+  name: KonbiniAPI Instagram API
+  description: Instagram data endpoints
+  humanURL: https://docs.konbiniapi.com
+  baseURL: https://api.konbiniapi.com/v1
+  tags:
+  - Instagram
+  properties:
+  - type: OpenAPI
+    url: openapi/konbiniapi-instagram-api-openapi.yml
+  - type: Documentation
+    url: https://docs.konbiniapi.com
+  - type: PostmanWorkspace
+    url: https://www.postman.com/konbiniapi
+  - type: OpenAIPluginManifest
+    url: https://konbiniapi.com/.well-known/ai-plugin.json
+  - type: X-llms-txt
+    url: https://konbiniapi.com/llms.txt
+  - type: X-llms-full-txt
+    url: https://konbiniapi.com/llms-full.txt
+  - type: X-mcp
+    url: https://docs.konbiniapi.com/getting-started/mcp
+  - type: JSONSchema
+    url: null
+  - type: JSONStructure
+    url: null
+  - type: JSONLD
+    url: null
+  - type: SpectralRules
+    url: null
+  - type: Vocabulary
+    url: null
+  - type: Plans
+    url: null
+  - type: RateLimits
+    url: null
+  - type: FinOps
+    url: null
+- aid: konbiniapi:konbiniapi-tiktok-api
+  name: KonbiniAPI TikTok API
+  description: TikTok data endpoints
+  humanURL: https://docs.konbiniapi.com
+  baseURL: https://api.konbiniapi.com/v1
+  tags:
+  - TikTok
+  properties:
+  - type: OpenAPI
+    url: openapi/konbiniapi-tiktok-api-openapi.yml
+  - type: Documentation
+    url: https://docs.konbiniapi.com
+  - type: PostmanWorkspace
+    url: https://www.postman.com/konbiniapi
+  - type: OpenAIPluginManifest
+    url: https://konbiniapi.com/.well-known/ai-plugin.json
+  - type: X-llms-txt
+    url: https://konbiniapi.com/llms.txt
+  - type: X-llms-full-txt
+    url: https://konbiniapi.com/llms-full.txt
+  - type: X-mcp
+    url: https://docs.konbiniapi.com/getting-started/mcp
+  - type: JSONSchema
+    url: null
+  - type: JSONStructure
+    url: null
+  - type: JSONLD
+    url: null
+  - type: SpectralRules
+    url: null
+  - type: Vocabulary
+    url: null
+  - type: Plans
+    url: null
+  - type: RateLimits
+    url: null
+  - type: FinOps
+    url: null
 common:
   - type: AgenticAccess
     url: agentic-access/konbiniapi-agentic-access.yml
