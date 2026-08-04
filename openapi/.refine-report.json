@@ -1,0 +1,16 @@
+{
+  "provider": "konbiniapi",
+  "sources": [
+    "konbiniapi-instagram-api-openapi.yml",
+    "konbiniapi-tiktok-api-openapi.yml"
+  ],
+  "outputs": [
+    "konbiniapi-instagram-api-openapi.yml",
+    "konbiniapi-tiktok-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
