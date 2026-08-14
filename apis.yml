@@ -3,33 +3,45 @@ url: https://raw.githubusercontent.com/api-evangelist/konbiniapi/refs/heads/main
 name: KonbiniAPI
 type: Index
 accessModel:
-  pricing: paid
+  pricing: freemium
   onboarding: self-serve
-  trial: false
+  trial: true
   try_now: false
   public: false
-  label: Paid · Self-serve signup
+  label: Freemium · Self-serve signup · 100 free credits
   confidence: high
   source:
   - plans
   - authentication
-  generated: '2026-07-22'
-  method: derived
+  - https://konbiniapi.com/pricing
+  generated: '2026-08-13'
+  method: searched
+  note: >-
+    Upgraded from "paid" on 2026-08-13. A Free plan with 100 one-time credits and no credit card
+    shipped in v1.2.0 (May 2026); every plan including Free carries the full endpoint surface, all
+    five platforms, and both the REST API and the MCP server.
 image: https://konbiniapi.com/konbini-logo.svg
 description: >-
-  KonbiniAPI is the social data layer for Instagram and TikTok, normalizing real-time public profile, post, video,
-  comment, audio, location, and search data into a consistent ActivityStreams 2.0 (W3C) format. The service exposes one
-  Bearer-authenticated REST API and an MCP (Model Context Protocol) interface so developers, AI agents, and automation
-  platforms can fetch normalized social data without managing platform-specific JSON quirks, TLS fingerprinting,
-  sessions, or pagination internals.
+  KonbiniAPI is the social data layer for Instagram, TikTok, X, Reddit and LinkedIn, normalizing
+  real-time public profile, post, video, comment, audio, community, subreddit, location and search
+  data into a single consistent ActivityStreams 2.0 (W3C) shape. Sixty-seven endpoints are exposed
+  through one Bearer-authenticated REST API and, one-for-one, through a hosted remote MCP (Model
+  Context Protocol) server at mcp.konbiniapi.com with OAuth 2.1, so developers, AI agents and
+  automation platforms can fetch normalized social data without managing platform-specific JSON
+  quirks, TLS fingerprinting, sessions or pagination internals. Billing is a flat credit model — one
+  successful request costs one credit, failed and upstream-error requests are refunded, and the
+  provider publishes no rate limits at all.
 created: '2026-05-06'
-modified: '2026-05-19'
+modified: '2026-08-13'
 specificationVersion: '0.20'
 tags:
   - API
   - Social Media
   - Instagram
   - TikTok
+  - X
+  - Reddit
+  - LinkedIn
   - ActivityStreams 2.0
   - Scraping
   - Data Extraction
@@ -39,100 +51,226 @@ tags:
   - Creator Tools
   - MCP
   - Model Context Protocol
+  - Agent Skills
+  - Agents
 url-source: https://konbiniapi.com/
 apis:
 - aid: konbiniapi:konbiniapi-instagram-api
   name: KonbiniAPI Instagram API
-  description: Instagram data endpoints
-  humanURL: https://docs.konbiniapi.com
+  description: >-
+    Ten Instagram endpoints covering profiles, posts, reels, tagged media, story highlights, post
+    comments, location feeds and trending media search, normalized to ActivityStreams 2.0.
+  humanURL: https://docs.konbiniapi.com/reference/api/instagram
   baseURL: https://api.konbiniapi.com/v1
   tags:
   - Instagram
   properties:
   - type: OpenAPI
     url: openapi/konbiniapi-instagram-api-openapi.yml
+  - type: Overlay
+    url: overlays/konbiniapi-instagram-overlay.yaml
   - type: Documentation
-    url: https://docs.konbiniapi.com
+    url: https://docs.konbiniapi.com/reference/api/instagram
+  - type: APIReference
+    url: https://docs.konbiniapi.com/reference/api/instagram
+  - type: PostmanCollection
+    url: collections/konbiniapi-instagram-api.postman_collection.json
   - type: PostmanWorkspace
     url: https://www.postman.com/konbiniapi
-  - type: OpenAIPluginManifest
-    url: https://konbiniapi.com/.well-known/ai-plugin.json
-  - type: X-llms-txt
-    url: https://konbiniapi.com/llms.txt
-  - type: X-llms-full-txt
-    url: https://konbiniapi.com/llms-full.txt
-  - type: X-mcp
-    url: https://docs.konbiniapi.com/getting-started/mcp
-  - type: JSONSchema
-    url: null
-  - type: JSONStructure
-    url: null
-  - type: JSONLD
-    url: null
-  - type: SpectralRules
-    url: null
-  - type: Vocabulary
-    url: null
-  - type: Plans
-    url: null
-  - type: RateLimits
-    url: null
-  - type: FinOps
-    url: null
+  - type: OpenCollection
+    url: collections/konbiniapi-instagram-api.opencollection.json
 - aid: konbiniapi:konbiniapi-tiktok-api
   name: KonbiniAPI TikTok API
-  description: TikTok data endpoints
-  humanURL: https://docs.konbiniapi.com
+  description: >-
+    Twenty-one TikTok endpoints covering profiles, videos, likes, reposts, collections, stories,
+    following and follower lists, live streams, comments and replies, WebVTT transcripts, hashtags,
+    audio tracks, header-free video download URLs and search.
+  humanURL: https://docs.konbiniapi.com/reference/api/tiktok
   baseURL: https://api.konbiniapi.com/v1
   tags:
   - TikTok
   properties:
   - type: OpenAPI
     url: openapi/konbiniapi-tiktok-api-openapi.yml
+  - type: Overlay
+    url: overlays/konbiniapi-tiktok-overlay.yaml
   - type: Documentation
-    url: https://docs.konbiniapi.com
+    url: https://docs.konbiniapi.com/reference/api/tiktok
+  - type: APIReference
+    url: https://docs.konbiniapi.com/reference/api/tiktok
+  - type: PostmanCollection
+    url: collections/konbiniapi-tiktok-api.postman_collection.json
   - type: PostmanWorkspace
     url: https://www.postman.com/konbiniapi
-  - type: OpenAIPluginManifest
-    url: https://konbiniapi.com/.well-known/ai-plugin.json
-  - type: X-llms-txt
-    url: https://konbiniapi.com/llms.txt
-  - type: X-llms-full-txt
-    url: https://konbiniapi.com/llms-full.txt
+  - type: OpenCollection
+    url: collections/konbiniapi-tiktok-api.opencollection.json
+- aid: konbiniapi:konbiniapi-x-api
+  name: KonbiniAPI X API
+  description: >-
+    Seven X (Twitter) endpoints covering public profiles, user post timelines, the Highlights tab,
+    single posts, and X Communities including community metadata, posts and media — all as visible to
+    a logged-out viewer. Shipped in v1.2.0 (May 2026), with Communities and timeline pagination added
+    in v1.5.0 (August 2026).
+  humanURL: https://docs.konbiniapi.com/reference/api/x
+  baseURL: https://api.konbiniapi.com/v1
+  tags:
+  - X
+  properties:
+  - type: OpenAPI
+    url: openapi/konbiniapi-x-api-openapi.yml
+  - type: Overlay
+    url: overlays/konbiniapi-x-overlay.yaml
+  - type: Documentation
+    url: https://docs.konbiniapi.com/reference/api/x
+  - type: APIReference
+    url: https://docs.konbiniapi.com/reference/api/x
+  - type: PostmanWorkspace
+    url: https://www.postman.com/konbiniapi
+- aid: konbiniapi:konbiniapi-reddit-api
+  name: KonbiniAPI Reddit API
+  description: >-
+    Twenty-two Reddit endpoints — the provider's deepest surface — covering users, subreddits and
+    their structured rules, posts, comments and reply threads, duplicates and crossposts, site-wide
+    feeds, three search endpoints, and three batch endpoints that fetch up to 100 subreddits, posts
+    or comments per request. Shipped in v1.2.0 (May 2026); batch added in v1.3.0 (June 2026).
+  humanURL: https://docs.konbiniapi.com/reference/api/reddit
+  baseURL: https://api.konbiniapi.com/v1
+  tags:
+  - Reddit
+  properties:
+  - type: OpenAPI
+    url: openapi/konbiniapi-reddit-api-openapi.yml
+  - type: Overlay
+    url: overlays/konbiniapi-reddit-overlay.yaml
+  - type: Documentation
+    url: https://docs.konbiniapi.com/reference/api/reddit
+  - type: APIReference
+    url: https://docs.konbiniapi.com/reference/api/reddit
+  - type: PostmanWorkspace
+    url: https://www.postman.com/konbiniapi
+- aid: konbiniapi:konbiniapi-linkedin-api
+  name: KonbiniAPI LinkedIn API
+  description: >-
+    Seven LinkedIn endpoints covering public member profiles, member posts and published articles,
+    company pages and company posts, single posts with inline comments, and video post transcripts.
+    The newest platform, shipped in v1.5.0 (August 2026). Member and company post endpoints are not
+    paginated — everything available returns in one response.
+  humanURL: https://docs.konbiniapi.com/reference/api/linkedin
+  baseURL: https://api.konbiniapi.com/v1
+  tags:
+  - LinkedIn
+  properties:
+  - type: OpenAPI
+    url: openapi/konbiniapi-linkedin-api-openapi.yml
+  - type: Overlay
+    url: overlays/konbiniapi-linkedin-overlay.yaml
+  - type: Documentation
+    url: https://docs.konbiniapi.com/reference/api/linkedin
+  - type: APIReference
+    url: https://docs.konbiniapi.com/reference/api/linkedin
+  - type: PostmanWorkspace
+    url: https://www.postman.com/konbiniapi
+- aid: konbiniapi:konbiniapi-mcp
+  name: KonbiniAPI MCP Server
+  description: >-
+    Hosted remote MCP server exposing one typed tool for every one of the 67 REST operations, over
+    streamable HTTP with OAuth 2.1 (authorization code + PKCE) or a Bearer API key. Adds three
+    MCP-only projection inputs — projection_preset, data_fields and item_fields — that trim the
+    response payload to cut agent token cost, with no REST equivalent. A tool call costs the same
+    single credit as the equivalent REST call.
+  humanURL: https://docs.konbiniapi.com/reference/mcp/overview
+  baseURL: https://mcp.konbiniapi.com
+  tags:
+  - MCP
+  - Model Context Protocol
+  - Agents
+  properties:
+  - type: MCPServer
+    url: mcp/konbiniapi-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/konbiniapi-tool-crosswalk.yml
+  - type: Documentation
+    url: https://docs.konbiniapi.com/reference/mcp/overview
+  - type: APIReference
+    url: https://docs.konbiniapi.com/reference/mcp/tools/overview
   - type: X-mcp
-    url: https://docs.konbiniapi.com/getting-started/mcp
-  - type: JSONSchema
-    url: null
-  - type: JSONStructure
-    url: null
-  - type: JSONLD
-    url: null
-  - type: SpectralRules
-    url: null
-  - type: Vocabulary
-    url: null
-  - type: Plans
-    url: null
-  - type: RateLimits
-    url: null
-  - type: FinOps
-    url: null
+    url: https://mcp.konbiniapi.com
 common:
-  - type: AgenticAccess
-    url: agentic-access/konbiniapi-agentic-access.yml
+  - type: OpenAPI
+    url: openapi/_original/konbiniapi-openapi.json
+  - type: MCPServer
+    url: mcp/konbiniapi-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/konbiniapi-tool-crosswalk.yml
+  - type: AgentCard
+    url: a2a/konbiniapi-a2a.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: LLMsTxt
+    url: llms/konbiniapi-llms.txt
+  - type: WellKnown
+    url: well-known/konbiniapi-well-known.yml
+  - type: SecurityTxt
+    url: well-known/konbiniapi-security.txt
+  - type: Security
+    url: security/konbiniapi-vulnerability-disclosure.yml
   - type: VulnerabilityDisclosure
     url: security/konbiniapi-vulnerability-disclosure.yml
   - type: DomainSecurity
     url: security/konbiniapi-domain-security.yml
   - type: Authentication
     url: authentication/konbiniapi-authentication.yml
+  - type: OAuthScopes
+    url: scopes/konbiniapi-scopes.yml
+  - type: Conventions
+    url: conventions/konbiniapi-conventions.yml
+  - type: Conformance
+    url: conformance/konbiniapi-conformance.yml
+  - type: ErrorCatalog
+    url: errors/konbiniapi-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/konbiniapi-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/konbiniapi-changelog.yml
+  - type: DataModel
+    url: data-model/konbiniapi-data-model.yml
+  - type: Packages
+    url: packages/konbiniapi-packages.yml
+  - type: Plans
+    url: plans/konbiniapi-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/konbiniapi-rate-limits.yml
+  - type: FinOps
+    url: finops/konbiniapi-finops.yml
+  - type: AgenticAccess
+    url: agentic-access/konbiniapi-agentic-access.yml
+  - type: Vocabulary
+    url: vocabulary/konbiniapi-vocabulary.yml
+  - type: SpectralRules
+    url: rules/konbiniapi-rules.yml
+  - type: JSONLD
+    url: json-ld/konbiniapi-context.jsonld
+  - type: PostmanCollection
+    url: collections/konbiniapi.postman_collection.json
+  - type: OpenCollection
+    url: collections/konbiniapi.opencollection.json
+  - type: APICatalog
+    url: well-known/konbiniapi-api-catalog.json
+  - type: OpenAIPluginManifest
+    url: well-known/konbiniapi-ai-plugin.json
   - type: Authentication
     url: https://docs.konbiniapi.com/getting-started/authentication
-  - type: GettingStarted
-    url: https://docs.konbiniapi.com/getting-started/quickstart
+  - type: DeveloperPortal
+    url: https://docs.konbiniapi.com
   - type: Documentation
     url: https://docs.konbiniapi.com
-  - type: Signup
+  - type: APIReference
+    url: https://docs.konbiniapi.com/reference/api/overview
+  - type: GettingStarted
+    url: https://docs.konbiniapi.com/getting-started/quickstart
+  - type: ChangeLog
+    url: https://docs.konbiniapi.com/changelog
+  - type: SignUp
     url: https://app.konbiniapi.com
   - type: Pricing
     url: https://konbiniapi.com/pricing
@@ -140,8 +278,20 @@ common:
     url: https://konbiniapi.com/terms
   - type: PrivacyPolicy
     url: https://konbiniapi.com/privacy
-  - type: GitHubOrg
+  - type: DPA
+    url: https://konbiniapi.com/dpa
+  - type: GitHubOrganization
     url: https://github.com/konbiniapi
+  - type: PostmanWorkspace
+    url: https://www.postman.com/konbiniapi
+  - type: X-llms-txt
+    url: https://docs.konbiniapi.com/llms.txt
+  - type: X-llms-full-txt
+    url: https://docs.konbiniapi.com/llms-full.txt
+  - type: X-mcp
+    url: https://mcp.konbiniapi.com
+  - type: Support
+    url: mailto:hello@konbiniapi.com
   - type: Contact
     url: mailto:hello@konbiniapi.com
 maintainers:
@@ -149,3 +299,8 @@ maintainers:
     email: hello@konbiniapi.com
     X-twitter: konbiniapi
     x-github: konbiniapi
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 35
+  pass: local-v1
