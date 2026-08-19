@@ -1,0 +1,163 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Konbini LinkedIn API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "LinkedIn",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get user profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/linkedin/users/:username",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "LinkedIn username"
+              }
+            ]
+          },
+          "docs": "Returns profile information for a public LinkedIn member: headline, location, and a simple list of job titles and school/employer names. Fields the member has restricted are omitted."
+        },
+        {
+          "info": {
+            "name": "Get user articles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/linkedin/users/:username/articles",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "LinkedIn username"
+              }
+            ]
+          },
+          "docs": "Returns a public LinkedIn member's published articles. This endpoint is not paginated — everything available is returned in a single response."
+        },
+        {
+          "info": {
+            "name": "Get user posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/linkedin/users/:username/posts",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "LinkedIn username"
+              }
+            ]
+          },
+          "docs": "Returns a public LinkedIn member's recent posts and shares. This endpoint is not paginated — everything available is returned in a single response."
+        },
+        {
+          "info": {
+            "name": "Get company page",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/linkedin/companies/:company",
+            "params": [
+              {
+                "name": "company",
+                "value": "",
+                "type": "path",
+                "description": "Company vanity name"
+              }
+            ]
+          },
+          "docs": "Returns public information for a LinkedIn company page including description, location, employee count, and logo."
+        },
+        {
+          "info": {
+            "name": "Get company posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/linkedin/companies/:company/posts",
+            "params": [
+              {
+                "name": "company",
+                "value": "",
+                "type": "path",
+                "description": "Company vanity name"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns recent posts from a LinkedIn company page, newest first. Use `cursor` to page through further results."
+        },
+        {
+          "info": {
+            "name": "Get post",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/linkedin/posts/:postId",
+            "params": [
+              {
+                "name": "postId",
+                "value": "",
+                "type": "path",
+                "description": "LinkedIn post activity ID: the full slug (from linkedin.com/posts/{id}), a bare `urn:li:activity:{id}` (from linkedin.com/feed/update/{urn}/), or a bare numeric activity ID (e.g. `7476310414297968640`)"
+              }
+            ]
+          },
+          "docs": "Returns a public LinkedIn post including author, engagement counts, and up to ~5 inline comments."
+        },
+        {
+          "info": {
+            "name": "Get post video transcript",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/linkedin/posts/:postId/transcript",
+            "params": [
+              {
+                "name": "postId",
+                "value": "",
+                "type": "path",
+                "description": "LinkedIn post activity ID: the full slug (from linkedin.com/posts/{id}), a bare `urn:li:activity:{id}` (from linkedin.com/feed/update/{urn}/), or a bare numeric activity ID (e.g. `7476310414297968640`)"
+              }
+            ]
+          },
+          "docs": "Returns the caption/transcript for a video post, when the post carries captions. Returns 404 if the post has no video or no captions."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

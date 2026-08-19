@@ -1,0 +1,69 @@
+generated: '2026-08-13'
+method: probed
+source: https://docs.konbiniapi.com/.well-known/agent-card.json
+card: konbiniapi-agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: docs.konbiniapi.com
+  note: >-
+    Served by the documentation host, not the apex or the API host. konbiniapi.com,
+    api.konbiniapi.com, app.konbiniapi.com and mcp.konbiniapi.com all 404 on both
+    /.well-known/agent-card.json and the legacy /.well-known/agent.json.
+x-evidence:
+  fetched: '2026-08-13'
+  url: https://docs.konbiniapi.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  bytes: 1184
+agent:
+  name: KonbiniAPI Docs
+  url: https://docs.konbiniapi.com/
+  version: 1.0.0
+  protocolVersion: '0.3'
+  preferredTransport: HTTP+JSON
+  provider:
+    organization: KonbiniAPI Docs
+    url: https://docs.konbiniapi.com/
+  documentationUrl: https://docs.konbiniapi.com/
+  capabilities:
+    streaming: false
+    pushNotifications: false
+  defaultInputModes:
+    - text/plain
+  defaultOutputModes:
+    - text/plain
+  skills:
+    - id: konbini-api
+      name: Konbini Api
+      url: https://docs.konbiniapi.com/.well-known/agent-skills/konbini-api/skill.md
+grade: conformant
+grade_basis: >-
+  Graded against A2A 1.0.0 hard checks: capabilities is a JSON object, protocolVersion is present,
+  and skills is an array. All three pass, and the optional preferredTransport, defaultInputModes
+  and defaultOutputModes fields are all present.
+deviations:
+  - field: protocolVersion
+    observed: '0.3'
+    expected: '1.0.0'
+    severity: informational
+    note: >-
+      The card declares the pre-1.0 protocol version. It is well-formed against 1.0.0's structural
+      rules but self-identifies as a 0.3 agent, and supportedInterfaces repeats protocolVersion 0.3.
+  - field: skills[].tags
+    observed: '[]'
+    expected: at least one tag
+    severity: informational
+    note: The single skill declares an empty tags array, so it cannot be matched by capability tag.
+  - field: url
+    observed: https://docs.konbiniapi.com/
+    severity: informational
+    note: >-
+      The card's url points at the documentation site rather than an A2A JSON-RPC endpoint. The
+      agent-callable surface KonbiniAPI actually ships is the MCP server at https://mcp.konbiniapi.com
+      (see mcp/konbiniapi-mcp.yml); this card is a discovery pointer to the docs and the skill file,
+      not an executable A2A agent.
+related:
+  agent_skill: ../skills/konbiniapi-konbini-api.md
+  agent_skills_discovery: ../skills/konbiniapi-agent-skills-discovery.json
+  mcp: ../mcp/konbiniapi-mcp.yml

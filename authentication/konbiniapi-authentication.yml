@@ -1,15 +1,102 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/konbiniapi-openapi.yml
+generated: '2026-08-13'
+method: searched
+source: https://docs.konbiniapi.com/getting-started/authentication
+sources:
+  - https://docs.konbiniapi.com/getting-started/authentication
+  - https://docs.konbiniapi.com/reference/mcp/overview
+  - https://mcp.konbiniapi.com/.well-known/oauth-protected-resource
+  - https://mcp.konbiniapi.com/.well-known/oauth-authorization-server
+  - openapi/_original/konbiniapi-openapi.json
+note: >-
+  KonbiniAPI runs two distinct authentication surfaces. The REST API takes a single static Bearer
+  API key and nothing else. The hosted MCP server takes OAuth 2.1, and accepts the same Bearer API
+  key as a fallback for clients that cannot do the browser flow. The OpenAPI declares only the
+  first, so a spec-only read of this provider understates its auth posture.
 summary:
   types:
-  - http
+    - http
+    - oauth2
+  surfaces: 2
 schemes:
-- name: apiKey
-  type: http
-  scheme: bearer
-  description: |-
-    Send your API key in the Authorization header as a Bearer token.
-    Example: `Authorization: Bearer <your-api-key>`
-  sources:
-  - openapi/konbiniapi-openapi.yml
+  - name: apiKey
+    type: http
+    scheme: bearer
+    surface: rest
+    applies_to: https://api.konbiniapi.com
+    header: Authorization
+    format: 'Bearer knbn_<key>'
+    key_prefix: knbn_
+    description: |-
+      Send your API key in the Authorization header as a Bearer token.
+      Example: `Authorization: Bearer <your-api-key>`
+    global: true
+    note: >-
+      Declared as the sole global security requirement in the OpenAPI, so every one of the 67
+      operations requires it. One key per account; rotating the key does not reset the credit
+      balance because credits are tied to the account. Revoked keys are rejected instantly.
+    sources:
+      - openapi/_original/konbiniapi-openapi.json
+      - https://docs.konbiniapi.com/getting-started/authentication
+  - name: mcpOAuth
+    type: oauth2
+    surface: mcp
+    applies_to: https://mcp.konbiniapi.com
+    flows:
+      authorizationCode:
+        authorizationUrl: https://app.konbiniapi.com/api/auth/oauth2/authorize
+        tokenUrl: https://app.konbiniapi.com/api/auth/oauth2/token
+        refreshUrl: https://app.konbiniapi.com/api/auth/oauth2/token
+        scopes:
+          api_key: Act on the account's KonbiniAPI API key on the user's behalf.
+          offline_access: Receive a refresh token and act without the user present.
+      clientCredentials:
+        tokenUrl: https://app.konbiniapi.com/api/auth/oauth2/token
+    issuer: https://app.konbiniapi.com/api/auth
+    jwks_uri: https://app.konbiniapi.com/api/auth/jwks
+    registration_endpoint: https://app.konbiniapi.com/api/auth/oauth2/register
+    introspection_endpoint: https://app.konbiniapi.com/api/auth/oauth2/introspect
+    revocation_endpoint: https://app.konbiniapi.com/api/auth/oauth2/revoke
+    pkce: ['S256']
+    dynamic_client_registration: true
+    id_token_signing_alg: EdDSA
+    description: >-
+      OAuth 2.1 authorization code + PKCE for the hosted MCP server, discoverable through RFC 9728
+      protected-resource metadata and RFC 8414 authorization-server metadata.
+    sources:
+      - well-known/konbiniapi-mcp-oauth-protected-resource.json
+      - well-known/konbiniapi-mcp-oauth-authorization-server.json
+  - name: mcpBearer
+    type: http
+    scheme: bearer
+    surface: mcp
+    applies_to: https://mcp.konbiniapi.com
+    description: >-
+      Fallback for MCP clients that support remote servers but not OAuth: send the KonbiniAPI API
+      key as a Bearer token instead of completing the authorization flow.
+    sources:
+      - https://docs.konbiniapi.com/reference/mcp/overview
+identity_providers:
+  - Email and password
+  - Google
+  - GitHub
+scopes: scopes/konbiniapi-scopes.yml
+failure_modes:
+  - status: 401
+    code: missing_api_key
+    meaning: Authorization header absent or malformed.
+  - status: 401
+    code: invalid_api_key
+    meaning: Key not recognised or revoked.
+  - status: 403
+    code: api_key_disabled
+    meaning: Key exists but is disabled.
+  - status: 403
+    code: api_key_expired
+    meaning: Key exists but is expired.
+observed:
+  - url: https://api.konbiniapi.com/v1/openapi.json
+    http_status: 401
+    note: unauthenticated request returns missing_api_key, confirming the key is enforced at the edge
+  - url: https://mcp.konbiniapi.com/
+    http_status: 401
+    note: 'anonymous MCP tools/list returns {"code":-32000,"message":"Unauthorized"}'

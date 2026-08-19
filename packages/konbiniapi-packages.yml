@@ -1,0 +1,66 @@
+generated: '2026-08-13'
+method: searched
+source: registry searches across npm, PyPI, RubyGems, crates.io, NuGet, Maven Central, pkg.go.dev and Packagist, plus the GitHub org and the full docs corpus
+package_count: 0
+official_package_count: 0
+packages: []
+note: >-
+  KonbiniAPI ships NO client libraries. This is a measured zero, not an unchecked field.
+finding: >-
+  The provider's position is that the SDK layer is unnecessary: the REST API is a plain Bearer-token
+  GET surface with one normalized response shape, and for agents there is a hosted MCP server that
+  removes the integration code entirely. That is a defensible design choice for a read-only data API,
+  and it is consistent — the docs contain no install instructions of any kind. It does mean there is
+  no first-party pinned artifact for a consumer to depend on, and therefore none of the release-decay
+  signal a dated SDK would provide.
+evidence:
+  - registry: npm
+    query: konbini
+    url: https://registry.npmjs.org/-/v1/search?text=konbini
+    http_status: 200
+    result: >-
+      7 hits, none published by KonbiniAPI. `konbini` (0.3.1, 2026-02-04) and `@kaze-jp/konbini`
+      (0.2.15) are unrelated Japanese convenience-store projects; `konbini-ui` (0.0.4, 2023) predates
+      the company.
+  - registry: npm
+    query: konbiniapi
+    url: https://registry.npmjs.org/konbiniapi
+    http_status: 404
+    result: no package under the company name
+  - registry: pypi
+    query: konbiniapi
+    url: https://pypi.org/pypi/konbiniapi/json
+    http_status: 404
+    result: absent
+  - registry: pypi
+    query: konbini-api
+    url: https://pypi.org/pypi/konbini-api/json
+    http_status: 404
+    result: absent
+  - registry: pypi
+    query: konbini
+    url: https://pypi.org/pypi/konbini/json
+    http_status: 200
+    result: >-
+      Belongs to a different publisher — hyperplane-data, version 0.1.0, "Analytics one-stop shop,
+      open 24/7", repository github.com/hyperplane-data/konbini. NOT this company. Not recorded as a
+      package.
+  - registry: github
+    query: https://api.github.com/orgs/konbiniapi
+    http_status: 200
+    result: >-
+      The org exists (id 240330549) and is linked from apis.yml and from the apex llms.txt, but
+      /users/konbiniapi/repos returns an empty array — zero public repositories, so no source-code
+      distribution channel either.
+  - registry: docs
+    query: 'grep -inE "sdk|npm |pip install|client librar" over the 282 KB llms-full.txt docs corpus'
+    url: https://docs.konbiniapi.com/llms-full.txt
+    http_status: 200
+    result: zero matches across the entire documentation corpus
+distribution:
+  rest: 'direct HTTPS calls to https://api.konbiniapi.com with an Authorization: Bearer knbn_ header'
+  agents: hosted remote MCP server at https://mcp.konbiniapi.com — see mcp/konbiniapi-mcp.yml
+  collections: public Postman workspace at https://www.postman.com/konbiniapi (HTTP 200)
+  no_code: >-
+    Zapier, n8n, Make and Pipedream are supported through the MCP server rather than through
+    published connectors.

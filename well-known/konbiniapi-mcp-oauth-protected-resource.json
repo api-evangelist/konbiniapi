@@ -1,0 +1,10 @@
+{
+    "resource": "https://mcp.konbiniapi.com",
+    "authorization_servers": [
+        "https://app.konbiniapi.com/api/auth"
+    ],
+    "scopes_supported": [
+        "api_key",
+        "offline_access"
+    ]
+}

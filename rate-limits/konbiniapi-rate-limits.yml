@@ -1,21 +1,39 @@
 apiCommonsRateLimitsVersion: '0.1'
+generated: '2026-08-13'
+method: searched
+source: https://docs.konbiniapi.com/getting-started/credits
+sources:
+  - https://docs.konbiniapi.com/getting-started/credits
+  - https://konbiniapi.com/pricing
+  - https://docs.konbiniapi.com/getting-started/errors
+note: >-
+  Re-read on 2026-08-13. Three corrections to the previous capture: the documentation URL was
+  /getting-started/credits-and-billing and is now /getting-started/credits; the Free plan (100
+  one-time credits) was missing; and the refund table wrongly implied a 404 is not charged. The docs
+  charge table lists refunds for 400, 5xx and upstream 502 only — a 404 lookup IS billed. There is
+  also no 429 anywhere in this API, so it has been removed from the retryable set.
 provider:
   id: konbiniapi
   name: KonbiniAPI
   url: https://konbiniapi.com/
-  documentation: https://docs.konbiniapi.com/getting-started/credits-and-billing
+  documentation: https://docs.konbiniapi.com/getting-started/credits
 
+limit_count: 1
 policy:
   model: prepaid-credits
   requestRate:
     enforced: false
+    published_limit: null
     notes: >-
-      KonbiniAPI advertises "no rate limits" across all paid plans. Throughput is
-      governed entirely by the credit balance on the account, not by per-second or
-      per-minute throttling windows.
+      KonbiniAPI publishes NO request-rate limit on any plan, including Free. The pricing FAQ states
+      it plainly: "No rate limits, no throttling, no daily caps. Send requests as fast as you need.
+      Your plan's credit balance is the only limit." No 429 status appears in the published error
+      reference, and none of the 67 operations in the live OpenAPI declares a 429 response.
   concurrency:
     enforced: false
-    notes: No concurrent-request cap is published.
+    notes: >-
+      No concurrent-request cap is published. The docs explicitly say "You can make concurrent
+      requests freely."
   quotas:
     - id: monthly-credit-quota
       scope: account
@@ -24,51 +42,132 @@ policy:
       limit: planDependent
       reconciled: true
       planLimits:
+        free: 100
         plus: 25000
         pro: 55000
         max: 160000
         ultra: 450000
         custom: negotiated
-      consumption: 1 credit per successful request (status 200).
+      planLimitNotes:
+        free: One-time allowance that does not refill. All other plans reset each billing cycle.
+      consumption: >-
+        1 credit per successful request. Batch endpoints (the three Reddit POST /batch operations)
+        bill 1 credit per ID submitted, up to 100 IDs per call.
+      rollover: false
       refundRules:
         - status: 400
+          code: validation_error
           refunded: true
-        - status: 4xx
-          refunded: 'partial: 401/402/403/404/429 do not consume credits'
-        - status: 5xx
+        - status: 404
+          code: not_found
+          refunded: false
+          note: >-
+            A resource-not-found lookup is CHARGED — the fetch was performed. Only route_not_found
+            (an invalid path, rejected before dispatch) is free. This matters to any agent iterating
+            speculative usernames or IDs.
+        - status: 401
           refunded: true
-        - status: upstream-error
+          note: rejected at the edge before any credit accounting
+        - status: 402
           refunded: true
-      exhaustionBehavior: HTTP 402 returned; no automatic overages.
+        - status: 403
+          refunded: true
+        - status: 500
+          refunded: true
+        - status: 502
+          code: platform_error
+          refunded: true
+        - status: 503
+          refunded: true
+      exhaustionBehavior: >-
+        HTTP 402 with error code credits_exhausted. No automatic charges by default. Paid plans may
+        opt into extra usage beyond the allowance (v1.4.0, July 2026), billed at the plan's per-credit
+        rate at cycle end and capped by a customer-set monthly limit up to the plan price.
 
   metering:
     responseHeaders:
       - name: X-Credits-Used
-        description: Credits charged for the current request.
+        description: Credits charged for the current request — 1 when billed, 0 when refunded.
+        present_on: every authenticated response
       - name: X-Credits-Remaining
-        description: Credits remaining after the current request.
+        description: Credits remaining on the account after the current request.
+        present_on: every authenticated response
+    mcpEquivalent:
+      shape: '{ "data": {...}, "metadata": { "creditsUsed": 1, "creditsRemaining": 4999 } }'
+      note: >-
+        The MCP server surfaces the same two numbers as metadata on the tool result rather than as
+        HTTP headers, so an agent budget check works identically on both surfaces.
+    rateLimitHeaders: none
+    rateLimitHeaderNote: >-
+      No X-RateLimit-*, no RateLimit-* and no Retry-After. Because there is no rate limit there is no
+      rate-limit signal; the credit pair above IS the runtime budget signal, and 402 is the only
+      exhaustion status.
 
   retry:
     recommended:
       strategy: exponential-backoff
       initialDelayMs: 500
       maxRetries: 3
-      retryableStatusCodes: [429, 500, 502, 503, 504]
+      retryableStatusCodes: [500, 502, 503]
+    nonRetryable:
+      - status: 402
+        reason: >-
+          Terminal for the run. Retrying cannot succeed until a human upgrades the plan or enables
+          extra usage.
+      - status: 401
+        reason: credential problem, not a transient one
+      - status: 400
+        reason: the request itself is malformed
 
   errors:
+    - status: 400
+      code: validation_error
+      meaning: Invalid parameters. Refunded.
     - status: 401
-      meaning: Missing or invalid API key.
+      code: missing_api_key | invalid_api_key
+      meaning: Missing, malformed or unrecognised API key.
     - status: 402
-      meaning: Account credits exhausted.
+      code: credits_exhausted
+      meaning: Account credits exhausted — the only quota signal this API emits.
     - status: 403
-      meaning: Account suspended or insufficient permission.
+      code: api_key_disabled | api_key_expired
+      meaning: Key exists but is disabled or expired.
     - status: 404
-      meaning: Resource not found (also returned for offline live streams).
+      code: not_found | route_not_found
+      meaning: >-
+        Resource not found (also returned when a TikTok user is not currently live), or the path is
+        not a KonbiniAPI route.
+    - status: 502
+      code: platform_error
+      meaning: Upstream social platform error. Refunded and retryable.
+    - status: 503
+      code: service_unavailable
+      meaning: Temporarily unavailable. Refunded and retryable.
+  errorDetail: errors/konbiniapi-problem-types.yml
 
-source:
-  reconciledAt: '2026-05-06'
-  reconciledBy: api-evangelist pipeline
+platform_page_ceilings:
+  note: >-
+    Not rate limits, but the practical throughput ceiling for a paging agent. These are imposed by
+    the upstream platforms and published per endpoint.
+  tiktok_user_videos: 35
+  tiktok_video_comments: 50
+  tiktok_comment_replies: 50
+  tiktok_collection_videos: 35
+  tiktok_audio_videos: 30
+  tiktok_user_following: 30
+  tiktok_user_followers: 30
+  tiktok_search_users: 10
+  instagram_user_posts: 12
+  instagram_user_reels: 12
+  instagram_user_tagged: 12
+  instagram_post_comments: 15
+  instagram_search_media: 24
+  instagram_location_posts: 21
+  reddit_batch_ids_per_call: 100
+
+source_meta:
+  reconciledAt: '2026-08-13'
+  reconciledBy: api-evangelist enrichment pipeline
   notes: >-
-    No throughput rate limit published on the public site or docs as of capture date.
-    Marked reconciled where the credit-quota model is explicit; concurrency limits
-    remain unpublished.
+    The absence of a rate limit is a published, deliberate product claim here, repeated on the
+    pricing page, in the docs, in llms.txt and in the ai-plugin manifest — not an undocumented gap.

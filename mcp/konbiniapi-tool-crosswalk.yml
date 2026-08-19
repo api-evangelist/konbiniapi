@@ -1,0 +1,649 @@
+generated: '2026-08-13'
+method: derived
+source: docs.konbiniapi.com MCP tool reference pages (one page per tool, each naming its REST endpoint) bound to openapi/_original/konbiniapi-openapi.json
+note: The hosted MCP server at https://mcp.konbiniapi.com answers tools/list with HTTP 401 Unauthorized, so the live inputSchema could not be read anonymously. Every tool name and its backing REST endpoint below is taken verbatim from the provider's own generated MCP tool reference, which prints a 'Tool name' and 'REST endpoint' row per tool; the binding is therefore provider-stated, not guessed, and each tool inherits the parameters and requestBody of the OpenAPI operation it names.
+surfaces:
+  openapi:
+    url: https://docs.konbiniapi.com/openapi.json
+    local: openapi/_original/konbiniapi-openapi.json
+    gated: false
+    operations: 67
+  mcp:
+    url: https://mcp.konbiniapi.com
+    transport: streamable-http
+    gated: true
+    gate: HTTP 401 Unauthorized on tools/list; OAuth or Bearer API key required
+  graphql: null
+shared_inputs:
+- name: projection_preset
+  type: string
+  required: false
+  default: minimal
+  enum:
+  - full
+  - minimal
+  - identity
+  - engagement
+  - content
+  note: MCP-only input with no REST equivalent; trims the response payload to save agent tokens.
+- name: data_fields
+  type: string[]
+  required: false
+  note: MCP-only. Adds top-level keys from data on top of the selected projection_preset.
+- name: item_fields
+  type: string[]
+  required: false
+  note: MCP-only, collection tools only. Adds keys from data.orderedItems[].
+coverage:
+  mcp_tools: 67
+  openapi_operations: 67
+  mapped: 67
+  mcp_only: 0
+  rest_only: 0
+  mapping_rate: 1.0
+crosswalk:
+- tool: instagram_get_highlight_stories
+  category: Instagram
+  rest:
+  - instagramGetHighlightStories
+  binding: GET /v1/instagram/highlights/{highlightId}
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-instagram-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-highlight-stories
+- tool: instagram_get_location_posts
+  category: Instagram
+  rest:
+  - instagramGetLocationPosts
+  binding: GET /v1/instagram/locations/{locationId}
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-instagram-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-location-posts
+- tool: instagram_get_post
+  category: Instagram
+  rest:
+  - instagramGetPost
+  binding: GET /v1/instagram/posts/{postId}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-instagram-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-post
+- tool: instagram_get_post_comments
+  category: Instagram
+  rest:
+  - instagramGetPostComments
+  binding: GET /v1/instagram/posts/{postId}/comments
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-instagram-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-post-comments
+- tool: instagram_get_user
+  category: Instagram
+  rest:
+  - instagramGetUser
+  binding: GET /v1/instagram/users/{username}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-instagram-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-user
+- tool: instagram_get_user_highlights
+  category: Instagram
+  rest:
+  - instagramGetUserHighlights
+  binding: GET /v1/instagram/users/{username}/highlights
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-instagram-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-user-highlights
+- tool: instagram_get_user_posts
+  category: Instagram
+  rest:
+  - instagramGetUserPosts
+  binding: GET /v1/instagram/users/{username}/posts
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-instagram-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-user-posts
+- tool: instagram_get_user_reels
+  category: Instagram
+  rest:
+  - instagramGetUserReels
+  binding: GET /v1/instagram/users/{username}/reels
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-instagram-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-user-reels
+- tool: instagram_get_user_tagged
+  category: Instagram
+  rest:
+  - instagramGetUserTagged
+  binding: GET /v1/instagram/users/{username}/tagged
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-instagram-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-user-tagged
+- tool: instagram_search_media
+  category: Instagram
+  rest:
+  - instagramSearchMedia
+  binding: GET /v1/instagram/search
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-instagram-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/search-media
+- tool: linkedin_get_company
+  category: LinkedIn
+  rest:
+  - linkedinGetCompany
+  binding: GET /v1/linkedin/companies/{company}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-linkedin-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-company
+- tool: linkedin_get_company_posts
+  category: LinkedIn
+  rest:
+  - linkedinGetCompanyPosts
+  binding: GET /v1/linkedin/companies/{company}/posts
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-linkedin-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-company-posts
+- tool: linkedin_get_post
+  category: LinkedIn
+  rest:
+  - linkedinGetPost
+  binding: GET /v1/linkedin/posts/{postId}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-linkedin-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-post
+- tool: linkedin_get_post_transcript
+  category: LinkedIn
+  rest:
+  - linkedinGetPostTranscript
+  binding: GET /v1/linkedin/posts/{postId}/transcript
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-linkedin-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-post-transcript
+- tool: linkedin_get_user
+  category: LinkedIn
+  rest:
+  - linkedinGetUser
+  binding: GET /v1/linkedin/users/{username}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-linkedin-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-user
+- tool: linkedin_get_user_articles
+  category: LinkedIn
+  rest:
+  - linkedinGetUserArticles
+  binding: GET /v1/linkedin/users/{username}/articles
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-linkedin-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-user-articles
+- tool: linkedin_get_user_posts
+  category: LinkedIn
+  rest:
+  - linkedinGetUserPosts
+  binding: GET /v1/linkedin/users/{username}/posts
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-linkedin-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-user-posts
+- tool: reddit_get_comment
+  category: Reddit
+  rest:
+  - redditGetComment
+  binding: GET /v1/reddit/posts/{postId}/comments/{commentId}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-comment
+- tool: reddit_get_comment_replies
+  category: Reddit
+  rest:
+  - redditGetCommentReplies
+  binding: GET /v1/reddit/posts/{postId}/comments/{commentId}/replies
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-comment-replies
+- tool: reddit_get_comments_batch
+  category: Reddit
+  rest:
+  - redditGetCommentsBatch
+  binding: POST /v1/reddit/comments/batch
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-comments-batch
+- tool: reddit_get_feed
+  category: Reddit
+  rest:
+  - redditGetFeed
+  binding: GET /v1/reddit/feeds/{feed}
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-feed
+- tool: reddit_get_post
+  category: Reddit
+  rest:
+  - redditGetPost
+  binding: GET /v1/reddit/posts/{postId}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-post
+- tool: reddit_get_post_comments
+  category: Reddit
+  rest:
+  - redditGetPostComments
+  binding: GET /v1/reddit/posts/{postId}/comments
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-post-comments
+- tool: reddit_get_post_duplicates
+  category: Reddit
+  rest:
+  - redditGetPostDuplicates
+  binding: GET /v1/reddit/posts/{postId}/duplicates
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-post-duplicates
+- tool: reddit_get_posts_batch
+  category: Reddit
+  rest:
+  - redditGetPostsBatch
+  binding: POST /v1/reddit/posts/batch
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-posts-batch
+- tool: reddit_get_subreddit
+  category: Reddit
+  rest:
+  - redditGetSubreddit
+  binding: GET /v1/reddit/subreddits/{subreddit}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-subreddit
+- tool: reddit_get_subreddit_comments
+  category: Reddit
+  rest:
+  - redditGetSubredditComments
+  binding: GET /v1/reddit/subreddits/{subreddit}/comments
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-subreddit-comments
+- tool: reddit_get_subreddit_posts
+  category: Reddit
+  rest:
+  - redditGetSubredditPosts
+  binding: GET /v1/reddit/subreddits/{subreddit}/posts
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-subreddit-posts
+- tool: reddit_get_subreddit_rules
+  category: Reddit
+  rest:
+  - redditGetSubredditRules
+  binding: GET /v1/reddit/subreddits/{subreddit}/rules
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-subreddit-rules
+- tool: reddit_get_subreddit_sticky
+  category: Reddit
+  rest:
+  - redditGetSubredditSticky
+  binding: GET /v1/reddit/subreddits/{subreddit}/sticky
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-subreddit-sticky
+- tool: reddit_get_subreddits_batch
+  category: Reddit
+  rest:
+  - redditGetSubredditsBatch
+  binding: POST /v1/reddit/subreddits/batch
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-subreddits-batch
+- tool: reddit_get_user
+  category: Reddit
+  rest:
+  - redditGetUser
+  binding: GET /v1/reddit/users/{username}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-user
+- tool: reddit_get_user_comments
+  category: Reddit
+  rest:
+  - redditGetUserComments
+  binding: GET /v1/reddit/users/{username}/comments
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-user-comments
+- tool: reddit_get_user_overview
+  category: Reddit
+  rest:
+  - redditGetUserOverview
+  binding: GET /v1/reddit/users/{username}/overview
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-user-overview
+- tool: reddit_get_user_posts
+  category: Reddit
+  rest:
+  - redditGetUserPosts
+  binding: GET /v1/reddit/users/{username}/posts
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-user-posts
+- tool: reddit_search_posts
+  category: Reddit
+  rest:
+  - redditSearchPosts
+  binding: GET /v1/reddit/search/posts
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/search-posts
+- tool: reddit_search_subreddit_posts
+  category: Reddit
+  rest:
+  - redditSearchSubredditPosts
+  binding: GET /v1/reddit/subreddits/{subreddit}/search
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/search-subreddit-posts
+- tool: reddit_search_subreddits
+  category: Reddit
+  rest:
+  - redditSearchSubreddits
+  binding: GET /v1/reddit/search/subreddits
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/search-subreddits
+- tool: reddit_search_users
+  category: Reddit
+  rest:
+  - redditSearchUsers
+  binding: GET /v1/reddit/search/users
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-reddit-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/search-users
+- tool: tiktok_get_audio
+  category: TikTok
+  rest:
+  - tiktokGetAudio
+  binding: GET /v1/tiktok/audios/{audioId}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-audio
+- tool: tiktok_get_audio_videos
+  category: TikTok
+  rest:
+  - tiktokGetAudioVideos
+  binding: GET /v1/tiktok/audios/{audioId}/videos
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-audio-videos
+- tool: tiktok_get_collection_videos
+  category: TikTok
+  rest:
+  - tiktokGetCollectionVideos
+  binding: GET /v1/tiktok/collections/{collectionId}
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-collection-videos
+- tool: tiktok_get_comment_replies
+  category: TikTok
+  rest:
+  - tiktokGetCommentReplies
+  binding: GET /v1/tiktok/videos/{videoId}/comments/{commentId}/replies
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-comment-replies
+- tool: tiktok_get_tag_videos
+  category: TikTok
+  rest:
+  - tiktokGetTagVideos
+  binding: GET /v1/tiktok/tags/{tagName}
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-tag-videos
+- tool: tiktok_get_user
+  category: TikTok
+  rest:
+  - tiktokGetUser
+  binding: GET /v1/tiktok/users/{username}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user
+- tool: tiktok_get_user_collections
+  category: TikTok
+  rest:
+  - tiktokGetUserCollections
+  binding: GET /v1/tiktok/users/{username}/collections
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-collections
+- tool: tiktok_get_user_followers
+  category: TikTok
+  rest:
+  - tiktokGetUserFollowers
+  binding: GET /v1/tiktok/users/{username}/followers
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-followers
+- tool: tiktok_get_user_following
+  category: TikTok
+  rest:
+  - tiktokGetUserFollowing
+  binding: GET /v1/tiktok/users/{username}/following
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-following
+- tool: tiktok_get_user_likes
+  category: TikTok
+  rest:
+  - tiktokGetUserLikes
+  binding: GET /v1/tiktok/users/{username}/likes
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-likes
+- tool: tiktok_get_user_live
+  category: TikTok
+  rest:
+  - tiktokGetUserLive
+  binding: GET /v1/tiktok/users/{username}/live
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-live
+- tool: tiktok_get_user_reposts
+  category: TikTok
+  rest:
+  - tiktokGetUserReposts
+  binding: GET /v1/tiktok/users/{username}/reposts
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-reposts
+- tool: tiktok_get_user_stories
+  category: TikTok
+  rest:
+  - tiktokGetUserStories
+  binding: GET /v1/tiktok/users/{username}/stories
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-stories
+- tool: tiktok_get_user_videos
+  category: TikTok
+  rest:
+  - tiktokGetUserVideos
+  binding: GET /v1/tiktok/users/{username}/videos
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-videos
+- tool: tiktok_get_video
+  category: TikTok
+  rest:
+  - tiktokGetVideo
+  binding: GET /v1/tiktok/videos/{videoId}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-video
+- tool: tiktok_get_video_comments
+  category: TikTok
+  rest:
+  - tiktokGetVideoComments
+  binding: GET /v1/tiktok/videos/{videoId}/comments
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-video-comments
+- tool: tiktok_get_video_download_url
+  category: TikTok
+  rest:
+  - tiktokGetVideoDownloadUrl
+  binding: GET /v1/tiktok/videos/{videoId}/download
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-video-download-url
+- tool: tiktok_get_video_transcript
+  category: TikTok
+  rest:
+  - tiktokGetVideoTranscript
+  binding: GET /v1/tiktok/videos/{videoId}/transcripts/{language}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-video-transcript
+- tool: tiktok_search_content
+  category: TikTok
+  rest:
+  - tiktokSearchContent
+  binding: GET /v1/tiktok/search
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/search-content
+- tool: tiktok_search_users
+  category: TikTok
+  rest:
+  - tiktokSearchUsers
+  binding: GET /v1/tiktok/search/users
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/search-users
+- tool: tiktok_search_videos
+  category: TikTok
+  rest:
+  - tiktokSearchVideos
+  binding: GET /v1/tiktok/search/videos
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-tiktok-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/search-videos
+- tool: x_get_community
+  category: X
+  rest:
+  - xGetCommunity
+  binding: GET /v1/x/communities/{communityId}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-x-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-community
+- tool: x_get_community_media
+  category: X
+  rest:
+  - xGetCommunityMedia
+  binding: GET /v1/x/communities/{communityId}/media
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-x-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-community-media
+- tool: x_get_community_posts
+  category: X
+  rest:
+  - xGetCommunityPosts
+  binding: GET /v1/x/communities/{communityId}/posts
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-x-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-community-posts
+- tool: x_get_post
+  category: X
+  rest:
+  - xGetPost
+  binding: GET /v1/x/posts/{postId}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-x-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-post
+- tool: x_get_user
+  category: X
+  rest:
+  - xGetUser
+  binding: GET /v1/x/users/{username}
+  confidence: high
+  result_type: Detail tool
+  openapi: openapi/konbiniapi-x-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-user
+- tool: x_get_user_highlights
+  category: X
+  rest:
+  - xGetUserHighlights
+  binding: GET /v1/x/users/{username}/highlights
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-x-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-user-highlights
+- tool: x_get_user_posts
+  category: X
+  rest:
+  - xGetUserPosts
+  binding: GET /v1/x/users/{username}/posts
+  confidence: high
+  result_type: Collection tool
+  openapi: openapi/konbiniapi-x-api-openapi.yml
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-user-posts
+mcp_only: []
+rest_only: []

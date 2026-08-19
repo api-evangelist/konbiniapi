@@ -1,0 +1,59 @@
+{
+    "linkset": [
+        {
+            "anchor": "https://api.konbiniapi.com",
+            "service-desc": [
+                {
+                    "href": "https://docs.konbiniapi.com/openapi.json",
+                    "type": "application/openapi+json"
+                }
+            ],
+            "service-doc": [
+                {
+                    "href": "https://docs.konbiniapi.com"
+                }
+            ],
+            "status": [
+                {
+                    "href": "https://status.konbiniapi.com"
+                }
+            ]
+        },
+        {
+            "anchor": "https://mcp.konbiniapi.com",
+            "service-meta": [
+                {
+                    "href": "https://mcp.konbiniapi.com/.well-known/mcp-server-card",
+                    "type": "application/json"
+                },
+                {
+                    "href": "https://mcp.konbiniapi.com/.well-known/oauth-protected-resource",
+                    "type": "application/json"
+                }
+            ],
+            "service-doc": [
+                {
+                    "href": "https://docs.konbiniapi.com/reference/mcp/overview"
+                }
+            ]
+        },
+        {
+            "anchor": "https://app.konbiniapi.com/api/auth",
+            "service-meta": [
+                {
+                    "href": "https://app.konbiniapi.com/.well-known/oauth-authorization-server/api/auth",
+                    "type": "application/json"
+                },
+                {
+                    "href": "https://app.konbiniapi.com/.well-known/openid-configuration/api/auth",
+                    "type": "application/json"
+                }
+            ],
+            "service-doc": [
+                {
+                    "href": "https://docs.konbiniapi.com/getting-started/authentication"
+                }
+            ]
+        }
+    ]
+}

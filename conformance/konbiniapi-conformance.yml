@@ -1,0 +1,197 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/konbiniapi-openapi.json
+sources:
+  - openapi/_original/konbiniapi-openapi.json
+  - https://docs.konbiniapi.com/getting-started/response-format
+  - https://docs.konbiniapi.com/getting-started/errors
+  - https://docs.konbiniapi.com/getting-started/pagination
+  - https://mcp.konbiniapi.com/.well-known/oauth-authorization-server
+  - https://konbiniapi.com/.well-known/api-catalog
+  - https://konbiniapi.com/terms
+note: >-
+  Cross-cutting standards assertions. `conforms: true` means the standard is demonstrably implemented
+  on a surface we probed or read in the published contract. `conforms: false` is an honest negative,
+  not a criticism — several of these standards are simply not applicable to a read-only social data
+  API.
+standards:
+  - id: openapi-3.1
+    name: OpenAPI 3.1.0
+    conforms: true
+    evidence: >-
+      Live document at https://docs.konbiniapi.com/openapi.json declares openapi 3.1.0 and describes
+      all 67 operations across five platforms. HTTP 200, application/json, 741 KB, parses.
+  - id: activitystreams-2.0
+    name: W3C ActivityStreams 2.0
+    conforms: true
+    evidence: >-
+      Every response is an ActivityStreams document with @context
+      ["https://www.w3.org/ns/activitystreams#","https://konbiniapi.com/ns/social#"], using Person,
+      Video, Note, Audio and OrderedCollectionPage types. This is the provider's central design
+      claim and the OpenAPI schemas implement it. The second context IRI is a vendor extension
+      namespace, which AS 2.0 explicitly permits.
+  - id: mcp
+    name: Model Context Protocol
+    conforms: true
+    evidence: >-
+      Hosted remote server at https://mcp.konbiniapi.com. Server-card at
+      /.well-known/mcp-server-card (HTTP 200) declares remotes[].type streamable-http and supported
+      protocol versions 2025-11-25, 2025-06-18 and 2025-03-26. tools/list returns 401 anonymously,
+      which is itself protocol-correct behaviour for a protected server.
+  - id: oauth2
+    name: OAuth 2.0 / 2.1
+    conforms: true
+    evidence: >-
+      Authorization code + PKCE (S256), client credentials and refresh token grants, published at
+      https://mcp.konbiniapi.com/.well-known/oauth-authorization-server (HTTP 200). Applies to the
+      MCP surface only; the REST API is a static Bearer key.
+  - id: rfc8414
+    name: RFC 8414 OAuth 2.0 Authorization Server Metadata
+    conforms: true
+    evidence: /.well-known/oauth-authorization-server served with HTTP 200 on mcp.konbiniapi.com.
+  - id: rfc9728
+    name: RFC 9728 OAuth 2.0 Protected Resource Metadata
+    conforms: true
+    evidence: >-
+      /.well-known/oauth-protected-resource on mcp.konbiniapi.com returns HTTP 200 naming resource
+      https://mcp.konbiniapi.com and authorization_servers [https://app.konbiniapi.com/api/auth].
+  - id: oidc
+    name: OpenID Connect Discovery
+    conforms: true
+    evidence: >-
+      https://app.konbiniapi.com/.well-known/openid-configuration/api/auth returns HTTP 200 with
+      issuer, userinfo_endpoint, subject_types_supported and id_token_signing_alg_values_supported
+      (EdDSA). Note the issuer-suffixed path — the bare /.well-known/openid-configuration 404s.
+  - id: rfc9727
+    name: RFC 9727 api-catalog
+    conforms: true
+    evidence: >-
+      https://konbiniapi.com/.well-known/api-catalog returns HTTP 200 as application/linkset+json
+      with three anchors (api, mcp, auth) carrying service-desc, service-doc and service-meta links.
+      One caveat: the status link it publishes, https://status.konbiniapi.com, does not resolve.
+  - id: rfc9116
+    name: RFC 9116 security.txt
+    conforms: true
+    evidence: >-
+      https://konbiniapi.com/.well-known/security.txt returns HTTP 200 with Contact, Expires
+      (2027-03-27), Preferred-Languages and Canonical fields. No Policy, Encryption, Acknowledgments
+      or Hiring fields.
+  - id: a2a
+    name: A2A Agent Card
+    conforms: true
+    evidence: >-
+      https://docs.konbiniapi.com/.well-known/agent-card.json returns HTTP 200 with a well-formed
+      card — capabilities object, protocolVersion, skills array. Graded conformant against A2A 1.0.0
+      structural checks, but self-declares protocolVersion 0.3. See a2a/konbiniapi-a2a.yml.
+  - id: agent-skills
+    name: Agent Skills discovery 0.2.0
+    conforms: true
+    evidence: >-
+      https://docs.konbiniapi.com/.well-known/agent-skills/index.json returns HTTP 200 against
+      schemas.agentskills.io/discovery/0.2.0, listing one skill-md skill with a sha256 digest, and
+      the skill.md itself resolves with HTTP 200 as text/markdown.
+  - id: openai-plugin
+    name: OpenAI ai-plugin.json manifest
+    conforms: true
+    evidence: >-
+      https://konbiniapi.com/.well-known/ai-plugin.json returns HTTP 200 with schema_version v1,
+      user_http bearer auth, and api.url pointing at the live OpenAPI. Legacy format, still served.
+  - id: llmstxt
+    name: llms.txt
+    conforms: true
+    evidence: >-
+      Served on both hosts — https://konbiniapi.com/llms.txt (1.8 KB) and
+      https://docs.konbiniapi.com/llms.txt (37 KB), plus a 282 KB llms-full.txt on the docs host.
+      The apex copy is stale: it still describes only Instagram and TikTok and names X as a "future
+      platform", five months after X shipped.
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      Errors use a vendor envelope — {"errors":[{"code","message"}],"data":null} as application/json.
+      No type/title/status/detail/instance members and no application/problem+json media type appears
+      anywhere in the 67 operations. Codes are machine-readable, which delivers much of the practical
+      value, but this is not RFC 9457.
+  - id: idempotency-key
+    name: Idempotency-Key (draft-ietf-httpapi-idempotency-key-header)
+    conforms: false
+    evidence: >-
+      No idempotency key header is documented or declared. 64 of 67 operations are GET and therefore
+      idempotent by method; the three Reddit batch POSTs are reads that carry an ID list in the body,
+      but a replay is re-billed at 1 credit per ID with no dedupe key.
+  - id: pagination-rfc5988
+    name: Web Linking (RFC 5988/8288) pagination
+    conforms: false
+    evidence: >-
+      Pagination is cursor-based and expressed in the response body (nextCursor, next, cursor,
+      itemCount, totalItems) as an ActivityStreams OrderedCollectionPage. No Link header with
+      rel="next" is emitted, so a generic HTTP client cannot page without parsing the payload.
+  - id: ratelimit-headers
+    name: RateLimit header fields (draft-ietf-httpapi-ratelimit-headers)
+    conforms: false
+    evidence: >-
+      No X-RateLimit-* or RateLimit-* headers, and no 429. KonbiniAPI deliberately publishes no
+      request-rate limit; the budget signal is X-Credits-Remaining / X-Credits-Used with a 402 on
+      exhaustion. A functional substitute, but not the standard.
+  - id: asyncapi
+    name: AsyncAPI
+    conforms: false
+    applicable: false
+    evidence: >-
+      No event, webhook or streaming surface exists. /asyncapi.yaml and /asyncapi.json 404 on both
+      the docs and API hosts, the word "webhook" appears nowhere in the 282 KB llms-full.txt, and the
+      agent card declares capabilities.streaming false. Not penalised — this is a pull-only API.
+  - id: json-schema-2020-12
+    name: JSON Schema 2020-12
+    conforms: true
+    evidence: >-
+      Implied by OpenAPI 3.1.0, whose schema dialect is JSON Schema 2020-12. 58 named component
+      schemas in the live document; the repo also carries extracted json-schema/ and json-structure/
+      artifacts for the Instagram and TikTok entities.
+  - id: gdpr
+    name: GDPR / data protection
+    conforms: partial
+    evidence: >-
+      A DPA is published at https://konbiniapi.com/dpa (HTTP 200) alongside terms and a privacy
+      policy. No named third-party certification (SOC 2, ISO 27001) is published, and no trust
+      center exists — probe-security-programs.py found none.
+  - id: fhir
+    name: HL7 FHIR
+    conforms: false
+    applicable: false
+    evidence: Not a healthcare API.
+  - id: fapi
+    name: FAPI
+    conforms: false
+    applicable: false
+    evidence: Not a financial-grade API.
+  - id: psd2
+    name: PSD2 / Open Banking
+    conforms: false
+    applicable: false
+    evidence: Not a payments or banking API.
+  - id: scim
+    name: SCIM
+    conforms: false
+    applicable: false
+    evidence: No identity provisioning surface.
+  - id: odata
+    name: OData
+    conforms: false
+    applicable: false
+    evidence: Not an OData service.
+  - id: jsonapi
+    name: 'JSON:API'
+    conforms: false
+    evidence: Responses are ActivityStreams 2.0, not JSON:API.
+summary:
+  asserted: 26
+  conforming: 14
+  non_conforming: 11
+  partial: 1
+  not_applicable: 6
+  certifications_published: []
+  certification_note: >-
+    No named third-party certification (SOC 2, ISO 27001, PCI DSS, HIPAA, FedRAMP) is published
+    anywhere on the site, and no trust center exists. probe-security-programs.py found a security.txt
+    contact and nothing else, so no Compliance pointer is asserted for this provider.

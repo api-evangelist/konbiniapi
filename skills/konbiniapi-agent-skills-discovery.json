@@ -1,0 +1,12 @@
+{
+    "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+    "skills": [
+        {
+            "name": "konbini-api",
+            "type": "skill-md",
+            "description": "Use when fetching social media data from TikTok, Instagram, Reddit, X, or LinkedIn via REST API or MCP. Agents should reach for this skill when building integrations with social platforms, automating data collection, connecting AI agents to social data, or setting up workflow automation with social media sources.",
+            "url": "/.well-known/agent-skills/konbini-api/skill.md",
+            "digest": "sha256:eca90e97d87c54ce7efdcdaf2c6a4af1f2d42052b7aadeab7726acc0e472d5b9"
+        }
+    ]
+}

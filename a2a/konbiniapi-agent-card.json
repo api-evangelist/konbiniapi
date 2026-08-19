@@ -1,0 +1,39 @@
+{
+    "name": "KonbiniAPI Docs",
+    "description": "KonbiniAPI documentation \u2014 a REST API that normalizes Instagram, TikTok, X, Reddit, and LinkedIn data into clean, consistent JSON using the ActivityStreams 2.0 standard.",
+    "url": "https://docs.konbiniapi.com/",
+    "version": "1.0.0",
+    "protocolVersion": "0.3",
+    "preferredTransport": "HTTP+JSON",
+    "supportedInterfaces": [
+        {
+            "url": "https://docs.konbiniapi.com/",
+            "protocolBinding": "HTTP+JSON",
+            "protocolVersion": "0.3"
+        }
+    ],
+    "provider": {
+        "url": "https://docs.konbiniapi.com/",
+        "organization": "KonbiniAPI Docs"
+    },
+    "documentationUrl": "https://docs.konbiniapi.com/",
+    "capabilities": {
+        "streaming": false,
+        "pushNotifications": false
+    },
+    "defaultInputModes": [
+        "text/plain"
+    ],
+    "defaultOutputModes": [
+        "text/plain"
+    ],
+    "skills": [
+        {
+            "id": "konbini-api",
+            "name": "Konbini Api",
+            "description": "Use when fetching social media data from TikTok, Instagram, Reddit, X, or LinkedIn via REST API or MCP. Agents should reach for this skill when building integrations with social platforms, automating data collection, connecting AI agents to social data, or setting up workflow automation with social media sources.",
+            "tags": [],
+            "url": "https://docs.konbiniapi.com/.well-known/agent-skills/konbini-api/skill.md"
+        }
+    ]
+}

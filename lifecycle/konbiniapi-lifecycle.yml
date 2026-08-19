@@ -1,0 +1,106 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.konbiniapi.com/changelog
+sources:
+  - https://docs.konbiniapi.com/changelog
+  - https://konbiniapi.com/.well-known/api-catalog
+  - https://konbiniapi.com/terms
+  - openapi/_original/konbiniapi-openapi.json
+note: >-
+  KonbiniAPI publishes a dated changelog and a stable /v1 path, but no versioning policy, no
+  deprecation policy, no SLA and no working status page. The record below separates what is
+  published from what is absent; the absences are measured, not assumed.
+
+versioning:
+  policy_published: false
+  policy_url: null
+  style: uri-path
+  current: v1
+  base_url: https://api.konbiniapi.com
+  product_version: 1.5.0
+  spec_version: 1.0.0
+  version_header: null
+  note: >-
+    /v1 has been the only path prefix since launch in March 2026. The product versions in the
+    changelog (1.0.0 → 1.5.0) do not propagate to info.version in the OpenAPI, which is still 1.0.0
+    on the live document, so a consumer diffing the spec version will never see a release.
+
+deprecation:
+  policy_published: false
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  notice_period: null
+  deprecated_operations: []
+  removed_operations: []
+  note: >-
+    No deprecation policy, no notice-period commitment, and no RFC 8594 Sunset or Deprecation
+    response headers are documented or declared anywhere in the OpenAPI. No operation in the live
+    spec carries `deprecated: true`. This has not yet been tested in practice: every release since
+    1.0.0 has been purely additive, so nothing has ever been deprecated.
+
+sla:
+  published: false
+  uptime_target: null
+  support_response_target: null
+  note: >-
+    No uptime SLA or credit-back commitment is published. The pricing page differentiates support
+    only by tier — best-effort on Free, standard on Plus/Pro, priority on Max/Ultra — with no stated
+    response time.
+
+status_page:
+  published: false
+  advertised_url: https://status.konbiniapi.com
+  reachable: false
+  evidence:
+    - url: https://status.konbiniapi.com
+      http_status: 0
+      note: >-
+        Connection failed — the host does not resolve. `dig +short status.konbiniapi.com` returns no
+        records as of 2026-08-13.
+    - url: https://konbiniapi.com/.well-known/api-catalog
+      http_status: 200
+      note: >-
+        The api-catalog linkset advertises https://status.konbiniapi.com as the status link for
+        https://api.konbiniapi.com. The pointer is published; the host behind it is not.
+  finding: >-
+    KonbiniAPI's own machine-readable service catalog points agents at a status endpoint that does
+    not exist. This is a dangling reference the provider can fix in one DNS record, and it is the
+    single highest-value correction available on this profile — an agent following the catalog to
+    check health gets a connection error, which is indistinguishable from an outage.
+
+support:
+  channels:
+    - type: email
+      value: hello@konbiniapi.com
+    - type: security
+      value: mailto:hello@konbiniapi.com
+      source: https://konbiniapi.com/.well-known/security.txt
+  tiers:
+    free: best effort
+    plus: standard
+    pro: standard
+    max: priority
+    ultra: priority
+
+stability_signals:
+  releases: 6
+  breaking_changes: 0
+  additive_releases: 6
+  operations_at_1_0_0: 30
+  operations_at_1_5_0: 67
+  platforms_at_1_0_0: 2
+  platforms_at_1_5_0: 5
+  first_release: '2026-03'
+  latest_release: '2026-08'
+  note: >-
+    A young API — five months old — but shipping monthly and never breaking. The upstream risk is
+    structural rather than contractual: the data comes from five social platforms KonbiniAPI does not
+    control, and the docs already record platform-imposed page-size ceilings and non-chronological
+    feeds as behaviour the provider cannot change.
+
+related:
+  changelog: changelog/konbiniapi-changelog.yml
+  conventions: conventions/konbiniapi-conventions.yml
+  errors: errors/konbiniapi-problem-types.yml

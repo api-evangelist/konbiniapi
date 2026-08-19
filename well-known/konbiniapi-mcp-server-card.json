@@ -1,0 +1,28 @@
+{
+    "$schema": "https://static.modelcontextprotocol.io/schemas/v1/server-card.schema.json",
+    "name": "com.konbiniapi/mcp",
+    "title": "KonbiniAPI MCP",
+    "version": "1.0.0",
+    "description": "KonbiniAPI gives AI agents direct access to social media data \u2014 profiles, posts, videos, comments, and search results.",
+    "websiteUrl": "https://docs.konbiniapi.com/reference/mcp/overview",
+    "icons": [
+        {
+            "src": "https://konbiniapi.com/icon.png",
+            "sizes": [
+                "256x256"
+            ],
+            "mimeType": "image/png"
+        }
+    ],
+    "remotes": [
+        {
+            "type": "streamable-http",
+            "url": "https://mcp.konbiniapi.com",
+            "supportedProtocolVersions": [
+                "2025-11-25",
+                "2025-06-18",
+                "2025-03-26"
+            ]
+        }
+    ]
+}

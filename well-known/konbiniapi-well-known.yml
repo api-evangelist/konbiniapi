@@ -1,0 +1,171 @@
+generated: '2026-08-13'
+method: probed
+source: live HTTPS probes of every KonbiniAPI host named in apis.yml and in the OpenAPI servers[] block
+note: >-
+  Five hosts were probed for the standard /.well-known/ surfaces. konbiniapi.com serves a real
+  security.txt, an RFC 9727 api-catalog linkset and an OpenAI ai-plugin.json manifest.
+  mcp.konbiniapi.com serves RFC 8414 / RFC 9728 OAuth metadata for the hosted MCP server plus an
+  MCP server-card. docs.konbiniapi.com serves an A2A agent card (recorded separately under a2a/).
+  api.konbiniapi.com answers every /.well-known/ path with its own JSON route_not_found envelope,
+  and app.konbiniapi.com returns an HTML 404 shell — both are honest misses, not documents.
+hosts:
+  - host: konbiniapi.com
+    paths:
+      - path: /.well-known/security.txt
+        status: 200
+        content_type: text/plain
+        file: konbiniapi-security.txt
+      - path: /.well-known/api-catalog
+        status: 200
+        content_type: application/linkset+json
+        file: konbiniapi-api-catalog.json
+      - path: /.well-known/ai-plugin.json
+        status: 200
+        content_type: application/json
+        file: konbiniapi-ai-plugin.json
+      - path: /.well-known/openid-configuration
+        status: 404
+        content_type: text/html
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        content_type: text/html
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        content_type: text/html
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        content_type: text/html
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        content_type: text/html
+        file: null
+  - host: mcp.konbiniapi.com
+    paths:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: application/json
+        file: konbiniapi-mcp-oauth-authorization-server.json
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        content_type: application/json
+        file: konbiniapi-mcp-oauth-protected-resource.json
+      - path: /.well-known/mcp-server-card
+        status: 200
+        content_type: application/json
+        file: konbiniapi-mcp-server-card.json
+      - path: /.well-known/security.txt
+        status: 404
+        content_type: text/plain
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        content_type: text/plain
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        content_type: text/plain
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        content_type: text/plain
+        file: null
+  - host: docs.konbiniapi.com
+    paths:
+      - path: /.well-known/agent-card.json
+        status: 200
+        content_type: application/json
+        file: ../a2a/konbiniapi-agent-card.json
+        note: recorded as the A2A artifact; see a2a/konbiniapi-a2a.yml
+      - path: /.well-known/agent-skills/index.json
+        status: 200
+        content_type: application/json
+        file: ../skills/konbiniapi-agent-skills-discovery.json
+        note: Agent Skills discovery 0.2.0 index; the skill itself is skills/konbiniapi-konbini-api.md
+      - path: /.well-known/security.txt
+        status: 404
+        content_type: text/plain
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        content_type: text/plain
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        content_type: text/plain
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        content_type: text/plain
+        file: null
+  - host: api.konbiniapi.com
+    paths:
+      - path: /.well-known/security.txt
+        status: 404
+        content_type: application/json
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        content_type: application/json
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        content_type: application/json
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        content_type: application/json
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        content_type: application/json
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        content_type: application/json
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        content_type: application/json
+        file: null
+  - host: app.konbiniapi.com
+    paths:
+      - path: /.well-known/openid-configuration/api/auth
+        status: 200
+        content_type: application/json
+        file: konbiniapi-app-openid-configuration.json
+        note: >-
+          Issuer-suffixed discovery path published by the api-catalog linkset. The bare
+          /.well-known/openid-configuration returns an HTML 404 shell; only this path is real.
+      - path: /.well-known/oauth-authorization-server/api/auth
+        status: 200
+        content_type: application/json
+        file: konbiniapi-app-openid-configuration.json
+        note: byte-identical to the openid-configuration document above; not stored twice
+      - path: /.well-known/security.txt
+        status: 404
+        content_type: text/html
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        content_type: text/html
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        content_type: text/html
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        content_type: text/html
+        file: null
+summary:
+  hosts_probed: 5
+  documents_found: 10
+  security_txt: true
+  api_catalog: true
+  ai_plugin: true
+  oauth_metadata: true
+  agent_card: true

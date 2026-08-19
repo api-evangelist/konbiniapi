@@ -1,0 +1,137 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Konbini TikTok API
+  version: 1.0.0
+extends: openapi/konbiniapi-tiktok-api-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: API Evangelist enrichment pipeline; every value below is traceable to a KonbiniAPI-published document listed in x-evidence
+x-evidence:
+- https://docs.konbiniapi.com/openapi.json
+- https://docs.konbiniapi.com/getting-started/errors
+- https://docs.konbiniapi.com/getting-started/credits
+- https://docs.konbiniapi.com/getting-started/pagination
+- https://docs.konbiniapi.com/getting-started/authentication
+- https://docs.konbiniapi.com/reference/mcp/tools/overview
+- https://konbiniapi.com/pricing
+x-note: Non-destructive enhancements to the refined KonbiniAPI OpenAPI. The upstream document is never mutated. Everything asserted here is published by KonbiniAPI somewhere other than the OpenAPI itself — the spec omits its own terms of service, licence, external docs, error-code catalog, credit semantics and MCP tool bindings.
+actions:
+- target: $.info
+  description: Add the service terms and contact URLs the spec omits
+  update:
+    termsOfService: https://konbiniapi.com/terms
+    x-privacy-policy: https://konbiniapi.com/privacy
+    x-dpa: https://konbiniapi.com/dpa
+    x-product-version: 1.5.0
+    x-product-version-note: info.version is 1.0.0 in the published spec and has not moved across six releases; the changelog version is the real one.
+- target: $
+  description: Attach the external documentation reference
+  update:
+    externalDocs:
+      description: KonbiniAPI TikTok API reference
+      url: https://docs.konbiniapi.com/reference/api/tiktok
+- target: $.info
+  description: Record the runtime conventions that govern every operation
+  update:
+    x-conventions:
+      pagination:
+        style: cursor
+        params:
+        - cursor
+        - count
+        response_type: OrderedCollectionPage
+        termination: nextCursor is null
+        docs: https://docs.konbiniapi.com/getting-started/pagination
+      errors:
+        format: vendor-envelope
+        rfc9457: false
+        shape: '{"errors":[{"code","message"}],"data":null}'
+        docs: https://docs.konbiniapi.com/getting-started/errors
+        catalog: errors/konbiniapi-problem-types.yml
+      idempotency:
+        supported: false
+        note: No idempotency key. GETs are safe; a replayed Reddit batch POST is re-billed per ID.
+      rate_limits:
+        published: false
+        status_on_exhaustion: 402
+        headers:
+        - X-Credits-Remaining
+        - X-Credits-Used
+      authentication:
+        style: bearer
+        key_prefix: knbn_
+        docs: https://docs.konbiniapi.com/getting-started/authentication
+- target: $.info
+  description: Record the credit/billing semantics that apply to every call
+  update:
+    x-billing:
+      unit: credit
+      cost_per_request: 1
+      refunded_statuses:
+      - 400
+      - 500
+      - 502
+      - 503
+      charged_statuses:
+      - 200
+      - 404
+      batch_cost: 1 credit per ID submitted
+      exhaustion:
+        status: 402
+        code: credits_exhausted
+      plans: plans/konbiniapi-plans-pricing.yml
+- target: $.info
+  description: Record the parallel MCP surface for this platform
+  update:
+    x-mcp:
+      endpoint: https://mcp.konbiniapi.com
+      transport: streamable-http
+      auth: oauth (or Bearer API key)
+      tool_prefix: tiktok_
+      crosswalk: mcp/konbiniapi-tool-crosswalk.yml
+      note: Every operation in this document has exactly one matching MCP tool. MCP tools additionally accept projection_preset, data_fields and item_fields, which have no REST equivalent.
+- target: $.components.securitySchemes.apiKey
+  description: Document the key prefix and rotation semantics
+  update:
+    x-key-prefix: knbn_
+    x-keys-per-account: 1
+    x-rotation: Rotating the key preserves the credit balance; credits are tied to the account. Revoked keys are rejected instantly.
+    x-issuance: https://app.konbiniapi.com
+- target: $.tags[?(@.name=='TikTok')]
+  description: Link the tag to its published reference and MCP tool group
+  update:
+    externalDocs:
+      url: https://docs.konbiniapi.com/reference/api/tiktok
+    x-mcp-tool-prefix: tiktok_
+- target: $.paths.*.*.responses.402
+  description: Clarify that 402 is terminal, not a retryable backoff
+  update:
+    x-retryable: false
+    x-error-code: credits_exhausted
+    x-agent-guidance: Terminal for the run. Do not retry — a human must upgrade the plan or enable extra usage at https://app.konbiniapi.com.
+- target: $.paths.*.*.responses.502
+  description: Mark upstream platform failure as retryable and refunded
+  update:
+    x-retryable: true
+    x-error-code: platform_error
+    x-credits-charged: 0
+- target: $.paths.*.*.responses.503
+  description: Mark service unavailability as retryable and refunded
+  update:
+    x-retryable: true
+    x-error-code: service_unavailable
+    x-credits-charged: 0
+- target: $.paths.*.*.responses.404
+  description: Record that a not_found lookup is still billed
+  update:
+    x-credits-charged: 1
+    x-note: A resource miss is charged because the fetch was performed. Only route_not_found (an invalid path) is free.
+- target: $.paths.*.*
+  description: Classify every operation as a safe read for agent governance
+  update:
+    x-agentic-access:
+      action-class: connected
+      consequence: read
+      subject: optional
+      audit: none
+    x-data-source: public data from the upstream platform, fetched via anonymous sessions; no end-user OAuth or credentials are involved

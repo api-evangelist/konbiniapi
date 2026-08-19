@@ -1,0 +1,199 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Konbini X API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "X",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get user profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/x/users/:username",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "X username (with or without @ symbol)"
+              }
+            ]
+          },
+          "docs": "Returns profile information for a public X account including bio, follower counts, verification flags, and profile images."
+        },
+        {
+          "info": {
+            "name": "Get user posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/x/users/:username/posts",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "X username (with or without @ symbol)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns public posts from a user's profile as visible to not logged in users. This feed is not guaranteed to be chronological and is often a ranked public selection. Pages may overlap: a pinned post is repeated on every page, so deduplicate by id when paging."
+        },
+        {
+          "info": {
+            "name": "Get user highlights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/x/users/:username/highlights",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "X username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of highlighted posts to return per page (maximum: 100)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns the public Highlights tab selection as visible to not logged in users. This feed is not guaranteed to be chronological. Pages may overlap: a pinned post is repeated on every page, so deduplicate by id when paging."
+        },
+        {
+          "info": {
+            "name": "Get post",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/x/posts/:postId",
+            "params": [
+              {
+                "name": "postId",
+                "value": "",
+                "type": "path",
+                "description": "X post ID"
+              }
+            ]
+          },
+          "docs": "Returns a public X post including text, author, engagement counts, and media attachments."
+        },
+        {
+          "info": {
+            "name": "Get community",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/x/communities/:communityId",
+            "params": [
+              {
+                "name": "communityId",
+                "value": "",
+                "type": "path",
+                "description": "X community ID"
+              }
+            ]
+          },
+          "docs": "Returns public metadata for an X community, including description, member count, topic, creator, and banner image."
+        },
+        {
+          "info": {
+            "name": "Get community posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/x/communities/:communityId/posts",
+            "params": [
+              {
+                "name": "communityId",
+                "value": "",
+                "type": "path",
+                "description": "X community ID"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of posts to return from the community timeline (maximum: 100)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns public posts from an X community timeline as visible to not logged in users."
+        },
+        {
+          "info": {
+            "name": "Get community media",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/x/communities/:communityId/media",
+            "params": [
+              {
+                "name": "communityId",
+                "value": "",
+                "type": "path",
+                "description": "X community ID"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of media posts to return from the community media timeline (maximum: 100)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns public posts from an X community's Media tab as visible to not logged in users."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

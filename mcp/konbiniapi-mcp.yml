@@ -1,0 +1,504 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.konbiniapi.com/reference/mcp/overview
+name: KonbiniAPI MCP
+canonical_name: com.konbiniapi/mcp
+description: KonbiniAPI gives AI agents direct access to social media data — profiles, posts, videos, comments, and search results across Instagram, TikTok, X, Reddit and LinkedIn, normalized to ActivityStreams 2.0.
+status: live
+deployment:
+  mode: remote
+  endpoint: https://mcp.konbiniapi.com
+  transport: streamable-http
+  supported_protocol_versions:
+  - '2025-11-25'
+  - '2025-06-18'
+  - '2025-03-26'
+  auth: oauth
+  auth_detail: OAuth 2.1 authorization code + PKCE (S256) against https://app.konbiniapi.com/api/auth, advertised via RFC 9728 protected-resource metadata at https://mcp.konbiniapi.com/.well-known/oauth-protected-resource. Dynamic client registration is supported. Clients without OAuth may instead send the KonbiniAPI API key (knbn_ prefix) as a Bearer token.
+  install: null
+  package: null
+  verified: probed
+x-evidence:
+- url: https://mcp.konbiniapi.com/.well-known/mcp-server-card
+  http_status: 200
+  note: MCP server-card declaring remotes[].type streamable-http
+  file: ../well-known/konbiniapi-mcp-server-card.json
+- url: https://mcp.konbiniapi.com/.well-known/oauth-protected-resource
+  http_status: 200
+  note: RFC 9728 protected resource metadata
+  file: ../well-known/konbiniapi-mcp-oauth-protected-resource.json
+- url: https://mcp.konbiniapi.com/.well-known/oauth-authorization-server
+  http_status: 200
+  note: RFC 8414 authorization server metadata
+  file: ../well-known/konbiniapi-mcp-oauth-authorization-server.json
+- url: https://mcp.konbiniapi.com/
+  http_status: 401
+  method: POST tools/list
+  note: '{"jsonrpc":"2.0","error":{"code":-32000,"message":"Unauthorized"}} — live tool schemas are auth-gated'
+- url: https://mcp.konbiniapi.com/mcp
+  http_status: 404
+  note: the /mcp sub-path is NOT the endpoint; the server root is
+documentation:
+  overview: https://docs.konbiniapi.com/reference/mcp/overview
+  tool_reference: https://docs.konbiniapi.com/reference/mcp/tools/overview
+  setup_guides:
+  - https://docs.konbiniapi.com/reference/mcp/setup/chatgpt
+  - https://docs.konbiniapi.com/reference/mcp/setup/claude
+  - https://docs.konbiniapi.com/reference/mcp/setup/claude-code
+  - https://docs.konbiniapi.com/reference/mcp/setup/codex
+  - https://docs.konbiniapi.com/reference/mcp/setup/cursor
+  - https://docs.konbiniapi.com/reference/mcp/setup/vscode
+  - https://docs.konbiniapi.com/reference/mcp/setup/antigravity
+  - https://docs.konbiniapi.com/reference/mcp/setup/gemini-cli
+  - https://docs.konbiniapi.com/reference/mcp/setup/windsurf
+  - https://docs.konbiniapi.com/reference/mcp/setup/cline
+  - https://docs.konbiniapi.com/reference/mcp/setup/replit
+  - https://docs.konbiniapi.com/reference/mcp/setup/zed
+  - https://docs.konbiniapi.com/reference/mcp/setup/custom-agents
+  - https://docs.konbiniapi.com/reference/mcp/setup/zapier
+  - https://docs.konbiniapi.com/reference/mcp/setup/n8n
+  - https://docs.konbiniapi.com/reference/mcp/setup/make
+  - https://docs.konbiniapi.com/reference/mcp/setup/pipedream
+oauth:
+  issuer: https://app.konbiniapi.com/api/auth
+  authorization_endpoint: https://app.konbiniapi.com/api/auth/oauth2/authorize
+  token_endpoint: https://app.konbiniapi.com/api/auth/oauth2/token
+  registration_endpoint: https://app.konbiniapi.com/api/auth/oauth2/register
+  scopes_supported:
+  - api_key
+  - offline_access
+  grant_types:
+  - authorization_code
+  - client_credentials
+  - refresh_token
+  pkce:
+  - S256
+billing:
+  model: credits
+  note: Each successful endpoint-tool call costs the same 1 credit as the equivalent REST call. Responses carry metadata.creditsUsed and metadata.creditsRemaining.
+shared_inputs:
+- name: projection_preset
+  type: string
+  default: minimal
+  enum:
+  - full
+  - minimal
+  - identity
+  - engagement
+  - content
+- name: data_fields
+  type: string[]
+- name: item_fields
+  type: string[]
+  note: collection tools only
+tool_count: 67
+tools_by_platform:
+  Instagram: 10
+  LinkedIn: 7
+  Reddit: 22
+  TikTok: 21
+  X: 7
+tools:
+- name: instagram_get_highlight_stories
+  platform: Instagram
+  rest: GET /v1/instagram/highlights/{highlightId}
+  result_type: Collection tool
+  description: Returns all story items within a highlight reel, including images and videos. The highlight ID comes from the highlights list endpoint.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-highlight-stories
+- name: instagram_get_location_posts
+  platform: Instagram
+  rest: GET /v1/instagram/locations/{locationId}
+  result_type: Collection tool
+  description: Returns recent posts tagged at a location. Fixed page size of 21 (platform limit). The location ID is a numeric Facebook Places ID.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-location-posts
+- name: instagram_get_post
+  platform: Instagram
+  rest: GET /v1/instagram/posts/{postId}
+  result_type: Detail tool
+  description: Returns details for a single post by its shortcode, including media, captions, and engagement counts. Supports photos, videos, and carousels.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-post
+- name: instagram_get_post_comments
+  platform: Instagram
+  rest: GET /v1/instagram/posts/{postId}/comments
+  result_type: Collection tool
+  description: Returns top-level comments on an Instagram post. Fixed page size of 15 (platform limit). Includes comment text, author info, like counts, and timestamps.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-post-comments
+- name: instagram_get_user
+  platform: Instagram
+  rest: GET /v1/instagram/users/{username}
+  result_type: Detail tool
+  description: Returns profile information for an Instagram user including bio, follower counts, profile picture, and account metadata. Look up any public Instagram account by username.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-user
+- name: instagram_get_user_highlights
+  platform: Instagram
+  rest: GET /v1/instagram/users/{username}/highlights
+  result_type: Collection tool
+  description: Returns the list of story highlight reels on a user's profile. Use the highlight endpoint to get individual stories within a highlight.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-user-highlights
+- name: instagram_get_user_posts
+  platform: Instagram
+  rest: GET /v1/instagram/users/{username}/posts
+  result_type: Collection tool
+  description: Returns a paginated list of posts from an Instagram user's profile feed. Maximum 12 posts per page. Includes photos, videos, carousels, and engagement counts.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-user-posts
+- name: instagram_get_user_reels
+  platform: Instagram
+  rest: GET /v1/instagram/users/{username}/reels
+  result_type: Collection tool
+  description: Returns a paginated list of reels from an Instagram user's profile. Maximum 12 reels per page. Includes video URLs, captions, and engagement counts.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-user-reels
+- name: instagram_get_user_tagged
+  platform: Instagram
+  rest: GET /v1/instagram/users/{username}/tagged
+  result_type: Collection tool
+  description: Returns Instagram posts where the user has been tagged by other accounts. Maximum 12 posts per page. Includes full post details and engagement counts.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/get-user-tagged
+- name: instagram_search_media
+  platform: Instagram
+  rest: GET /v1/instagram/search
+  result_type: Collection tool
+  description: Searches Instagram for trending reels and videos matching a keyword. Maximum 24 results per page. Some valid keywords may return no results, since this surfaces trending content rather than a full-text search.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/instagram/search-media
+- name: linkedin_get_company
+  platform: LinkedIn
+  rest: GET /v1/linkedin/companies/{company}
+  result_type: Detail tool
+  description: Returns public information for a LinkedIn company page including description, location, employee count, and logo.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-company
+- name: linkedin_get_company_posts
+  platform: LinkedIn
+  rest: GET /v1/linkedin/companies/{company}/posts
+  result_type: Collection tool
+  description: Returns recent posts from a LinkedIn company page, newest first. Use `cursor` to page through further results.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-company-posts
+- name: linkedin_get_post
+  platform: LinkedIn
+  rest: GET /v1/linkedin/posts/{postId}
+  result_type: Detail tool
+  description: Returns a public LinkedIn post including author, engagement counts, and up to ~5 inline comments.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-post
+- name: linkedin_get_post_transcript
+  platform: LinkedIn
+  rest: GET /v1/linkedin/posts/{postId}/transcript
+  result_type: Detail tool
+  description: Returns the caption/transcript for a video post, when the post carries captions. Returns 404 if the post has no video or no captions.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-post-transcript
+- name: linkedin_get_user
+  platform: LinkedIn
+  rest: GET /v1/linkedin/users/{username}
+  result_type: Detail tool
+  description: 'Returns profile information for a public LinkedIn member: headline, location, and a simple list of job titles and school/employer names. Fields the member has restricted are omitted.'
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-user
+- name: linkedin_get_user_articles
+  platform: LinkedIn
+  rest: GET /v1/linkedin/users/{username}/articles
+  result_type: Collection tool
+  description: Returns a public LinkedIn member's published articles. This endpoint is not paginated — everything available is returned in a single response.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-user-articles
+- name: linkedin_get_user_posts
+  platform: LinkedIn
+  rest: GET /v1/linkedin/users/{username}/posts
+  result_type: Collection tool
+  description: Returns a public LinkedIn member's recent posts and shares. This endpoint is not paginated — everything available is returned in a single response.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/linkedin/get-user-posts
+- name: reddit_get_comment
+  platform: Reddit
+  rest: GET /v1/reddit/posts/{postId}/comments/{commentId}
+  result_type: Detail tool
+  description: Returns a public Reddit comment with author info, scores, reply presence, and media when available.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-comment
+- name: reddit_get_comment_replies
+  platform: Reddit
+  rest: GET /v1/reddit/posts/{postId}/comments/{commentId}/replies
+  result_type: Collection tool
+  description: Returns direct replies to a Reddit comment using cursor-based pagination.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-comment-replies
+- name: reddit_get_comments_batch
+  platform: Reddit
+  rest: POST /v1/reddit/comments/batch
+  result_type: Detail tool
+  description: Returns up to 100 Reddit comments by ID in a single request. Costs 1 credit per ID submitted.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-comments-batch
+- name: reddit_get_feed
+  platform: Reddit
+  rest: GET /v1/reddit/feeds/{feed}
+  result_type: Collection tool
+  description: Returns posts from a top-level Reddit feed such as best, hot, new, top, rising, or controversial.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-feed
+- name: reddit_get_post
+  platform: Reddit
+  rest: GET /v1/reddit/posts/{postId}
+  result_type: Detail tool
+  description: Returns a public Reddit post with title, body, author info, engagement counts, and attachments.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-post
+- name: reddit_get_post_comments
+  platform: Reddit
+  rest: GET /v1/reddit/posts/{postId}/comments
+  result_type: Collection tool
+  description: Returns top-level comments on a Reddit post. Supports Reddit comment ordering and cursor-based pagination.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-post-comments
+- name: reddit_get_post_duplicates
+  platform: Reddit
+  rest: GET /v1/reddit/posts/{postId}/duplicates
+  result_type: Collection tool
+  description: Returns duplicate submissions and crossposts associated with a Reddit post.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-post-duplicates
+- name: reddit_get_posts_batch
+  platform: Reddit
+  rest: POST /v1/reddit/posts/batch
+  result_type: Detail tool
+  description: Returns up to 100 Reddit posts by ID in a single request. Costs 1 credit per ID submitted.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-posts-batch
+- name: reddit_get_subreddit
+  platform: Reddit
+  rest: GET /v1/reddit/subreddits/{subreddit}
+  result_type: Detail tool
+  description: Returns public subreddit metadata including title, description, icon, banner, and subscriber count.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-subreddit
+- name: reddit_get_subreddit_comments
+  platform: Reddit
+  rest: GET /v1/reddit/subreddits/{subreddit}/comments
+  result_type: Collection tool
+  description: Returns public comments from a subreddit. Supports hot, new, top, and controversial ordering, with optional time windows for top and controversial.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-subreddit-comments
+- name: reddit_get_subreddit_posts
+  platform: Reddit
+  rest: GET /v1/reddit/subreddits/{subreddit}/posts
+  result_type: Collection tool
+  description: Returns public posts from a subreddit. Supports hot, new, top, rising, and controversial ordering, with optional time windows for top and controversial.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-subreddit-posts
+- name: reddit_get_subreddit_rules
+  platform: Reddit
+  rest: GET /v1/reddit/subreddits/{subreddit}/rules
+  result_type: Collection tool
+  description: Returns structured community rules for a subreddit.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-subreddit-rules
+- name: reddit_get_subreddit_sticky
+  platform: Reddit
+  rest: GET /v1/reddit/subreddits/{subreddit}/sticky
+  result_type: Collection tool
+  description: Returns sticky posts for a subreddit across all available slots.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-subreddit-sticky
+- name: reddit_get_subreddits_batch
+  platform: Reddit
+  rest: POST /v1/reddit/subreddits/batch
+  result_type: Detail tool
+  description: Returns up to 100 Reddit subreddits by ID in a single request. Costs 1 credit per ID submitted.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-subreddits-batch
+- name: reddit_get_user
+  platform: Reddit
+  rest: GET /v1/reddit/users/{username}
+  result_type: Detail tool
+  description: Returns public Reddit user profile information including bio, avatar, verification flags, and account creation date.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-user
+- name: reddit_get_user_comments
+  platform: Reddit
+  rest: GET /v1/reddit/users/{username}/comments
+  result_type: Collection tool
+  description: Returns public comments made by a Reddit user. Supports hot, new, top, and controversial ordering, with optional time windows for top and controversial.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-user-comments
+- name: reddit_get_user_overview
+  platform: Reddit
+  rest: GET /v1/reddit/users/{username}/overview
+  result_type: Collection tool
+  description: Returns a mixed Reddit user activity feed including posts and comments. Supports hot, new, top, and controversial ordering, with optional time windows for top and controversial.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-user-overview
+- name: reddit_get_user_posts
+  platform: Reddit
+  rest: GET /v1/reddit/users/{username}/posts
+  result_type: Collection tool
+  description: Returns public posts submitted by a Reddit user. Supports hot, new, top, and controversial ordering, with optional time windows for top and controversial.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/get-user-posts
+- name: reddit_search_posts
+  platform: Reddit
+  rest: GET /v1/reddit/search/posts
+  result_type: Collection tool
+  description: Searches public Reddit posts across the platform. Supports relevance, hot, top, new, and comments sorting with optional time windows.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/search-posts
+- name: reddit_search_subreddit_posts
+  platform: Reddit
+  rest: GET /v1/reddit/subreddits/{subreddit}/search
+  result_type: Collection tool
+  description: Searches public Reddit posts within a subreddit. Supports relevance, hot, top, new, and comments sorting with optional time windows.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/search-subreddit-posts
+- name: reddit_search_subreddits
+  platform: Reddit
+  rest: GET /v1/reddit/search/subreddits
+  result_type: Collection tool
+  description: Searches public Reddit subreddits across the platform.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/search-subreddits
+- name: reddit_search_users
+  platform: Reddit
+  rest: GET /v1/reddit/search/users
+  result_type: Collection tool
+  description: Searches public Reddit users across the platform.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/reddit/search-users
+- name: tiktok_get_audio
+  platform: TikTok
+  rest: GET /v1/tiktok/audios/{audioId}
+  result_type: Detail tool
+  description: Returns metadata for a TikTok audio track including title, artist, duration, usage count, and cover image. Look up any sound by its audio ID.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-audio
+- name: tiktok_get_audio_videos
+  platform: TikTok
+  rest: GET /v1/tiktok/audios/{audioId}/videos
+  result_type: Collection tool
+  description: Returns a paginated list of TikTok videos using a specific audio track. Maximum 30 per page. Discover trending content by sound or music.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-audio-videos
+- name: tiktok_get_collection_videos
+  platform: TikTok
+  rest: GET /v1/tiktok/collections/{collectionId}
+  result_type: Collection tool
+  description: Returns a paginated list of videos in a TikTok collection (playlist or mix). Maximum 35 per page. Includes full video details and engagement counts.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-collection-videos
+- name: tiktok_get_comment_replies
+  platform: TikTok
+  rest: GET /v1/tiktok/videos/{videoId}/comments/{commentId}/replies
+  result_type: Collection tool
+  description: Returns a paginated list of replies to a TikTok comment. Maximum 50 per page. Includes author info, like counts, and reply timestamps.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-comment-replies
+- name: tiktok_get_tag_videos
+  platform: TikTok
+  rest: GET /v1/tiktok/tags/{tagName}
+  result_type: Collection tool
+  description: Returns TikTok videos associated with a hashtag or challenge. The tag name is resolved to an internal ID automatically. Includes video details and engagement counts.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-tag-videos
+- name: tiktok_get_user
+  platform: TikTok
+  rest: GET /v1/tiktok/users/{username}
+  result_type: Detail tool
+  description: Returns profile information for a TikTok user including bio, follower counts, verification status, and profile picture. Look up any public TikTok account by username.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user
+- name: tiktok_get_user_collections
+  platform: TikTok
+  rest: GET /v1/tiktok/users/{username}/collections
+  result_type: Collection tool
+  description: Returns a paginated list of video collections (playlists and mixes) on a TikTok user's profile. Includes collection name, cover image, and video count.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-collections
+- name: tiktok_get_user_followers
+  platform: TikTok
+  rest: GET /v1/tiktok/users/{username}/followers
+  result_type: Collection tool
+  description: Returns a paginated list of accounts following a TikTok user. Maximum 30 per page. Includes profile details for each follower account.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-followers
+- name: tiktok_get_user_following
+  platform: TikTok
+  rest: GET /v1/tiktok/users/{username}/following
+  result_type: Collection tool
+  description: Returns a paginated list of accounts a TikTok user follows. Maximum 30 per page. Includes profile details for each followed account.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-following
+- name: tiktok_get_user_likes
+  platform: TikTok
+  rest: GET /v1/tiktok/users/{username}/likes
+  result_type: Collection tool
+  description: 'Returns a paginated list of videos liked by a TikTok user. Note: Users may have their likes set to private, in which case an empty list will be returned.'
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-likes
+- name: tiktok_get_user_live
+  platform: TikTok
+  rest: GET /v1/tiktok/users/{username}/live
+  result_type: Detail tool
+  description: Returns the current live stream for a user, including stream URLs and viewer count. Returns 404 if the user is not currently live.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-live
+- name: tiktok_get_user_reposts
+  platform: TikTok
+  rest: GET /v1/tiktok/users/{username}/reposts
+  result_type: Collection tool
+  description: 'Returns a paginated list of videos reposted by a TikTok user. Note: Users may have their reposts set to private, in which case an empty list will be returned.'
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-reposts
+- name: tiktok_get_user_stories
+  platform: TikTok
+  rest: GET /v1/tiktok/users/{username}/stories
+  result_type: Collection tool
+  description: Returns a paginated list of active stories for a TikTok user. Stories expire after 24 hours and include both images and videos with engagement data.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-stories
+- name: tiktok_get_user_videos
+  platform: TikTok
+  rest: GET /v1/tiktok/users/{username}/videos
+  result_type: Collection tool
+  description: Returns a paginated list of videos from a user's profile. Supports sorting by newest, popular, or oldest. Maximum 35 videos per page.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-user-videos
+- name: tiktok_get_video
+  platform: TikTok
+  rest: GET /v1/tiktok/videos/{videoId}
+  result_type: Detail tool
+  description: Returns details for a single TikTok video including engagement counts, media files in multiple qualities, audio track, author info, and hashtags.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-video
+- name: tiktok_get_video_comments
+  platform: TikTok
+  rest: GET /v1/tiktok/videos/{videoId}/comments
+  result_type: Collection tool
+  description: Returns a paginated list of top-level comments on a video. Maximum 50 per page. Use the replies endpoint to fetch threaded replies.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-video-comments
+- name: tiktok_get_video_download_url
+  platform: TikTok
+  rest: GET /v1/tiktok/videos/{videoId}/download
+  result_type: Detail tool
+  description: Returns a video file URL you can download directly with a plain GET request — no cookies, no auth headers, no browser fingerprinting needed on your end. Not permanent, only valid for a few hours.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-video-download-url
+- name: tiktok_get_video_transcript
+  platform: TikTok
+  rest: GET /v1/tiktok/videos/{videoId}/transcripts/{language}
+  result_type: Detail tool
+  description: Returns the transcript for a video. Use `original` as the language to return the auto-generated transcript, or provide a BCP47 language code for machine-translated subtitles. Returns WebVTT format.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/get-video-transcript
+- name: tiktok_search_content
+  platform: TikTok
+  rest: GET /v1/tiktok/search
+  result_type: Collection tool
+  description: General search that returns mixed results including videos and user profiles. Supports sorting and publish-time filters.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/search-content
+- name: tiktok_search_users
+  platform: TikTok
+  rest: GET /v1/tiktok/search/users
+  result_type: Collection tool
+  description: Searches TikTok for user profiles matching a query. Fixed page size of 10 (platform limit). Returns profile details including follower counts and verification status.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/search-users
+- name: tiktok_search_videos
+  platform: TikTok
+  rest: GET /v1/tiktok/search/videos
+  result_type: Collection tool
+  description: Searches TikTok for videos matching a query. Supports filtering by publish time and sorting by relevance, likes, or date.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/tiktok/search-videos
+- name: x_get_community
+  platform: X
+  rest: GET /v1/x/communities/{communityId}
+  result_type: Detail tool
+  description: Returns public metadata for an X community, including description, member count, topic, creator, and banner image.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-community
+- name: x_get_community_media
+  platform: X
+  rest: GET /v1/x/communities/{communityId}/media
+  result_type: Collection tool
+  description: Returns public posts from an X community's Media tab as visible to not logged in users.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-community-media
+- name: x_get_community_posts
+  platform: X
+  rest: GET /v1/x/communities/{communityId}/posts
+  result_type: Collection tool
+  description: Returns public posts from an X community timeline as visible to not logged in users.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-community-posts
+- name: x_get_post
+  platform: X
+  rest: GET /v1/x/posts/{postId}
+  result_type: Detail tool
+  description: Returns a public X post including text, author, engagement counts, and media attachments.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-post
+- name: x_get_user
+  platform: X
+  rest: GET /v1/x/users/{username}
+  result_type: Detail tool
+  description: Returns profile information for a public X account including bio, follower counts, verification flags, and profile images.
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-user
+- name: x_get_user_highlights
+  platform: X
+  rest: GET /v1/x/users/{username}/highlights
+  result_type: Collection tool
+  description: 'Returns the public Highlights tab selection as visible to not logged in users. This feed is not guaranteed to be chronological. Pages may overlap: a pinned post is repeated on every page, so deduplicate by id when paging.'
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-user-highlights
+- name: x_get_user_posts
+  platform: X
+  rest: GET /v1/x/users/{username}/posts
+  result_type: Collection tool
+  description: 'Returns public posts from a user''s profile as visible to not logged in users. This feed is not guaranteed to be chronological and is often a ranked public selection. Pages may overlap: a pinned post is repeated on every page, so deduplicate by id when paging.'
+  docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-user-posts
+crosswalk: mcp/konbiniapi-tool-crosswalk.yml

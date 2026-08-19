@@ -1,3 +1,6 @@
+generated: '2026-08-13'
+method: searched
+source: https://konbiniapi.com/pricing
 finopsFramework:
   version: focus-1.0
   alignment: api-commons-finops-0.1
@@ -15,7 +18,15 @@ billingSurface:
   cycle: monthly
   paymentProvider: Stripe
   rollover: false
-  overage: none
+  overage: optional
+  overageDetail: >-
+    Off by default on every plan. Paid plans may opt into extra usage beyond the monthly credit
+    allowance (shipped v1.4.0, July 2026), billed at the plan's own per-credit rate, capped by a
+    customer-set monthly limit up to the plan price, and charged at the end of the billing cycle.
+  surfaces:
+    - REST API (https://api.konbiniapi.com)
+    - MCP server (https://mcp.konbiniapi.com)
+  surfaceParity: A REST call and the equivalent MCP tool call cost exactly the same 1 credit.
 
 charges:
   - chargeType: Usage
@@ -28,6 +39,11 @@ charges:
     pricingMethod: Tier
     pricingCurrency: USD
     tiers:
+      - sku: free
+        listPrice: 0.00
+        includedQuantity: 100
+        recurring: false
+        notes: One-time evaluation allowance, no credit card. Does not refill.
       - sku: plus
         listPrice: 49.00
         includedQuantity: 25000
@@ -43,6 +59,9 @@ charges:
       - sku: custom
         listPrice: null
         includedQuantity: null
+    batchBilling: >-
+      The three Reddit batch endpoints bill 1 credit per ID submitted, up to 100 IDs per call. A
+      batch call saves round trips, not money.
 
 costAllocation:
   taggingSupport:
@@ -61,7 +80,14 @@ reconciliationData:
       - X-Credits-Remaining
     dashboard: https://app.konbiniapi.com
   refundEvents:
-    - HTTP 4xx (selected) and 5xx are refunded automatically at request time.
+    - HTTP 400 (validation_error) is refunded automatically at request time.
+    - HTTP 500, 502 (platform_error) and 503 are refunded automatically at request time.
+    - HTTP 401, 402 and 403 are rejected before credit accounting and cost nothing.
+  chargedEvents:
+    - >-
+      HTTP 404 (not_found) IS charged — the upstream lookup was performed. Only route_not_found, an
+      invalid path rejected before dispatch, is free. Speculative ID or username iteration therefore
+      costs a credit per miss.
 
 practices:
   inform:
@@ -72,14 +98,22 @@ practices:
     - Avoid duplicate calls; the API does not cache, so identical lookups burn credits.
     - Use search endpoints with narrow filters before deep-fetching individual resources.
     - Choose the smallest tier that satisfies monthly burn; credits do not roll over.
+    - >-
+      Validate identifiers before calling. A 404 costs a full credit, so filtering out handles you
+      already know are absent is the cheapest available saving.
+    - >-
+      On MCP, set projection_preset to minimal or a focused preset and add only the data_fields and
+      item_fields you need. It does not reduce credits, but it materially cuts agent token cost.
   operate:
     - Alert on X-Credits-Remaining below a configurable threshold (e.g., 10%).
     - Implement HTTP 402 handling that pages the operator before traffic stalls.
 
 source:
-  reconciledAt: '2026-05-06'
+  reconciledAt: '2026-08-13'
   reconciledBy: api-evangelist pipeline
   reconciled: true
   notes: >-
-    Public pricing and metering captured from konbiniapi.com/pricing and
-    docs.konbiniapi.com on 2026-05-06. Custom tier values omitted (negotiated).
+    Public pricing and metering re-read from konbiniapi.com/pricing and
+    docs.konbiniapi.com/getting-started/credits on 2026-08-13. Custom tier values omitted
+    (negotiated). Three corrections against the 2026-05-06 capture: the Free tier was missing,
+    overage is now optional rather than none, and the refund table wrongly implied a 404 is free.

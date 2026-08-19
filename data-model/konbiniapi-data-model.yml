@@ -1,0 +1,1559 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/konbiniapi-openapi.json
+docs: https://docs.konbiniapi.com/getting-started/response-format
+note: 'Entity-relationship graph derived from the 58 named component schemas and their $ref edges in the live OpenAPI. KonbiniAPI''s design premise is that the same ActivityStreams 2.0 type system repeats per platform: each of the five platforms gets its own namespaced copy of the same handful of shapes (embedded user, image, link, tag, post/video, comment, attachment). The AS 2.0 `type` value is what makes them interchangeable across platforms, not a shared schema — there is no single Person or Note component, there are five of each.'
+vocabulary:
+  standard: W3C ActivityStreams 2.0
+  context:
+  - https://www.w3.org/ns/activitystreams#
+  - https://konbiniapi.com/ns/social#
+  collection_type: OrderedCollectionPage
+identity:
+  primary_key: entityId
+  description: Every entity carries `entityId`, the platform-native identifier, and it is the input to the corresponding detail endpoint. A video with entityId 7403212 in a list resolves at GET /v1/tiktok/videos/7403212. The same holds for comments, collections, audio tracks, subreddits and posts.
+  secondary:
+  - id (AS 2.0 IRI)
+  - url (canonical platform URL)
+  - preferredUsername (accounts)
+  - slug (subreddits)
+  id_prefixes: null
+  id_prefix_note: No opaque prefixed IDs. KonbiniAPI passes through the upstream platform identifier verbatim.
+summary:
+  entities: 58
+  relationships: 80
+  platforms: 5
+  entities_by_platform:
+    Instagram: 13
+    LinkedIn: 7
+    Reddit: 11
+    TikTok: 14
+    X: 13
+entities:
+- name: InstagramAttachment
+  platform: Instagram
+  as2_type: Video
+  field_count: 5
+  identity_fields:
+  - url
+  fields:
+  - type
+  - url
+  - mediaType
+  - width
+  - height
+- name: InstagramAudio
+  platform: Instagram
+  as2_type: Audio
+  field_count: 7
+  identity_fields:
+  - id
+  - entityId
+  fields:
+  - type
+  - id
+  - entityId
+  - name
+  - artist
+  - isOriginal
+  - duration
+- name: InstagramCarouselItem
+  platform: Instagram
+  as2_type: Image
+  field_count: 5
+  identity_fields:
+  - entityId
+  fields:
+  - type
+  - entityId
+  - image
+  - attachment
+  - name
+- name: InstagramComment
+  platform: Instagram
+  as2_type: Note
+  field_count: 9
+  identity_fields:
+  - id
+  - entityId
+  fields:
+  - type
+  - id
+  - entityId
+  - content
+  - published
+  - likeCount
+  - replyCount
+  - attributedTo
+  - inReplyTo
+- name: InstagramEmbeddedUser
+  platform: Instagram
+  as2_type: Person
+  field_count: 8
+  identity_fields:
+  - id
+  - entityId
+  - url
+  - preferredUsername
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - preferredUsername
+  - name
+  - icon
+  - role
+- name: InstagramHighlight
+  platform: Instagram
+  as2_type: OrderedCollection
+  field_count: 6
+  identity_fields:
+  - id
+  - entityId
+  fields:
+  - type
+  - id
+  - entityId
+  - name
+  - image
+  - totalItems
+- name: InstagramImage
+  platform: Instagram
+  as2_type: Image
+  field_count: 2
+  identity_fields:
+  - url
+  fields:
+  - type
+  - url
+- name: InstagramImageWithDimensions
+  platform: Instagram
+  as2_type: null
+  field_count: 0
+  identity_fields: []
+  fields: []
+- name: InstagramLink
+  platform: Instagram
+  as2_type: Link
+  field_count: 3
+  identity_fields: []
+  fields:
+  - type
+  - href
+  - rel
+- name: InstagramLocation
+  platform: Instagram
+  as2_type: Place
+  field_count: 6
+  identity_fields:
+  - id
+  - url
+  fields:
+  - type
+  - id
+  - name
+  - url
+  - latitude
+  - longitude
+- name: InstagramPost
+  platform: Instagram
+  as2_type: Video
+  field_count: 23
+  identity_fields:
+  - id
+  - entityId
+  - url
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - content
+  - published
+  - likeCount
+  - commentCount
+  - attributedTo
+  - location
+  - tag
+  - language
+  - isEdited
+  - isSponsored
+  - viewCount
+  - duration
+  - contentFormat
+  - attachment
+  - image
+  - audio
+  - name
+  - totalItems
+  - items
+- name: InstagramStoryItem
+  platform: Instagram
+  as2_type: Video
+  field_count: 10
+  identity_fields:
+  - entityId
+  - url
+  fields:
+  - type
+  - url
+  - entityId
+  - published
+  - summary
+  - isSponsored
+  - image
+  - attachment
+  - duration
+  - attributedTo
+- name: InstagramTag
+  platform: Instagram
+  as2_type: Tag
+  field_count: 3
+  identity_fields: []
+  fields:
+  - type
+  - name
+  - href
+- name: LinkedInAddress
+  platform: LinkedIn
+  as2_type: null
+  field_count: 5
+  identity_fields: []
+  fields:
+  - streetAddress
+  - addressLocality
+  - addressRegion
+  - postalCode
+  - addressCountry
+- name: LinkedInArticle
+  platform: LinkedIn
+  as2_type: Article
+  field_count: 6
+  identity_fields:
+  - url
+  fields:
+  - type
+  - url
+  - name
+  - image
+  - likeCount
+  - attributedTo
+- name: LinkedInComment
+  platform: LinkedIn
+  as2_type: Note
+  field_count: 5
+  identity_fields: []
+  fields:
+  - type
+  - content
+  - published
+  - likeCount
+  - attributedTo
+- name: LinkedInCompanyPost
+  platform: LinkedIn
+  as2_type: Note
+  field_count: 8
+  identity_fields:
+  - id
+  - entityId
+  - url
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - content
+  - published
+  - likeCount
+  - attributedTo
+- name: LinkedInImage
+  platform: LinkedIn
+  as2_type: Image
+  field_count: 2
+  identity_fields:
+  - url
+  fields:
+  - type
+  - url
+- name: LinkedInRecentPost
+  platform: LinkedIn
+  as2_type: Note
+  field_count: 8
+  identity_fields:
+  - id
+  - entityId
+  - url
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - content
+  - published
+  - likeCount
+  - attributedTo
+- name: LinkedInVideoAttachment
+  platform: LinkedIn
+  as2_type: Video
+  field_count: 7
+  identity_fields:
+  - url
+  fields:
+  - type
+  - url
+  - mediaType
+  - width
+  - height
+  - duration
+  - preview
+- name: RedditComment
+  platform: Reddit
+  as2_type: Note
+  field_count: 15
+  identity_fields:
+  - id
+  - entityId
+  - url
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - content
+  - published
+  - isPinned
+  - isSponsored
+  - hasReplies
+  - likeCount
+  - voteCount
+  - attributedTo
+  - inReplyTo
+  - image
+  - attachment
+- name: RedditEmbeddedUser
+  platform: Reddit
+  as2_type: Person
+  field_count: 24
+  identity_fields:
+  - id
+  - entityId
+  - url
+  - preferredUsername
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - preferredUsername
+  - name
+  - icon
+  - role
+  - summary
+  - published
+  - isVerified
+  - isEmployee
+  - isMod
+  - isPremium
+  - isSearchable
+  - isFollowable
+  - isAdult
+  - score
+  - postScore
+  - commentScore
+  - awarderScore
+  - awardeeScore
+  - status
+  - image
+- name: RedditImage
+  platform: Reddit
+  as2_type: Image
+  field_count: 4
+  identity_fields:
+  - url
+  fields:
+  - type
+  - url
+  - width
+  - height
+- name: RedditLinkAttachment
+  platform: Reddit
+  as2_type: Link
+  field_count: 4
+  identity_fields: []
+  fields:
+  - type
+  - href
+  - name
+  - summary
+- name: RedditPost
+  platform: Reddit
+  as2_type: Note
+  field_count: 25
+  identity_fields:
+  - id
+  - entityId
+  - url
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - name
+  - content
+  - published
+  - isEdited
+  - isLocked
+  - isOriginal
+  - isPinned
+  - isSponsored
+  - isAdult
+  - isSpoiler
+  - isSearchable
+  - likeCount
+  - voteCount
+  - commentCount
+  - shareCount
+  - attributedTo
+  - icon
+  - image
+  - attachment
+  - tag
+  - quote
+- name: RedditQuotedPost
+  platform: Reddit
+  as2_type: Note
+  field_count: 24
+  identity_fields:
+  - id
+  - entityId
+  - url
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - name
+  - content
+  - published
+  - isEdited
+  - isLocked
+  - isOriginal
+  - isPinned
+  - isSponsored
+  - isAdult
+  - isSpoiler
+  - isSearchable
+  - likeCount
+  - voteCount
+  - commentCount
+  - shareCount
+  - attributedTo
+  - icon
+  - image
+  - attachment
+  - tag
+- name: RedditRule
+  platform: Reddit
+  as2_type: Document
+  field_count: 4
+  identity_fields:
+  - entityId
+  fields:
+  - type
+  - entityId
+  - name
+  - content
+- name: RedditSubreddit
+  platform: Reddit
+  as2_type: Group
+  field_count: 16
+  identity_fields:
+  - id
+  - entityId
+  - url
+  - slug
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - slug
+  - name
+  - summary
+  - description
+  - guidelines
+  - published
+  - isAdult
+  - isSearchable
+  - category
+  - memberCount
+  - icon
+  - image
+- name: RedditTag
+  platform: Reddit
+  as2_type: Tag
+  field_count: 3
+  identity_fields: []
+  fields:
+  - type
+  - name
+  - href
+- name: RedditUser
+  platform: Reddit
+  as2_type: Person
+  field_count: 24
+  identity_fields:
+  - id
+  - entityId
+  - url
+  - preferredUsername
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - preferredUsername
+  - name
+  - icon
+  - role
+  - summary
+  - published
+  - isVerified
+  - isEmployee
+  - isMod
+  - isPremium
+  - isSearchable
+  - isFollowable
+  - isAdult
+  - score
+  - postScore
+  - commentScore
+  - awarderScore
+  - awardeeScore
+  - status
+  - image
+- name: RedditVideoAttachment
+  platform: Reddit
+  as2_type: Video
+  field_count: 6
+  identity_fields:
+  - url
+  fields:
+  - type
+  - url
+  - mediaType
+  - width
+  - height
+  - duration
+- name: TikTokAudio
+  platform: TikTok
+  as2_type: Audio
+  field_count: 14
+  identity_fields:
+  - id
+  - entityId
+  - url
+  fields:
+  - type
+  - id
+  - url
+  - name
+  - duration
+  - mediaType
+  - attributedTo
+  - icon
+  - image
+  - entityId
+  - album
+  - isOriginal
+  - isCopyrighted
+  - videoCount
+- name: TikTokCollection
+  platform: TikTok
+  as2_type: OrderedCollection
+  field_count: 7
+  identity_fields:
+  - id
+  - entityId
+  fields:
+  - type
+  - id
+  - name
+  - image
+  - totalItems
+  - entityId
+  - attributedTo
+- name: TikTokComment
+  platform: TikTok
+  as2_type: Note
+  field_count: 14
+  identity_fields:
+  - id
+  - entityId
+  - url
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - content
+  - language
+  - published
+  - likeCount
+  - replyCount
+  - status
+  - isPinned
+  - isLiked
+  - attributedTo
+  - inReplyTo
+- name: TikTokEmbeddedUser
+  platform: TikTok
+  as2_type: Person
+  field_count: 22
+  identity_fields:
+  - id
+  - entityId
+  - url
+  - preferredUsername
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - name
+  - preferredUsername
+  - summary
+  - attachment
+  - published
+  - isPrivate
+  - isVerified
+  - isLive
+  - hasLikes
+  - hasPlaylists
+  - followerCount
+  - followingCount
+  - language
+  - likeCount
+  - likedCount
+  - mediaCount
+  - icon
+  - image
+- name: TikTokImage
+  platform: TikTok
+  as2_type: Image
+  field_count: 4
+  identity_fields:
+  - url
+  fields:
+  - type
+  - url
+  - width
+  - height
+- name: TikTokLink
+  platform: TikTok
+  as2_type: Link
+  field_count: 3
+  identity_fields: []
+  fields:
+  - type
+  - href
+  - rel
+- name: TikTokLiveStreamAttachment
+  platform: TikTok
+  as2_type: Video
+  field_count: 8
+  identity_fields:
+  - url
+  fields:
+  - type
+  - url
+  - mediaType
+  - width
+  - height
+  - name
+  - codec
+  - bitrate
+- name: TikTokStory
+  platform: TikTok
+  as2_type: Video
+  field_count: 19
+  identity_fields:
+  - id
+  - entityId
+  - url
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - content
+  - published
+  - endTime
+  - viewCount
+  - likeCount
+  - commentCount
+  - repostCount
+  - shareCount
+  - saveCount
+  - attributedTo
+  - duration
+  - attachment
+  - image
+  - preview
+  - audio
+- name: TikTokStoryAttachment
+  platform: TikTok
+  as2_type: Video
+  field_count: 9
+  identity_fields:
+  - url
+  fields:
+  - type
+  - url
+  - mediaType
+  - width
+  - height
+  - name
+  - headers
+  - codec
+  - bitrate
+- name: TikTokTag
+  platform: TikTok
+  as2_type: Tag
+  field_count: 5
+  identity_fields:
+  - id
+  - entityId
+  fields:
+  - type
+  - name
+  - href
+  - id
+  - entityId
+- name: TikTokVideo
+  platform: TikTok
+  as2_type: Video
+  field_count: 22
+  identity_fields:
+  - id
+  - entityId
+  - url
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - content
+  - published
+  - duration
+  - viewCount
+  - likeCount
+  - commentCount
+  - repostCount
+  - shareCount
+  - saveCount
+  - language
+  - isSponsored
+  - location
+  - tag
+  - attributedTo
+  - attachment
+  - image
+  - preview
+  - audio
+- name: TikTokVideoAttachment
+  platform: TikTok
+  as2_type: Video
+  field_count: 9
+  identity_fields:
+  - url
+  fields:
+  - type
+  - name
+  - url
+  - headers
+  - mediaType
+  - codec
+  - width
+  - height
+  - bitrate
+- name: TikTokVideoAttachmentHeaders
+  platform: TikTok
+  as2_type: null
+  field_count: 2
+  identity_fields: []
+  fields:
+  - Cookie
+  - Referer
+- name: TikTokVideoDownloadUrl
+  platform: TikTok
+  as2_type: Video
+  field_count: 4
+  identity_fields:
+  - url
+  fields:
+  - '@context'
+  - type
+  - url
+  - mediaType
+- name: XArticleAttachment
+  platform: X
+  as2_type: Article
+  field_count: 6
+  identity_fields:
+  - entityId
+  - url
+  fields:
+  - type
+  - entityId
+  - url
+  - name
+  - summary
+  - image
+- name: XAttachment
+  platform: X
+  as2_type: Video
+  field_count: 7
+  identity_fields:
+  - url
+  fields:
+  - type
+  - url
+  - mediaType
+  - width
+  - height
+  - bitrate
+  - duration
+- name: XCommunityRule
+  platform: X
+  as2_type: Document
+  field_count: 4
+  identity_fields:
+  - entityId
+  fields:
+  - type
+  - entityId
+  - name
+  - content
+- name: XEmbeddedUser
+  platform: X
+  as2_type: Person
+  field_count: 19
+  identity_fields:
+  - id
+  - entityId
+  - url
+  - preferredUsername
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - preferredUsername
+  - name
+  - icon
+  - isPrivate
+  - isVerified
+  - isPaidVerified
+  - summary
+  - attachment
+  - followerCount
+  - followingCount
+  - likeCount
+  - postCount
+  - mediaCount
+  - listedCount
+  - location
+- name: XImage
+  platform: X
+  as2_type: Image
+  field_count: 4
+  identity_fields:
+  - url
+  fields:
+  - type
+  - url
+  - width
+  - height
+- name: XLink
+  platform: X
+  as2_type: Link
+  field_count: 3
+  identity_fields: []
+  fields:
+  - type
+  - href
+  - rel
+- name: XLinkAttachment
+  platform: X
+  as2_type: Link
+  field_count: 5
+  identity_fields: []
+  fields:
+  - type
+  - href
+  - name
+  - summary
+  - image
+- name: XPollAttachment
+  platform: X
+  as2_type: Question
+  field_count: 4
+  identity_fields: []
+  fields:
+  - type
+  - oneOf
+  - voterCount
+  - closed
+- name: XPollOption
+  platform: X
+  as2_type: Note
+  field_count: 3
+  identity_fields: []
+  fields:
+  - type
+  - name
+  - voteCount
+- name: XPost
+  platform: X
+  as2_type: Note
+  field_count: 20
+  identity_fields:
+  - id
+  - entityId
+  - url
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - content
+  - published
+  - likeCount
+  - replyCount
+  - viewCount
+  - repostCount
+  - quoteCount
+  - saveCount
+  - contentFormat
+  - isEdited
+  - attributedTo
+  - inReplyTo
+  - quote
+  - image
+  - attachment
+  - tag
+- name: XPostAttachment
+  platform: X
+  as2_type: null
+  field_count: 0
+  identity_fields: []
+  fields: []
+- name: XQuotedPost
+  platform: X
+  as2_type: Note
+  field_count: 12
+  identity_fields:
+  - id
+  - entityId
+  - url
+  fields:
+  - type
+  - id
+  - url
+  - entityId
+  - content
+  - published
+  - likeCount
+  - replyCount
+  - contentFormat
+  - attributedTo
+  - image
+  - attachment
+- name: XTag
+  platform: X
+  as2_type: Tag
+  field_count: 3
+  identity_fields: []
+  fields:
+  - type
+  - name
+  - href
+relationships:
+- from: InstagramCarouselItem
+  field: image
+  to: InstagramImageWithDimensions
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.InstagramCarouselItem.properties.image
+- from: InstagramCarouselItem
+  field: attachment
+  to: InstagramAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.InstagramCarouselItem.properties.attachment
+- from: InstagramComment
+  field: attributedTo
+  to: InstagramEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.InstagramComment.properties.attributedTo
+- from: InstagramEmbeddedUser
+  field: icon
+  to: InstagramImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.InstagramEmbeddedUser.properties.icon
+- from: InstagramHighlight
+  field: image
+  to: InstagramImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.InstagramHighlight.properties.image
+- from: InstagramPost
+  field: attributedTo
+  to: InstagramEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.InstagramPost.properties.attributedTo
+- from: InstagramPost
+  field: location
+  to: InstagramLocation
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.InstagramPost.properties.location
+- from: InstagramPost
+  field: tag
+  to: InstagramTag
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.InstagramPost.properties.tag
+- from: InstagramPost
+  field: attachment
+  to: InstagramAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.InstagramPost.properties.attachment
+- from: InstagramPost
+  field: image
+  to: InstagramImageWithDimensions
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.InstagramPost.properties.image
+- from: InstagramPost
+  field: audio
+  to: InstagramAudio
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.InstagramPost.properties.audio
+- from: InstagramPost
+  field: items
+  to: InstagramCarouselItem
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.InstagramPost.properties.items
+- from: InstagramStoryItem
+  field: image
+  to: InstagramImageWithDimensions
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.InstagramStoryItem.properties.image
+- from: InstagramStoryItem
+  field: attachment
+  to: InstagramAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.InstagramStoryItem.properties.attachment
+- from: InstagramStoryItem
+  field: attachment
+  to: InstagramLink
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.InstagramStoryItem.properties.attachment
+- from: InstagramStoryItem
+  field: attributedTo
+  to: InstagramEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.InstagramStoryItem.properties.attributedTo
+- from: LinkedInArticle
+  field: image
+  to: LinkedInImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.LinkedInArticle.properties.image
+- from: LinkedInVideoAttachment
+  field: preview
+  to: LinkedInImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.LinkedInVideoAttachment.properties.preview
+- from: RedditComment
+  field: attributedTo
+  to: RedditEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditComment.properties.attributedTo
+- from: RedditComment
+  field: image
+  to: RedditImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditComment.properties.image
+- from: RedditComment
+  field: attachment
+  to: RedditImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.RedditComment.properties.attachment
+- from: RedditEmbeddedUser
+  field: icon
+  to: RedditImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditEmbeddedUser.properties.icon
+- from: RedditEmbeddedUser
+  field: image
+  to: RedditImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditEmbeddedUser.properties.image
+- from: RedditPost
+  field: attributedTo
+  to: RedditEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditPost.properties.attributedTo
+- from: RedditPost
+  field: icon
+  to: RedditImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditPost.properties.icon
+- from: RedditPost
+  field: image
+  to: RedditImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.RedditPost.properties.image
+- from: RedditPost
+  field: attachment
+  to: RedditImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.RedditPost.properties.attachment
+- from: RedditPost
+  field: attachment
+  to: RedditLinkAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.RedditPost.properties.attachment
+- from: RedditPost
+  field: attachment
+  to: RedditVideoAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.RedditPost.properties.attachment
+- from: RedditPost
+  field: tag
+  to: RedditTag
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.RedditPost.properties.tag
+- from: RedditPost
+  field: quote
+  to: RedditQuotedPost
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditPost.properties.quote
+- from: RedditQuotedPost
+  field: attributedTo
+  to: RedditEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditQuotedPost.properties.attributedTo
+- from: RedditQuotedPost
+  field: icon
+  to: RedditImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditQuotedPost.properties.icon
+- from: RedditQuotedPost
+  field: image
+  to: RedditImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.RedditQuotedPost.properties.image
+- from: RedditQuotedPost
+  field: attachment
+  to: RedditImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.RedditQuotedPost.properties.attachment
+- from: RedditQuotedPost
+  field: attachment
+  to: RedditLinkAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.RedditQuotedPost.properties.attachment
+- from: RedditQuotedPost
+  field: attachment
+  to: RedditVideoAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.RedditQuotedPost.properties.attachment
+- from: RedditQuotedPost
+  field: tag
+  to: RedditTag
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.RedditQuotedPost.properties.tag
+- from: RedditSubreddit
+  field: icon
+  to: RedditImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditSubreddit.properties.icon
+- from: RedditSubreddit
+  field: image
+  to: RedditImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditSubreddit.properties.image
+- from: RedditUser
+  field: icon
+  to: RedditImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditUser.properties.icon
+- from: RedditUser
+  field: image
+  to: RedditImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.RedditUser.properties.image
+- from: TikTokAudio
+  field: attributedTo
+  to: TikTokEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokAudio.properties.attributedTo
+- from: TikTokAudio
+  field: icon
+  to: TikTokImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokAudio.properties.icon
+- from: TikTokAudio
+  field: image
+  to: TikTokImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.TikTokAudio.properties.image
+- from: TikTokCollection
+  field: image
+  to: TikTokImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.TikTokCollection.properties.image
+- from: TikTokCollection
+  field: attributedTo
+  to: TikTokEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokCollection.properties.attributedTo
+- from: TikTokComment
+  field: attributedTo
+  to: TikTokEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokComment.properties.attributedTo
+- from: TikTokEmbeddedUser
+  field: attachment
+  to: TikTokLink
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.TikTokEmbeddedUser.properties.attachment
+- from: TikTokEmbeddedUser
+  field: icon
+  to: TikTokImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokEmbeddedUser.properties.icon
+- from: TikTokEmbeddedUser
+  field: image
+  to: TikTokImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.TikTokEmbeddedUser.properties.image
+- from: TikTokStory
+  field: attributedTo
+  to: TikTokEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokStory.properties.attributedTo
+- from: TikTokStory
+  field: attachment
+  to: TikTokStoryAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.TikTokStory.properties.attachment
+- from: TikTokStory
+  field: image
+  to: TikTokImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.TikTokStory.properties.image
+- from: TikTokStory
+  field: preview
+  to: TikTokImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokStory.properties.preview
+- from: TikTokStory
+  field: audio
+  to: TikTokAudio
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokStory.properties.audio
+- from: TikTokStoryAttachment
+  field: headers
+  to: TikTokVideoAttachmentHeaders
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokStoryAttachment.properties.headers
+- from: TikTokVideo
+  field: tag
+  to: TikTokTag
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.TikTokVideo.properties.tag
+- from: TikTokVideo
+  field: attributedTo
+  to: TikTokEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokVideo.properties.attributedTo
+- from: TikTokVideo
+  field: attachment
+  to: TikTokVideoAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.TikTokVideo.properties.attachment
+- from: TikTokVideo
+  field: image
+  to: TikTokImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.TikTokVideo.properties.image
+- from: TikTokVideo
+  field: preview
+  to: TikTokImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokVideo.properties.preview
+- from: TikTokVideo
+  field: audio
+  to: TikTokAudio
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokVideo.properties.audio
+- from: TikTokVideoAttachment
+  field: headers
+  to: TikTokVideoAttachmentHeaders
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.TikTokVideoAttachment.properties.headers
+- from: XArticleAttachment
+  field: image
+  to: XImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.XArticleAttachment.properties.image
+- from: XEmbeddedUser
+  field: icon
+  to: XImage
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.XEmbeddedUser.properties.icon
+- from: XEmbeddedUser
+  field: attachment
+  to: XLink
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.XEmbeddedUser.properties.attachment
+- from: XLinkAttachment
+  field: image
+  to: XImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.XLinkAttachment.properties.image
+- from: XPollAttachment
+  field: oneOf
+  to: XPollOption
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.XPollAttachment.properties.oneOf
+- from: XPost
+  field: attributedTo
+  to: XEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.XPost.properties.attributedTo
+- from: XPost
+  field: quote
+  to: XQuotedPost
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.XPost.properties.quote
+- from: XPost
+  field: image
+  to: XImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.XPost.properties.image
+- from: XPost
+  field: attachment
+  to: XPostAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.XPost.properties.attachment
+- from: XPost
+  field: tag
+  to: XTag
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.XPost.properties.tag
+- from: XQuotedPost
+  field: attributedTo
+  to: XEmbeddedUser
+  cardinality: has_one
+  via: $ref
+  evidence: components.schemas.XQuotedPost.properties.attributedTo
+- from: XQuotedPost
+  field: image
+  to: XImage
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.XQuotedPost.properties.image
+- from: XQuotedPost
+  field: attachment
+  to: XArticleAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.XQuotedPost.properties.attachment
+- from: XQuotedPost
+  field: attachment
+  to: XAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.XQuotedPost.properties.attachment
+- from: XQuotedPost
+  field: attachment
+  to: XLinkAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.XQuotedPost.properties.attachment
+- from: XQuotedPost
+  field: attachment
+  to: XPollAttachment
+  cardinality: has_many
+  via: $ref
+  evidence: components.schemas.XQuotedPost.properties.attachment
+cross_platform_pattern:
+  note: The same five shapes recur under every platform prefix. An integrator writing against one platform can reuse the traversal for the others by swapping the prefix.
+  recurring_shapes:
+  - role: account
+    as2_type: Person
+    instances:
+    - InstagramEmbeddedUser
+    - TikTokEmbeddedUser
+    - RedditEmbeddedUser
+    - RedditUser
+    - XEmbeddedUser
+  - role: image
+    as2_type: Image
+    instances:
+    - InstagramImage
+    - InstagramImageWithDimensions
+    - TikTokImage
+    - RedditImage
+    - XImage
+    - LinkedInImage
+  - role: link
+    as2_type: Link
+    instances:
+    - InstagramLink
+    - TikTokLink
+    - XLink
+  - role: tag
+    as2_type: Tag
+    instances:
+    - InstagramTag
+    - TikTokTag
+    - RedditTag
+    - XTag
+  - role: primary content
+    as2_type: Video|Note
+    instances:
+    - InstagramPost
+    - TikTokVideo
+    - RedditPost
+    - XPost
+    - LinkedInRecentPost
+    - LinkedInCompanyPost
+  - role: comment
+    as2_type: Note
+    instances:
+    - InstagramComment
+    - TikTokComment
+    - RedditComment
+    - LinkedInComment
+traversals:
+- name: account to content to comments to replies
+  path:
+  - '{platform}_get_user'
+  - '{platform}_get_user_posts|videos'
+  - '{platform}_get_post|video_comments'
+  - '{platform}_get_comment_replies'
+  key: entityId carries forward at every hop
+  available_on:
+  - TikTok
+  - Reddit
+  partial_on:
+  - Instagram (no comment-reply endpoint)
+  - X (no comments endpoint)
+  - LinkedIn (comments inline on the post, max ~5)
+- name: audio to videos using it
+  path:
+  - tiktok_get_audio
+  - tiktok_get_audio_videos
+  available_on:
+  - TikTok
+- name: subreddit to posts to comments
+  path:
+  - reddit_get_subreddit
+  - reddit_get_subreddit_posts
+  - reddit_get_post_comments
+  - reddit_get_comment_replies
+  available_on:
+  - Reddit
+- name: community to posts and media
+  path:
+  - x_get_community
+  - x_get_community_posts
+  - x_get_community_media
+  available_on:
+  - X
+- name: company to posts
+  path:
+  - linkedin_get_company
+  - linkedin_get_company_posts
+  available_on:
+  - LinkedIn
+renders:
+  json_schema: json-schema/
+  json_structure: json-structure/
+  examples: examples/
+  json_ld: json-ld/

@@ -1,0 +1,151 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.konbiniapi.com/getting-started/errors
+derived_from: openapi/_original/konbiniapi-openapi.json
+format: vendor-envelope
+rfc9457: false
+note: >-
+  KonbiniAPI does NOT use RFC 9457 problem+json. Every error response — on all 67 operations — is
+  application/json carrying the same vendor envelope: an `errors` array of
+  {code, message} objects plus a null `data` field. The `code` value is the machine-readable
+  identifier; there is no `type` URI, `title`, `status`, `detail` or `instance` member. The catalog
+  below is the provider's own published error reference, cross-checked against the 4xx/5xx responses
+  declared on every operation in the live OpenAPI, and against live 401/404 responses observed on
+  api.konbiniapi.com during this pass.
+envelope:
+  media_type: application/json
+  shape: |-
+    {
+      "errors": [
+        { "code": "not_found", "message": "User not found" }
+      ],
+      "data": null
+    }
+  fields:
+    - name: errors
+      type: array
+      description: One or more error objects. Present only on failure.
+    - name: errors[].code
+      type: string
+      description: Machine-readable error code. Switch on this, never on the message.
+    - name: errors[].message
+      type: string
+      description: Human-readable explanation. Wording is not part of the contract.
+    - name: data
+      type: 'null'
+      description: Always null on an error response; carries the payload on success.
+status_codes_declared:
+  - 400
+  - 401
+  - 402
+  - 403
+  - 404
+  - 500
+  - 502
+  - 503
+problem_types:
+  - code: missing_api_key
+    status: 401
+    category: authentication
+    title: Missing or malformed API key
+    detail: The Authorization header is absent or is not a well-formed `Bearer knbn_...` value.
+    remediation: >-
+      Send `Authorization: Bearer <your-api-key>`. Keys are issued at https://app.konbiniapi.com and
+      carry the `knbn_` prefix.
+    credits_charged: 0
+    observed:
+      url: https://api.konbiniapi.com/v1/openapi.json
+      http_status: 401
+      body: '{"errors":[{"code":"missing_api_key","message":"Missing or malformed API key"}],"data":null}'
+  - code: invalid_api_key
+    status: 401
+    category: authentication
+    title: API key does not exist
+    detail: The presented key is not recognised. Revoked keys are rejected instantly.
+    remediation: Re-issue or rotate the key from the dashboard. Credits stay with the account, not the key.
+    credits_charged: 0
+  - code: api_key_disabled
+    status: 403
+    category: authorization
+    title: API key has been disabled
+    detail: The key exists but has been disabled on the account.
+    remediation: Re-enable or rotate the key at https://app.konbiniapi.com.
+    credits_charged: 0
+  - code: api_key_expired
+    status: 403
+    category: authorization
+    title: API key has expired
+    detail: The key exists but is past its expiry.
+    remediation: Issue a new key at https://app.konbiniapi.com.
+    credits_charged: 0
+  - code: credits_exhausted
+    status: 402
+    category: billing
+    title: No credits remaining
+    detail: >-
+      The account's credit balance has reached zero. Requests hard-stop by default; paid plans may
+      opt into extra usage beyond the plan allowance instead of stopping.
+    remediation: >-
+      Upgrade the plan or enable extra usage at https://app.konbiniapi.com, or wait for the next
+      billing cycle. This is the primary quota signal — KonbiniAPI publishes no rate limit and
+      returns no 429.
+    credits_charged: 0
+    agent_note: >-
+      An agent should treat 402 as terminal for the current run, not as a retryable backoff. Retrying
+      will not succeed until a human changes the plan.
+  - code: validation_error
+    status: 400
+    category: request
+    title: Invalid parameters
+    detail: One or more query, path or body parameters failed validation.
+    remediation: Correct the parameter and retry. Refunded — a 400 costs 0 credits.
+    credits_charged: 0
+  - code: not_found
+    status: 404
+    category: request
+    title: Resource not found
+    detail: >-
+      The requested profile, post, video, comment, subreddit, community or audio does not exist, is
+      private, or is not publicly visible. Also returned when a TikTok user is not currently live.
+    remediation: Verify the identifier. This is a legitimate empty result, not a fault.
+    credits_charged: 1
+  - code: route_not_found
+    status: 404
+    category: request
+    title: Endpoint does not exist
+    detail: The path is not a KonbiniAPI route.
+    remediation: Check the path against the OpenAPI. Base is https://api.konbiniapi.com with a /v1 prefix.
+    credits_charged: 0
+    observed:
+      url: https://api.konbiniapi.com/openapi.json
+      http_status: 404
+      body: '{"errors":[{"code":"route_not_found","message":"Route not found"}],"data":null}'
+  - code: platform_error
+    status: 502
+    category: upstream
+    title: Upstream platform error
+    detail: The upstream social platform (Instagram, TikTok, X, Reddit or LinkedIn) failed or refused the fetch.
+    remediation: Retry with backoff. Refunded — X-Credits-Used is 0.
+    credits_charged: 0
+    retryable: true
+  - code: service_unavailable
+    status: 503
+    category: server
+    title: API temporarily unavailable
+    detail: KonbiniAPI is temporarily unable to serve the request.
+    remediation: Retry with exponential backoff. Refunded.
+    credits_charged: 0
+    retryable: true
+  - code: internal_error
+    status: 500
+    category: server
+    title: Unexpected server error
+    detail: An unhandled failure inside KonbiniAPI.
+    remediation: Retry; if it persists, contact hello@konbiniapi.com. Refunded.
+    credits_charged: 0
+    retryable: true
+summary:
+  problem_type_count: 11
+  retryable_count: 3
+  refunded_count: 10
+  charged_count: 1

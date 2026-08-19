@@ -1,0 +1,292 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Konbini Instagram API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Instagram",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get user profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/users/:username",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Instagram username (with or without @ symbol)"
+              }
+            ]
+          },
+          "docs": "Returns profile information for an Instagram user including bio, follower counts, profile picture, and account metadata. Look up any public Instagram account by username."
+        },
+        {
+          "info": {
+            "name": "Get user posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/users/:username/posts",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Instagram username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of posts to fetch (maximum: 12)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of posts from an Instagram user's profile feed. Maximum 12 posts per page. Includes photos, videos, carousels, and engagement counts."
+        },
+        {
+          "info": {
+            "name": "Get user reels",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/users/:username/reels",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Instagram username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of reels to fetch (maximum: 12)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of reels from an Instagram user's profile. Maximum 12 reels per page. Includes video URLs, captions, and engagement counts."
+        },
+        {
+          "info": {
+            "name": "Get user tagged posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/users/:username/tagged",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Instagram username (with or without @ symbol)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of posts to fetch (maximum: 12)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns Instagram posts where the user has been tagged by other accounts. Maximum 12 posts per page. Includes full post details and engagement counts."
+        },
+        {
+          "info": {
+            "name": "Get user story highlights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/users/:username/highlights",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Instagram username (with or without @ symbol)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns the list of story highlight reels on a user's profile. Use the highlight endpoint to get individual stories within a highlight."
+        },
+        {
+          "info": {
+            "name": "Get post details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/posts/:postId",
+            "params": [
+              {
+                "name": "postId",
+                "value": "",
+                "type": "path",
+                "description": "Post shortcode (from instagram.com/p/{shortcode}/)"
+              }
+            ]
+          },
+          "docs": "Returns details for a single post by its shortcode, including media, captions, and engagement counts. Supports photos, videos, and carousels."
+        },
+        {
+          "info": {
+            "name": "Get post comments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/posts/:postId/comments",
+            "params": [
+              {
+                "name": "postId",
+                "value": "",
+                "type": "path",
+                "description": "Post shortcode (from instagram.com/p/{shortcode}/)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Page size (fixed at 15 by the platform)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns top-level comments on an Instagram post. Fixed page size of 15 (platform limit). Includes comment text, author info, like counts, and timestamps."
+        },
+        {
+          "info": {
+            "name": "Search media",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/search",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to fetch (maximum: 24)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Searches Instagram for trending reels and videos matching a keyword. Maximum 24 results per page. Some valid keywords may return no results, since this surfaces trending content rather than a full-text search."
+        },
+        {
+          "info": {
+            "name": "Get posts by location",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/locations/:locationId",
+            "params": [
+              {
+                "name": "locationId",
+                "value": "",
+                "type": "path",
+                "description": "Instagram/Facebook location ID (numeric)"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Page size (fixed at 21 by the platform)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns recent posts tagged at a location. Fixed page size of 21 (platform limit). The location ID is a numeric Facebook Places ID."
+        },
+        {
+          "info": {
+            "name": "Get highlight stories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.konbiniapi.com/v1/instagram/highlights/:highlightId",
+            "params": [
+              {
+                "name": "highlightId",
+                "value": "",
+                "type": "path",
+                "description": "Instagram highlight ID"
+              }
+            ]
+          },
+          "docs": "Returns all story items within a highlight reel, including images and videos. The highlight ID comes from the highlights list endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

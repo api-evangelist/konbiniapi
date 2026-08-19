@@ -1,115 +1,172 @@
 apiCommonsPlansVersion: '0.1'
+generated: '2026-08-13'
+method: searched
+source: https://konbiniapi.com/pricing
+sources:
+  - https://konbiniapi.com/pricing
+  - https://docs.konbiniapi.com/getting-started/credits
+  - https://docs.konbiniapi.com/changelog
+note: >-
+  Read from the live pricing page and cross-checked against the docs credits table on 2026-08-13.
+  Two changes since the previous capture: a Free plan (100 one-time credits, no card) shipped in
+  v1.2.0 (May 2026), and optional extra usage beyond the plan allowance shipped in v1.4.0 (July
+  2026), replacing the previous hard stop for accounts that opt in.
 provider:
   id: konbiniapi
   name: KonbiniAPI
   url: https://konbiniapi.com/
   pricingUrl: https://konbiniapi.com/pricing
   termsUrl: https://konbiniapi.com/terms
+  dpaUrl: https://konbiniapi.com/dpa
   signupUrl: https://app.konbiniapi.com
 
 unit:
   id: credit
-  description: One credit equals one successful API request. Failed requests (400, 5xx, upstream) are auto-refunded (X-Credits-Used = 0).
+  description: >-
+    One credit equals one successful API request, with no multipliers. Requests that fail with 400,
+    5xx or an upstream 502 are auto-refunded (X-Credits-Used: 0). A 404 IS charged. Batch endpoints
+    bill 1 credit per ID submitted, so a 10-ID batch call costs 10 credits.
+  applies_to:
+    - REST API
+    - MCP server
+  note: A REST call and the equivalent MCP tool call cost exactly the same.
 
 billing:
   currency: USD
   cycle: monthly
   rollover: false
-  overage: none
-  exhaustionBehavior: 'Returns HTTP 402; no automatic charges.'
+  overage: optional
+  overageDetail: >-
+    Paid plans may opt into extra usage beyond the monthly credit allowance, billed at the same
+    per-credit rate as the plan, capped by a monthly limit the customer sets (up to the plan's own
+    price), and charged at the end of the billing cycle. Off by default — the default behaviour on
+    every plan is to hard-stop with HTTP 402.
+  exhaustionBehavior: 'Returns HTTP 402 with error code credits_exhausted; no automatic charges unless extra usage is enabled.'
   paymentProvider: Stripe
-  refundPolicy: >-
-    No refunds for used credits. Pro-rated refunds available within 48 hours of purchase
-    for unused plan credits via support email request.
+  paymentMethods:
+    - credit card
+    - debit card
+    - Apple Pay
+    - Google Pay
+  taxes: Prices exclude applicable taxes.
 
+plan_count: 6
 plans:
+  - id: free
+    name: Free
+    price: 0.00
+    currency: USD
+    period: one-time
+    credits: 100
+    creditsRecur: false
+    costPer1kRequests: null
+    cardRequired: false
+    features:
+      - REST API access
+      - MCP connector
+      - All five platforms (Instagram, TikTok, X, Reddit, LinkedIn)
+      - Real-time data
+      - No rate limits
+      - No charge for failed requests
+    support: best effort
+    extraUsage: false
+    note: 100 one-time evaluation credits that do not refill. Introduced in v1.2.0 (May 2026).
   - id: plus
     name: Plus
     price: 49.00
     currency: USD
     period: month
     credits: 25000
+    creditsRecur: true
+    costPer1kRequests: 2.00
     features:
       - REST API access
-      - MCP (Model Context Protocol) access
-      - Instagram and TikTok APIs
-      - Real-time data (no caching)
+      - MCP connector
+      - All five platforms (Instagram, TikTok, X, Reddit, LinkedIn)
+      - Real-time data
       - No rate limits
       - No charge for failed requests
-      - Standard email support
-    reconciled: true
-
+    support: standard
+    extraUsage: optional
   - id: pro
     name: Pro
     price: 99.00
     currency: USD
     period: month
     credits: 55000
+    creditsRecur: true
+    costPer1kRequests: 1.80
+    mostPopular: true
     features:
       - REST API access
-      - MCP access
-      - Instagram and TikTok APIs
+      - MCP connector
+      - All five platforms (Instagram, TikTok, X, Reddit, LinkedIn)
       - Real-time data
       - No rate limits
       - No charge for failed requests
-      - Standard email support
-    reconciled: true
-
+    support: standard
+    extraUsage: optional
   - id: max
     name: Max
     price: 199.00
     currency: USD
     period: month
     credits: 160000
+    creditsRecur: true
+    costPer1kRequests: 1.24
     features:
       - REST API access
-      - MCP access
-      - Instagram and TikTok APIs
+      - MCP connector
+      - All five platforms (Instagram, TikTok, X, Reddit, LinkedIn)
       - Real-time data
       - No rate limits
       - No charge for failed requests
-      - Priority email support
-    reconciled: true
-
+    support: priority
+    extraUsage: optional
   - id: ultra
     name: Ultra
     price: 499.00
     currency: USD
     period: month
     credits: 450000
+    creditsRecur: true
+    costPer1kRequests: 1.11
     features:
       - REST API access
-      - MCP access
-      - Instagram and TikTok APIs
+      - MCP connector
+      - All five platforms (Instagram, TikTok, X, Reddit, LinkedIn)
       - Real-time data
       - No rate limits
       - No charge for failed requests
-      - Priority email support
-    reconciled: true
-
+    support: priority
+    extraUsage: optional
   - id: custom
     name: Custom
     price: null
     currency: USD
-    period: month
-    credits: null
+    period: negotiated
+    credits: negotiated
     features:
-      - Enterprise-grade volume
-      - Custom SLA negotiated with sales
-      - Dedicated support
-    reconciled: false
-    contact: hello@konbiniapi.com
+      - Higher volume
+      - Custom setup
+    contact: https://konbiniapi.com/pricing
+    note: '"Need more volume or a custom setup? Let''s talk." No published price.'
 
-metering:
-  responseHeaders:
-    - name: X-Credits-Used
-      description: Credits consumed by this request (0 if refunded).
-    - name: X-Credits-Remaining
-      description: Credits remaining on the account after the request.
+feature_parity:
+  note: >-
+    Unusually flat. Every plan — including Free — carries the full endpoint surface, all five
+    platforms, both the REST API and MCP, real-time data and no rate limits. The only variables are
+    credit allowance, support tier, and whether extra usage may be enabled. There is no feature
+    gating and no enterprise-only endpoint.
 
-source:
-  reconciledAt: '2026-05-06'
-  reconciledBy: api-evangelist pipeline
-  notes: >-
-    Pricing fetched from https://konbiniapi.com/pricing. Custom tier requires direct
-    sales engagement and has not been independently reconciled.
+faq_facts:
+  - question: What happens when credits run out?
+    answer: >-
+      Requests stop and return HTTP 402 by default — no automatic upgrades or charges on any plan.
+      Paid plans may opt into extra usage instead.
+  - question: Am I charged for failed requests?
+    answer: No. Failed or timed-out requests do not consume credits.
+  - question: How are batch endpoints billed?
+    answer: Each item bills as its own request — 10 IDs in one batch call costs 10 credits.
+  - question: Are there rate limits?
+    answer: No rate limits, no throttling, no daily caps. The credit balance is the only ceiling.

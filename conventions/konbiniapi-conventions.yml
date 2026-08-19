@@ -1,0 +1,183 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.konbiniapi.com/getting-started/response-format
+sources:
+  - https://docs.konbiniapi.com/getting-started/authentication
+  - https://docs.konbiniapi.com/getting-started/pagination
+  - https://docs.konbiniapi.com/getting-started/credits
+  - https://docs.konbiniapi.com/getting-started/errors
+  - https://docs.konbiniapi.com/reference/mcp/tools/overview
+  - openapi/_original/konbiniapi-openapi.json
+note: >-
+  Cross-cutting runtime semantics for the KonbiniAPI REST surface and its hosted MCP server. Every
+  value below is published by KonbiniAPI or read off the live OpenAPI; nothing here is inferred from
+  category convention.
+
+authentication:
+  style: bearer-token
+  header: Authorization
+  format: 'Bearer knbn_<key>'
+  key_prefix: knbn_
+  keys_per_account: 1
+  rotation: >-
+    Keys can be rotated without losing the credit balance — credits are tied to the account, not the
+    key. Revoked keys are rejected instantly.
+  oauth: >-
+    OAuth 2.1 is offered only for the hosted MCP server, not for the REST API. See
+    scopes/konbiniapi-scopes.yml.
+  detail: authentication/konbiniapi-authentication.yml
+
+idempotency:
+  supported: false
+  header: null
+  scope: null
+  retention: null
+  note: >-
+    KonbiniAPI publishes no idempotency key. It does not need one for 64 of its 67 operations: those
+    are GET, and GET is safe and naturally idempotent. The three POST operations
+    (reddit_get_posts_batch, reddit_get_comments_batch, reddit_get_subreddits_batch) use POST only to
+    carry a list of up to 100 IDs in a body — they are read operations with no server-side side
+    effect beyond credit consumption. The one non-idempotent consequence is billing: a replayed batch
+    POST is charged again, at 1 credit per ID submitted, with no dedupe key to prevent it.
+
+pagination:
+  style: cursor
+  request_params:
+    - name: cursor
+      type: string
+      description: Cursor for the next page. Omit for the first page.
+    - name: count
+      type: integer
+      description: Items per page. Per-endpoint ceilings apply and are platform-imposed.
+  response_type: OrderedCollectionPage
+  response_fields:
+    - name: totalItems
+      description: Total items in the collection; may be null on some endpoints.
+    - name: itemCount
+      description: Number of items on this page.
+    - name: cursor
+      description: The cursor this page was fetched with.
+    - name: nextCursor
+      description: Cursor for the next page; null when there are no more pages.
+    - name: next
+      description: Pre-built absolute URL for the next page.
+    - name: orderedItems
+      description: The items on this page.
+    - name: partOf
+      description: Canonical URL of the collection this page belongs to.
+  termination: nextCursor is null
+  page_size_ceilings:
+    tiktok_user_videos: 35
+    tiktok_video_comments: 50
+    tiktok_comment_replies: 50
+    tiktok_collection_videos: 35
+    tiktok_audio_videos: 30
+    tiktok_user_following: 30
+    tiktok_user_followers: 30
+    tiktok_search_users: 10
+    instagram_user_posts: 12
+    instagram_user_reels: 12
+    instagram_user_tagged: 12
+    instagram_post_comments: 15
+    instagram_search_media: 24
+    instagram_location_posts: 21
+  gotchas:
+    - >-
+      X user post and highlight timelines are ranked, not chronological, and pages overlap: a pinned
+      post repeats on every page. Deduplicate by id when paging X.
+    - >-
+      LinkedIn get-user-articles and get-user-posts are NOT paginated; everything available comes
+      back in one response.
+
+field_selection:
+  rest: none
+  mcp:
+    supported: true
+    params:
+      - name: projection_preset
+        type: string
+        default: minimal
+        allowed: [full, minimal, identity, engagement, content]
+      - name: data_fields
+        type: string[]
+        description: Adds top-level keys from `data` on top of the selected preset.
+      - name: item_fields
+        type: string[]
+        description: Collection tools only. Adds keys from `data.orderedItems[]`.
+    note: >-
+      Payload projection exists only on the MCP surface. It is a token-cost control for agents, and
+      has no REST equivalent — a REST caller always receives the full ActivityStreams document.
+
+response_envelope:
+  success:
+    shape: '{ "data": <ActivityStreams object>, ... }'
+    vocabulary: W3C ActivityStreams 2.0
+    context:
+      - https://www.w3.org/ns/activitystreams#
+      - https://konbiniapi.com/ns/social#
+    note: >-
+      A single normalized shape across all five platforms. Users are `Person`, videos/reels are
+      `Video`, comments and posts are `Note`, sounds are `Audio`, collections page as
+      `OrderedCollectionPage`. Every list item carries `entityId`, the platform-native identifier,
+      which is the input to the corresponding detail endpoint.
+  mcp_success:
+    shape: '{ "data": {...}, "metadata": { "creditsUsed": 1, "creditsRemaining": 4999 } }'
+  error:
+    shape: '{ "errors": [ { "code": "...", "message": "..." } ], "data": null }'
+    rfc9457: false
+    detail: errors/konbiniapi-problem-types.yml
+
+metadata:
+  custom_fields: false
+  note: No user-supplied metadata field. This is a read-only data API; nothing is stored on behalf of the caller.
+
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request-id or correlation-id header is documented, and none was observed on the live
+    unauthenticated 401/404 responses probed on 2026-08-13. There is no published way for a caller to
+    quote a single failed request back to support.
+
+rate_limit_signaling:
+  rate_limit_headers: none
+  retry_after: not documented
+  status_on_exhaustion: 402
+  error_code_on_exhaustion: credits_exhausted
+  note: >-
+    KonbiniAPI publishes no request-rate limit at all — no per-second, per-minute or daily cap, no
+    concurrency cap, and no 429. The only ceiling is the credit balance, and it signals with 402.
+    Consequently there are no X-RateLimit-* or RateLimit-* headers to read. The runtime budget signal
+    is the credit pair instead. See rate-limits/konbiniapi-rate-limits.yml.
+  budget_headers:
+    - name: X-Credits-Remaining
+      description: Credits left on the account after this request.
+    - name: X-Credits-Used
+      description: Credits charged for this request — 1 on success, 0 when refunded.
+
+versioning:
+  style: uri-path
+  current: v1
+  base_url: https://api.konbiniapi.com
+  product_version: 1.5.0
+  spec_version: 1.0.0
+  note: >-
+    The path prefix is /v1 and has never changed. The changelog versions the product (1.0.0 → 1.5.0)
+    while info.version in the OpenAPI stays 1.0.0, so the spec version is not a usable change signal.
+  detail: lifecycle/konbiniapi-lifecycle.yml
+
+caching:
+  policy: none
+  note: >-
+    KonbiniAPI advertises real-time, uncached data on every plan. No ETag, Last-Modified or
+    Cache-Control convention is documented, and conditional requests are not supported.
+
+billing_semantics:
+  unit: credit
+  cost_per_request: 1
+  batch_cost: 1 credit per ID submitted (a 10-ID batch call costs 10 credits)
+  refunded_statuses: [400, 500, 502, 503]
+  charged_statuses: [200, 404]
+  note: >-
+    An unusual and agent-relevant asymmetry: a 404 (`not_found`) IS charged, because the lookup
+    happened. A 400, 5xx or upstream 502 is not. An agent iterating speculative usernames pays for
+    every miss.
