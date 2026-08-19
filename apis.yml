@@ -33,7 +33,7 @@ description: >-
   provider publishes no rate limits at all.
 created: '2026-05-06'
 modified: '2026-08-13'
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 tags:
   - API
   - Social Media
