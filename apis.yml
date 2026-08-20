@@ -35,6 +35,23 @@ created: '2026-05-06'
 modified: '2026-08-13'
 specificationVersion: '0.23'
 tags:
+  - Social-Media
+  - Instagram
+  - TikTok
+  - X
+  - Reddit
+  - LinkedIn
+  - ActivityStreams 2.0
+  - Scraping
+  - Data Extraction
+  - Public Data
+  - Influencer Marketing
+  - Social Listening
+  - Creator Tools
+  - MCP
+  - Agent Skills
+  - Agents
+tags_raw:
   - API
   - Social Media
   - Instagram
@@ -181,6 +198,9 @@ apis:
   humanURL: https://docs.konbiniapi.com/reference/mcp/overview
   baseURL: https://mcp.konbiniapi.com
   tags:
+  - MCP
+  - Agents
+  tags_raw:
   - MCP
   - Model Context Protocol
   - Agents
