@@ -1,0 +1,126 @@
+---
+kin_checks:
+  slug: konbiniapi
+  schema_version: 0.15.1
+  scored_at: '2026-08-27'
+  run_ts: 2026-08-27T123021
+  note: Actionable checks only (missed + partial). earned/na are every other check
+    in rubric/scoring-0.15.1.yml; counts below let you verify that.
+  counts:
+    total: 130
+    earned: 61
+    partial: 10
+    missed: 36
+    na: 23
+  checks:
+  - id: well_known_published
+    status: missed
+  - id: apis_json_self_hosted
+    status: missed
+  - id: openapi_3_2
+    status: missed
+    detail: 0 of 5 openapi documents pass
+  - id: openapi_3_0
+    status: missed
+    detail: 0 of 5 openapi documents pass
+  - id: webhooks_or_callbacks
+    status: missed
+    detail: 0 of 5 openapi documents pass
+  - id: asyncapi_present
+    status: missed
+  - id: json_schema_present
+    status: missed
+  - id: json_schema_per_resource
+    status: missed
+  - id: lifecycle_documented
+    status: missed
+  - id: status_page_present
+    status: missed
+  - id: rate_limits_documented
+    status: missed
+  - id: rate_limits_rich
+    status: missed
+  - id: deprecation_policy
+    status: missed
+  - id: webhooks_advertised
+    status: missed
+  - id: roadmap_present
+    status: missed
+  - id: examples_published
+    status: missed
+  - id: sdk_count_1
+    status: missed
+  - id: sdk_count_3
+    status: missed
+  - id: cli_present
+    status: missed
+  - id: console_or_sandbox
+    status: missed
+  - id: blog_present
+    status: missed
+  - id: compliance_published
+    status: missed
+  - id: trust_center
+    status: missed
+  - id: reg_compliance_published
+    status: missed
+  - id: reg_named_standard_conformance
+    status: missed
+  - id: reversibility_documented
+    status: missed
+  - id: idempotency
+    status: missed
+  - id: event_surface_described
+    status: missed
+  - id: well_known_catalog
+    status: missed
+  - id: consent_identity
+    status: missed
+  - id: agent_card
+    status: missed
+  - id: dry_run_mode
+    status: missed
+  - id: delegated_identity
+    status: missed
+  - id: protected_resource_metadata
+    status: missed
+  - id: dynamic_client_registration
+    status: missed
+  - id: agentic_commerce
+    status: missed
+  - id: rules_present
+    status: partial
+    earned: 2.5
+  - id: rules_substantial
+    status: partial
+    earned: 1.25
+  - id: balanced_severities
+    status: partial
+    earned: 0.75
+  - id: conformance_declared
+    status: partial
+    earned: 1.5
+  - id: github_org_present
+    status: partial
+    earned: 1.0
+    detail: pointer liveness 0.5
+  - id: agentic_access
+    status: partial
+    earned: 2.5
+    detail: 'authorship: derived'
+  - id: mcp_server
+    status: partial
+    earned: 4.8
+    detail: 'grade: documented'
+  - id: auth_clarity
+    status: partial
+    earned: 3.5
+    detail: 'grade: bearer'
+  - id: error_semantics
+    status: partial
+    earned: 4.0
+    detail: 'grade: documented'
+  - id: rate_limit_signal
+    status: partial
+    earned: 3.5
+    detail: 'grade: documented'
