@@ -228,6 +228,8 @@ apis:
   - type: X-mcp
     url: https://mcp.konbiniapi.com
 common:
+  - type: Website
+    url: https://konbiniapi.com/
   - type: OpenAPI
     url: openapi/_original/konbiniapi-openapi.json
   - type: MCPServer
