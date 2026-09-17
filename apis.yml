@@ -87,8 +87,8 @@ apis:
 - aid: konbiniapi:konbiniapi-instagram-api
   name: KonbiniAPI Instagram API
   description: >-
-    Ten Instagram endpoints covering profiles, posts, reels, tagged media, story highlights, post
-    comments, location feeds and trending media search, normalized to ActivityStreams 2.0.
+    Ten Instagram endpoints covering profiles, posts, reels, tagged media, story highlights, post comments,
+    location feeds and trending media search, normalized to ActivityStreams 2.0.
   humanURL: https://docs.konbiniapi.com/reference/api/instagram
   baseURL: https://api.konbiniapi.com/v1
   tags:
@@ -111,9 +111,9 @@ apis:
 - aid: konbiniapi:konbiniapi-tiktok-api
   name: KonbiniAPI TikTok API
   description: >-
-    Twenty-one TikTok endpoints covering profiles, videos, likes, reposts, collections, stories,
-    following and follower lists, live streams, comments and replies, WebVTT transcripts, hashtags,
-    audio tracks, header-free video download URLs and search.
+    Twenty-one TikTok endpoints covering profiles, videos, likes, reposts, collections, stories, following
+    and follower lists, live streams, comments and replies, WebVTT transcripts, hashtags, audio tracks,
+    header-free video download URLs and search.
   humanURL: https://docs.konbiniapi.com/reference/api/tiktok
   baseURL: https://api.konbiniapi.com/v1
   tags:
@@ -136,10 +136,10 @@ apis:
 - aid: konbiniapi:konbiniapi-x-api
   name: KonbiniAPI X API
   description: >-
-    Seven X (Twitter) endpoints covering public profiles, user post timelines, the Highlights tab,
-    single posts, and X Communities including community metadata, posts and media — all as visible to
-    a logged-out viewer. Shipped in v1.2.0 (May 2026), with Communities and timeline pagination added
-    in v1.5.0 (August 2026).
+    Seven X (Twitter) endpoints covering public profiles, user post timelines, the Highlights tab, single
+    posts, and X Communities including community metadata, posts and media — all as visible to a logged-out
+    viewer. Shipped in v1.2.0 (May 2026), with Communities and timeline pagination added in v1.5.0 (August
+    2026).
   humanURL: https://docs.konbiniapi.com/reference/api/x
   baseURL: https://api.konbiniapi.com/v1
   tags:
@@ -158,10 +158,10 @@ apis:
 - aid: konbiniapi:konbiniapi-reddit-api
   name: KonbiniAPI Reddit API
   description: >-
-    Twenty-two Reddit endpoints — the provider's deepest surface — covering users, subreddits and
-    their structured rules, posts, comments and reply threads, duplicates and crossposts, site-wide
-    feeds, three search endpoints, and three batch endpoints that fetch up to 100 subreddits, posts
-    or comments per request. Shipped in v1.2.0 (May 2026); batch added in v1.3.0 (June 2026).
+    Twenty-two Reddit endpoints — the provider's deepest surface — covering users, subreddits and their
+    structured rules, posts, comments and reply threads, duplicates and crossposts, site-wide feeds, three
+    search endpoints, and three batch endpoints that fetch up to 100 subreddits, posts or comments per
+    request. Shipped in v1.2.0 (May 2026); batch added in v1.3.0 (June 2026).
   humanURL: https://docs.konbiniapi.com/reference/api/reddit
   baseURL: https://api.konbiniapi.com/v1
   tags:
@@ -177,36 +177,14 @@ apis:
     url: https://docs.konbiniapi.com/reference/api/reddit
   - type: PostmanWorkspace
     url: https://www.postman.com/konbiniapi
-- aid: konbiniapi:konbiniapi-linkedin-api
-  name: KonbiniAPI LinkedIn API
-  description: >-
-    Seven LinkedIn endpoints covering public member profiles, member posts and published articles,
-    company pages and company posts, single posts with inline comments, and video post transcripts.
-    The newest platform, shipped in v1.5.0 (August 2026). Member and company post endpoints are not
-    paginated — everything available returns in one response.
-  humanURL: https://docs.konbiniapi.com/reference/api/linkedin
-  baseURL: https://api.konbiniapi.com/v1
-  tags:
-  - LinkedIn
-  properties:
-  - type: OpenAPI
-    url: openapi/konbiniapi-linkedin-api-openapi.yml
-  - type: Overlay
-    url: overlays/konbiniapi-linkedin-overlay.yaml
-  - type: Documentation
-    url: https://docs.konbiniapi.com/reference/api/linkedin
-  - type: APIReference
-    url: https://docs.konbiniapi.com/reference/api/linkedin
-  - type: PostmanWorkspace
-    url: https://www.postman.com/konbiniapi
 - aid: konbiniapi:konbiniapi-mcp
   name: KonbiniAPI MCP Server
   description: >-
-    Hosted remote MCP server exposing one typed tool for every one of the 67 REST operations, over
-    streamable HTTP with OAuth 2.1 (authorization code + PKCE) or a Bearer API key. Adds three
-    MCP-only projection inputs — projection_preset, data_fields and item_fields — that trim the
-    response payload to cut agent token cost, with no REST equivalent. A tool call costs the same
-    single credit as the equivalent REST call.
+    Hosted remote MCP server exposing one typed tool for every one of the 67 REST operations, over streamable
+    HTTP with OAuth 2.1 (authorization code + PKCE) or a Bearer API key. Adds three MCP-only projection
+    inputs — projection_preset, data_fields and item_fields — that trim the response payload to cut agent
+    token cost, with no REST equivalent. A tool call costs the same single credit as the equivalent REST
+    call.
   humanURL: https://docs.konbiniapi.com/reference/mcp/overview
   baseURL: https://mcp.konbiniapi.com
   tags:
@@ -227,7 +205,25 @@ apis:
     url: https://docs.konbiniapi.com/reference/mcp/tools/overview
   - type: X-mcp
     url: https://mcp.konbiniapi.com
+- aid: konbiniapi:konbiniapi-linked-in-api
+  name: KonbiniAPI Linked In API
+  description: LinkedIn data endpoints
+  humanURL: https://docs.konbiniapi.com/reference/api/instagram
+  baseURL: https://api.konbiniapi.com/v1
+  tags:
+  - Linked In
+  properties:
+  - type: OpenAPI
+    url: openapi/konbiniapi-linked-in-api-openapi.yml
+  - type: Documentation
+    url: https://docs.konbiniapi.com/reference/api/linkedin
+  - type: APIReference
+    url: https://docs.konbiniapi.com/reference/api/linkedin
+  - type: PostmanWorkspace
+    url: https://www.postman.com/konbiniapi
 common:
+  - type: Overlay
+    url: overlays/konbiniapi-linkedin-overlay.yaml
   - type: Website
     url: https://konbiniapi.com/
   - type: OpenAPI
