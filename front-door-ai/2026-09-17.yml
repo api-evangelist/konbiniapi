@@ -1,0 +1,30 @@
+# Front Door AI Index — konbiniapi — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: konbiniapi
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: konbiniapi.com
+  final_host: konbiniapi.com
+  ownership: own
+  owner: konbiniapi
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 13
+  host_score: 13
+  density: 3.93
+  words: 3311
+  tiers:
+    agentic: 9
+    core: 4
+    model: 0
+  ambiguous: 7
+  top_terms:
+    MCP: 7
+    AI: 4
+    agent: 4
+    AI agent: 2
+    automation: 2
+    intelligence: 1

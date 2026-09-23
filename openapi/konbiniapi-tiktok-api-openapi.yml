@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Konbini TikTok API
+  title: Konbini Tik Tok API
   version: 1.0.0
   description: 'Social media API that normalizes Instagram, TikTok, X, Reddit, and LinkedIn data into a consistent ActivityStreams 2.0 format.
 
@@ -16,14 +16,14 @@ servers:
 security:
 - apiKey: []
 tags:
-- name: TikTok
+- name: tiktok
   description: TikTok data endpoints
 paths:
   /v1/tiktok/users/{username}:
     get:
       operationId: tiktokGetUser
       tags:
-      - TikTok
+      - tiktok
       summary: Get user profile
       description: Returns profile information for a TikTok user including bio, follower counts, verification status, and profile picture. Look up any public TikTok account by username.
       parameters:
@@ -548,7 +548,7 @@ paths:
     get:
       operationId: tiktokGetUserVideos
       tags:
-      - TikTok
+      - tiktok
       summary: Get user videos
       description: Returns a paginated list of videos from a user's profile. Supports sorting by newest, popular, or oldest. Maximum 35 videos per page.
       parameters:
@@ -1052,7 +1052,7 @@ paths:
     get:
       operationId: tiktokGetUserLikes
       tags:
-      - TikTok
+      - tiktok
       summary: Get user liked videos
       description: 'Returns a paginated list of videos liked by a TikTok user. Note: Users may have their likes set to private, in which case an empty list will be returned.'
       parameters:
@@ -1543,7 +1543,7 @@ paths:
     get:
       operationId: tiktokGetUserReposts
       tags:
-      - TikTok
+      - tiktok
       summary: Get user reposts
       description: 'Returns a paginated list of videos reposted by a TikTok user. Note: Users may have their reposts set to private, in which case an empty list will be returned.'
       parameters:
@@ -2047,7 +2047,7 @@ paths:
     get:
       operationId: tiktokGetUserCollections
       tags:
-      - TikTok
+      - tiktok
       summary: Get user collections
       description: Returns a paginated list of video collections (playlists and mixes) on a TikTok user's profile. Includes collection name, cover image, and video count.
       parameters:
@@ -2538,7 +2538,7 @@ paths:
     get:
       operationId: tiktokGetUserStories
       tags:
-      - TikTok
+      - tiktok
       summary: Get user stories
       description: Returns a paginated list of active stories for a TikTok user. Stories expire after 24 hours and include both images and videos with engagement data.
       parameters:
@@ -3029,7 +3029,7 @@ paths:
     get:
       operationId: tiktokGetUserFollowing
       tags:
-      - TikTok
+      - tiktok
       summary: Get user following list
       description: Returns a paginated list of accounts a TikTok user follows. Maximum 30 per page. Includes profile details for each followed account.
       parameters:
@@ -3520,7 +3520,7 @@ paths:
     get:
       operationId: tiktokGetUserFollowers
       tags:
-      - TikTok
+      - tiktok
       summary: Get user followers list
       description: Returns a paginated list of accounts following a TikTok user. Maximum 30 per page. Includes profile details for each follower account.
       parameters:
@@ -4011,7 +4011,7 @@ paths:
     get:
       operationId: tiktokGetUserLive
       tags:
-      - TikTok
+      - tiktok
       summary: Get user live stream
       description: Returns the current live stream for a user, including stream URLs and viewer count. Returns 404 if the user is not currently live.
       parameters:
@@ -4490,7 +4490,7 @@ paths:
     get:
       operationId: tiktokGetVideo
       tags:
-      - TikTok
+      - tiktok
       summary: Get video details
       description: Returns details for a single TikTok video including engagement counts, media files in multiple qualities, audio track, author info, and hashtags.
       parameters:
@@ -5044,7 +5044,7 @@ paths:
     get:
       operationId: tiktokGetVideoDownloadUrl
       tags:
-      - TikTok
+      - tiktok
       summary: Get video download URL
       description: Returns a video file URL you can download directly with a plain GET request — no cookies, no auth headers, no browser fingerprinting needed on your end. Not permanent, only valid for a few hours.
       parameters:
@@ -5457,7 +5457,7 @@ paths:
     get:
       operationId: tiktokGetVideoComments
       tags:
-      - TikTok
+      - tiktok
       summary: Get video comments
       description: Returns a paginated list of top-level comments on a video. Maximum 50 per page. Use the replies endpoint to fetch threaded replies.
       parameters:
@@ -5948,7 +5948,7 @@ paths:
     get:
       operationId: tiktokGetCommentReplies
       tags:
-      - TikTok
+      - tiktok
       summary: Get comment replies
       description: Returns a paginated list of replies to a TikTok comment. Maximum 50 per page. Includes author info, like counts, and reply timestamps.
       parameters:
@@ -6447,7 +6447,7 @@ paths:
     get:
       operationId: tiktokGetVideoTranscript
       tags:
-      - TikTok
+      - tiktok
       summary: Get video transcript
       description: Returns the transcript for a video. Use `original` as the language to return the auto-generated transcript, or provide a BCP47 language code for machine-translated subtitles. Returns WebVTT format.
       parameters:
@@ -6960,7 +6960,7 @@ paths:
     get:
       operationId: tiktokGetTagVideos
       tags:
-      - TikTok
+      - tiktok
       summary: Get videos with tag
       description: Returns TikTok videos associated with a hashtag or challenge. The tag name is resolved to an internal ID automatically. Includes video details and engagement counts.
       parameters:
@@ -7451,7 +7451,7 @@ paths:
     get:
       operationId: tiktokGetCollectionVideos
       tags:
-      - TikTok
+      - tiktok
       summary: Get collection videos
       description: Returns a paginated list of videos in a TikTok collection (playlist or mix). Maximum 35 per page. Includes full video details and engagement counts.
       parameters:
@@ -7942,7 +7942,7 @@ paths:
     get:
       operationId: tiktokGetAudio
       tags:
-      - TikTok
+      - tiktok
       summary: Get audio details
       description: Returns metadata for a TikTok audio track including title, artist, duration, usage count, and cover image. Look up any sound by its audio ID.
       parameters:
@@ -8427,7 +8427,7 @@ paths:
     get:
       operationId: tiktokGetAudioVideos
       tags:
-      - TikTok
+      - tiktok
       summary: Get videos with audio
       description: Returns a paginated list of TikTok videos using a specific audio track. Maximum 30 per page. Discover trending content by sound or music.
       parameters:
@@ -8918,7 +8918,7 @@ paths:
     get:
       operationId: tiktokSearchContent
       tags:
-      - TikTok
+      - tiktok
       summary: Search content
       description: General search that returns mixed results including videos and user profiles. Supports sorting and publish-time filters.
       parameters:
@@ -9466,7 +9466,7 @@ paths:
     get:
       operationId: tiktokSearchUsers
       tags:
-      - TikTok
+      - tiktok
       summary: Search users
       description: Searches TikTok for user profiles matching a query. Fixed page size of 10 (platform limit). Returns profile details including follower counts and verification status.
       parameters:
@@ -9958,7 +9958,7 @@ paths:
     get:
       operationId: tiktokSearchVideos
       tags:
-      - TikTok
+      - tiktok
       summary: Search videos
       description: Searches TikTok for videos matching a query. Supports filtering by publish time and sorting by relevance, likes, or date.
       parameters:
@@ -10476,26 +10476,95 @@ paths:
                 - data
 components:
   schemas:
-    TikTokLink:
+    TikTokVideoAttachment:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Link
-        href:
+          example: Video
+        name:
           type: string
-          format: uri
-          description: Link URL
-          example: https://linktr.ee/khaby.lame
-        rel:
+          description: Quality label (e.g. h264_540p_829898-0)
+          example: normal_540_0
+        url:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Media download URLs
+          example:
+          - https://v19-webapp.tiktok.com/video/tos/us/tos-useast5-ve-0068c004/video.mp4
+        headers:
+          $ref: '#/components/schemas/TikTokVideoAttachmentHeaders'
+          description: Authentication headers for video download
+        mediaType:
           type: string
-          description: Link relation hint
-          example: preferred
+          description: MIME type
+          example: video/mp4
+        codec:
+          type: string
+          description: Video codec (e.g. h264, h265)
+          example: h264
+        width:
+          type: integer
+          description: Width in pixels
+          example: 576
+        height:
+          type: integer
+          description: Height in pixels
+          example: 1024
+        bitrate:
+          type: integer
+          description: Bitrate in bits per second
+          example: 1101943
       required:
       - type
-      - href
-      description: External link
+      - name
+      - url
+      - mediaType
+      - codec
+      - width
+      - height
+      - bitrate
+      description: Video media file with download details
+    TikTokVideoDownloadUrl:
+      type: object
+      properties:
+        '@context':
+          type: array
+          prefixItems:
+          - type: string
+            enum:
+            - https://www.w3.org/ns/activitystreams#
+          - type: string
+            enum:
+            - https://konbiniapi.com/ns/social#
+          description: ActivityStreams JSON-LD context
+          example:
+          - https://www.w3.org/ns/activitystreams#
+          - https://konbiniapi.com/ns/social#
+        type:
+          type: string
+          enum:
+          - Video
+          example: Video
+        url:
+          type: string
+          format: uri
+          description: Downloadable video file URL. Works with a plain GET request — no cookies, auth headers, or special HTTP client required. Not permanent, only valid for a few hours — do not store it for later use, request a fresh one when you need it.
+          example: https://v16m-default.tiktokcdn-us.com/tos-useast2a-ve-0068c001-euttp/oQmXqQqQ1RQkQKEZe6EDMBnZDGFHLupqRIh7p/?a=1988&bti=bGRuZHxvMXIxcm53Zm1cYF9ebWFzaHFmOg%3D%3D&bt=1415&ft=8kQr2FziNORWRapNGIv1tec7kzYrZmXVWxi~jJMsL&mime_type=video_mp4&vvpl=1
+        mediaType:
+          type: string
+          enum:
+          - video/mp4
+          example: video/mp4
+      required:
+      - '@context'
+      - type
+      - url
+      - mediaType
+      description: A temporary link to a downloadable video file
     TikTokImage:
       type: object
       properties:
@@ -10659,6 +10728,76 @@ components:
       - saveCount
       - attributedTo
       description: Video post
+    TikTokAudio:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Audio
+        id:
+          type: string
+          format: uri
+          description: Audio permalink
+          example: https://www.tiktok.com/music/original-sound-7611615657754381599
+        url:
+          type: string
+          format: uri
+          description: Audio playback URL
+          example: https://sf16-ies-music.tiktokcdn.com/obj/tos-alisg-v/123456
+        name:
+          type: string
+          description: Track name
+          example: original sound
+        duration:
+          type: number
+          description: Duration in seconds
+          example: 23
+        mediaType:
+          type: string
+          description: MIME type
+          example: audio/mpeg
+        attributedTo:
+          anyOf:
+          - $ref: '#/components/schemas/TikTokEmbeddedUser'
+          - type: array
+            items:
+              $ref: '#/components/schemas/TikTokEmbeddedUser'
+          description: Audio creator or artist
+        icon:
+          allOf:
+          - $ref: '#/components/schemas/TikTokImage'
+          - description: Thumbnail image
+        image:
+          type: array
+          items:
+            $ref: '#/components/schemas/TikTokImage'
+          description: Cover images in multiple sizes
+        entityId:
+          type: string
+          description: Audio ID
+          example: '7493556331997071377'
+        album:
+          type: string
+          description: Album name
+          example: Greatest Hits
+        isOriginal:
+          type: boolean
+          description: Whether audio is user-created vs a licensed track
+          example: false
+        isCopyrighted:
+          type: boolean
+          description: Whether audio has copyright restrictions
+          example: false
+        videoCount:
+          type: integer
+          description: Number of videos using this audio
+          example: 500000
+      required:
+      - type
+      - name
+      - duration
+      description: Audio or music track
     TikTokTag:
       type: object
       properties:
@@ -10791,17 +10930,13 @@ components:
       - isPrivate
       - isVerified
       description: Compact user profile for embedded contexts
-    TikTokVideoAttachment:
+    TikTokStoryAttachment:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
           example: Video
-        name:
-          type: string
-          description: Quality label (e.g. h264_540p_829898-0)
-          example: normal_540_0
         url:
           type: array
           items:
@@ -10809,18 +10944,11 @@ components:
             format: uri
           description: Media download URLs
           example:
-          - https://v19-webapp.tiktok.com/video/tos/us/tos-useast5-ve-0068c004/video.mp4
-        headers:
-          $ref: '#/components/schemas/TikTokVideoAttachmentHeaders'
-          description: Authentication headers for video download
+          - https://v19-webapp.tiktok.com/video/tos/us/tos-useast5-ve-0068c004/story.mp4
         mediaType:
           type: string
           description: MIME type
           example: video/mp4
-        codec:
-          type: string
-          description: Video codec (e.g. h264, h265)
-          example: h264
         width:
           type: integer
           description: Width in pixels
@@ -10829,148 +10957,96 @@ components:
           type: integer
           description: Height in pixels
           example: 1024
+        name:
+          type: string
+          description: Quality label
+          example: normal_540_0
+        headers:
+          allOf:
+          - $ref: '#/components/schemas/TikTokVideoAttachmentHeaders'
+          - description: Authentication headers for story download
+        codec:
+          type: string
+          description: Video codec
+          example: h264
         bitrate:
           type: integer
           description: Bitrate in bits per second
           example: 1101943
       required:
       - type
-      - name
       - url
-      - mediaType
-      - codec
-      - width
-      - height
-      - bitrate
-      description: Video media file with download details
-    TikTokVideoAttachmentHeaders:
-      type: object
-      properties:
-        Cookie:
-          type: string
-          description: Required cookie header for video download
-          example: tt_chain_token=sTA6PK6OnvhW7YemGVwMig==
-        Referer:
-          type: string
-          description: Required referer header for video download
-          example: https://www.tiktok.com/
-      required:
-      - Cookie
-      - Referer
-      description: HTTP headers required for authenticated media download
-    TikTokAudio:
+      description: Story media file
+    TikTokComment:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Audio
+          example: Note
         id:
           type: string
           format: uri
-          description: Audio permalink
-          example: https://www.tiktok.com/music/original-sound-7611615657754381599
+          description: Comment permalink
+          example: https://www.tiktok.com/@khaby.lame/video/7611615657754381599/comment/7611646895321105170
         url:
           type: string
           format: uri
-          description: Audio playback URL
-          example: https://sf16-ies-music.tiktokcdn.com/obj/tos-alisg-v/123456
-        name:
-          type: string
-          description: Track name
-          example: original sound
-        duration:
-          type: number
-          description: Duration in seconds
-          example: 23
-        mediaType:
-          type: string
-          description: MIME type
-          example: audio/mpeg
-        attributedTo:
-          anyOf:
-          - $ref: '#/components/schemas/TikTokEmbeddedUser'
-          - type: array
-            items:
-              $ref: '#/components/schemas/TikTokEmbeddedUser'
-          description: Audio creator or artist
-        icon:
-          allOf:
-          - $ref: '#/components/schemas/TikTokImage'
-          - description: Thumbnail image
-        image:
-          type: array
-          items:
-            $ref: '#/components/schemas/TikTokImage'
-          description: Cover images in multiple sizes
+          description: Comment permalink
+          example: https://www.tiktok.com/@khaby.lame/video/7611615657754381599/comment/7611646895321105170
         entityId:
           type: string
-          description: Audio ID
-          example: '7493556331997071377'
-        album:
+          description: TikTok internal comment ID
+          example: '7611646895321105170'
+        content:
           type: string
-          description: Album name
-          example: Greatest Hits
-        isOriginal:
-          type: boolean
-          description: Whether audio is user-created vs a licensed track
-          example: false
-        isCopyrighted:
-          type: boolean
-          description: Whether audio has copyright restrictions
-          example: false
-        videoCount:
+          description: Comment text
+          example: This man hasn't been in my fyp for so long
+        language:
+          type: string
+          description: Comment language code
+          example: en
+        published:
+          type: string
+          format: date-time
+          description: Publication date in ISO 8601 format
+          example: '2026-02-27T20:37:38.000Z'
+        likeCount:
           type: integer
-          description: Number of videos using this audio
-          example: 500000
-      required:
-      - type
-      - name
-      - duration
-      description: Audio or music track
-    TikTokCollection:
-      type: object
-      properties:
-        type:
+          description: Number of likes
+          example: 93210
+        replyCount:
+          type: integer
+          description: Number of replies
+          example: 96
+        status:
           type: string
-          description: ActivityStreams object type
-          example: OrderedCollection
-        id:
+          description: Moderation status
+          example: '1'
+        isPinned:
+          type: boolean
+          description: Whether comment is pinned
+          example: false
+        isLiked:
+          type: boolean
+          description: Whether comment is liked by the video author
+          example: false
+        attributedTo:
+          allOf:
+          - $ref: '#/components/schemas/TikTokEmbeddedUser'
+          - description: Comment author
+        inReplyTo:
           type: string
           format: uri
-          description: Collection permalink
-          example: https://www.tiktok.com/@khaby.lame/playlist/7200000000000000001
-        name:
-          type: string
-          description: Collection name
-          example: Best of 2025
-        image:
-          type: array
-          items:
-            $ref: '#/components/schemas/TikTokImage'
-          description: Collection cover images
-        totalItems:
-          type:
-          - integer
-          - 'null'
-          description: Number of items in collection
-          example: 42
-        entityId:
-          type: string
-          description: TikTok internal collection ID
-          example: '7200000000000000001'
-        attributedTo:
-          allOf:
-          - $ref: '#/components/schemas/TikTokEmbeddedUser'
-          - description: Collection owner
+          description: URL of parent content
+          example: https://www.tiktok.com/@khaby.lame/video/7611615657754381599
       required:
       - type
       - id
-      - name
-      - totalItems
-      - entityId
+      - content
+      - likeCount
       - attributedTo
-      description: Video collection or playlist
+      description: Video comment
     TikTokStory:
       type: object
       properties:
@@ -11070,53 +11146,64 @@ components:
       - saveCount
       - attributedTo
       description: Story post
-    TikTokStoryAttachment:
+    TikTokVideoAttachmentHeaders:
+      type: object
+      properties:
+        Cookie:
+          type: string
+          description: Required cookie header for video download
+          example: tt_chain_token=sTA6PK6OnvhW7YemGVwMig==
+        Referer:
+          type: string
+          description: Required referer header for video download
+          example: https://www.tiktok.com/
+      required:
+      - Cookie
+      - Referer
+      description: HTTP headers required for authenticated media download
+    TikTokCollection:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Video
-        url:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Media download URLs
-          example:
-          - https://v19-webapp.tiktok.com/video/tos/us/tos-useast5-ve-0068c004/story.mp4
-        mediaType:
+          example: OrderedCollection
+        id:
           type: string
-          description: MIME type
-          example: video/mp4
-        width:
-          type: integer
-          description: Width in pixels
-          example: 576
-        height:
-          type: integer
-          description: Height in pixels
-          example: 1024
+          format: uri
+          description: Collection permalink
+          example: https://www.tiktok.com/@khaby.lame/playlist/7200000000000000001
         name:
           type: string
-          description: Quality label
-          example: normal_540_0
-        headers:
-          allOf:
-          - $ref: '#/components/schemas/TikTokVideoAttachmentHeaders'
-          - description: Authentication headers for story download
-        codec:
+          description: Collection name
+          example: Best of 2025
+        image:
+          type: array
+          items:
+            $ref: '#/components/schemas/TikTokImage'
+          description: Collection cover images
+        totalItems:
+          type:
+          - integer
+          - 'null'
+          description: Number of items in collection
+          example: 42
+        entityId:
           type: string
-          description: Video codec
-          example: h264
-        bitrate:
-          type: integer
-          description: Bitrate in bits per second
-          example: 1101943
+          description: TikTok internal collection ID
+          example: '7200000000000000001'
+        attributedTo:
+          allOf:
+          - $ref: '#/components/schemas/TikTokEmbeddedUser'
+          - description: Collection owner
       required:
       - type
-      - url
-      description: Story media file
+      - id
+      - name
+      - totalItems
+      - entityId
+      - attributedTo
+      description: Video collection or playlist
     TikTokLiveStreamAttachment:
       type: object
       properties:
@@ -11162,113 +11249,26 @@ components:
       - mediaType
       - name
       description: Live stream media source
-    TikTokVideoDownloadUrl:
-      type: object
-      properties:
-        '@context':
-          type: array
-          prefixItems:
-          - type: string
-            enum:
-            - https://www.w3.org/ns/activitystreams#
-          - type: string
-            enum:
-            - https://konbiniapi.com/ns/social#
-          description: ActivityStreams JSON-LD context
-          example:
-          - https://www.w3.org/ns/activitystreams#
-          - https://konbiniapi.com/ns/social#
-        type:
-          type: string
-          enum:
-          - Video
-          example: Video
-        url:
-          type: string
-          format: uri
-          description: Downloadable video file URL. Works with a plain GET request — no cookies, auth headers, or special HTTP client required. Not permanent, only valid for a few hours — do not store it for later use, request a fresh one when you need it.
-          example: https://v16m-default.tiktokcdn-us.com/tos-useast2a-ve-0068c001-euttp/oQmXqQqQ1RQkQKEZe6EDMBnZDGFHLupqRIh7p/?a=1988&bti=bGRuZHxvMXIxcm53Zm1cYF9ebWFzaHFmOg%3D%3D&bt=1415&ft=8kQr2FziNORWRapNGIv1tec7kzYrZmXVWxi~jJMsL&mime_type=video_mp4&vvpl=1
-        mediaType:
-          type: string
-          enum:
-          - video/mp4
-          example: video/mp4
-      required:
-      - '@context'
-      - type
-      - url
-      - mediaType
-      description: A temporary link to a downloadable video file
-    TikTokComment:
+    TikTokLink:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Note
-        id:
+          example: Link
+        href:
           type: string
           format: uri
-          description: Comment permalink
-          example: https://www.tiktok.com/@khaby.lame/video/7611615657754381599/comment/7611646895321105170
-        url:
+          description: Link URL
+          example: https://linktr.ee/khaby.lame
+        rel:
           type: string
-          format: uri
-          description: Comment permalink
-          example: https://www.tiktok.com/@khaby.lame/video/7611615657754381599/comment/7611646895321105170
-        entityId:
-          type: string
-          description: TikTok internal comment ID
-          example: '7611646895321105170'
-        content:
-          type: string
-          description: Comment text
-          example: This man hasn't been in my fyp for so long
-        language:
-          type: string
-          description: Comment language code
-          example: en
-        published:
-          type: string
-          format: date-time
-          description: Publication date in ISO 8601 format
-          example: '2026-02-27T20:37:38.000Z'
-        likeCount:
-          type: integer
-          description: Number of likes
-          example: 93210
-        replyCount:
-          type: integer
-          description: Number of replies
-          example: 96
-        status:
-          type: string
-          description: Moderation status
-          example: '1'
-        isPinned:
-          type: boolean
-          description: Whether comment is pinned
-          example: false
-        isLiked:
-          type: boolean
-          description: Whether comment is liked by the video author
-          example: false
-        attributedTo:
-          allOf:
-          - $ref: '#/components/schemas/TikTokEmbeddedUser'
-          - description: Comment author
-        inReplyTo:
-          type: string
-          format: uri
-          description: URL of parent content
-          example: https://www.tiktok.com/@khaby.lame/video/7611615657754381599
+          description: Link relation hint
+          example: preferred
       required:
       - type
-      - id
-      - content
-      - likeCount
-      - attributedTo
-      description: Video comment
+      - href
+      description: External link
   securitySchemes:
     apiKey:
       type: http

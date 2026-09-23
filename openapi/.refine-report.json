@@ -1,16 +1,33 @@
 {
   "provider": "konbiniapi",
   "sources": [
-    "konbiniapi-instagram-api-openapi.yml",
-    "konbiniapi-tiktok-api-openapi.yml"
+    "_original/konbiniapi-openapi.json"
   ],
   "outputs": [
     "konbiniapi-instagram-api-openapi.yml",
-    "konbiniapi-tiktok-api-openapi.yml"
+    "konbiniapi-linkedin-api-openapi.yml",
+    "konbiniapi-reddit-api-openapi.yml",
+    "konbiniapi-tiktok-api-openapi.yml",
+    "konbiniapi-x-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "konbiniapi-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: konbiniapi-linked-in-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 6 total)"
+  ],
+  "skipped": [
+    "_original/konbiniapi-openapi.yml: archived document superseded by a larger archived document",
+    "konbiniapi-instagram-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "konbiniapi-linked-in-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "konbiniapi-reddit-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "konbiniapi-tiktok-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "konbiniapi-x-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

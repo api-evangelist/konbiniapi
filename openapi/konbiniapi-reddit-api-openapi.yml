@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Konbini Reddit API
   version: 1.0.0
@@ -10929,151 +10929,6 @@ paths:
                 - data
 components:
   schemas:
-    RedditImage:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Image
-        url:
-          type: string
-          format: uri
-          description: Image URL
-          example: https://i.redd.it/post1.png
-        width:
-          type: integer
-          description: Width in pixels
-          example: 1200
-        height:
-          type: integer
-          description: Height in pixels
-          example: 675
-      required:
-      - type
-      - url
-      description: Profile picture
-    RedditPost:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - Note
-        id:
-          type: string
-          format: uri
-          description: Post permalink
-          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/
-        url:
-          type: string
-          format: uri
-          description: Post permalink
-          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/
-        entityId:
-          type: string
-          description: Reddit post ID
-          example: post_1
-        name:
-          type: string
-          description: Post title
-          example: Launch day
-        content:
-          type:
-          - string
-          - 'null'
-          description: Post body text
-          example: We shipped Reddit support.
-        published:
-          type: string
-          format: date-time
-          description: Publication date in ISO 8601 format
-          example: '2026-02-27T20:37:38.000Z'
-        isEdited:
-          type: boolean
-          description: Whether the post has been edited
-          example: false
-        isLocked:
-          type: boolean
-          description: Whether the post is locked
-          example: false
-        isOriginal:
-          type: boolean
-          description: Whether the post is marked as original content
-          example: false
-        isPinned:
-          type: boolean
-          description: Whether the post is stickied
-          example: false
-        isSponsored:
-          type: boolean
-          description: Whether the post is promoted
-          example: false
-        isAdult:
-          type: boolean
-          description: Whether the post is marked as adult content
-          example: false
-        isSpoiler:
-          type: boolean
-          description: Whether the post is marked as a spoiler
-          example: false
-        isSearchable:
-          type: boolean
-          description: Whether the post is visible to search engines
-          example: true
-        likeCount:
-          type: integer
-          description: Number of likes
-          example: 93210
-        voteCount:
-          type: integer
-          description: Net score
-          example: 118
-        commentCount:
-          type: integer
-          description: Comment count
-          example: 15
-        shareCount:
-          type: integer
-          description: Number of crossposts
-          example: 8
-        attributedTo:
-          $ref: '#/components/schemas/RedditEmbeddedUser'
-        icon:
-          allOf:
-          - $ref: '#/components/schemas/RedditImage'
-          - description: Thumbnail image
-        image:
-          type: array
-          items:
-            allOf:
-            - $ref: '#/components/schemas/RedditImage'
-            - description: Reddit image resource
-          description: Preview image variants
-        attachment:
-          type: array
-          items:
-            anyOf:
-            - allOf:
-              - $ref: '#/components/schemas/RedditImage'
-              - description: Reddit image resource
-            - $ref: '#/components/schemas/RedditVideoAttachment'
-            - $ref: '#/components/schemas/RedditLinkAttachment'
-          description: Post attachments
-        tag:
-          type: array
-          items:
-            $ref: '#/components/schemas/RedditTag'
-          description: Subreddit and flair tags
-        quote:
-          $ref: '#/components/schemas/RedditQuotedPost'
-      required:
-      - type
-      - id
-      - url
-      - content
-      - likeCount
-      description: Reddit post
     RedditEmbeddedUser:
       type: object
       properties:
@@ -11214,6 +11069,332 @@ components:
       - type
       - url
       description: Reddit video attachment
+    RedditUser:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Person
+        id:
+          type: string
+          format: uri
+          description: Profile URL
+          example: https://www.reddit.com/user/spez/
+        url:
+          type: string
+          format: uri
+          description: Profile URL
+          example: https://www.reddit.com/user/spez/
+        entityId:
+          type: string
+          description: Platform-specific entity ID
+          example: t2_4x25quk
+        preferredUsername:
+          type: string
+          description: Username or handle
+          example: spez
+        name:
+          type: string
+          description: Display name
+          example: Steve Huffman
+        icon:
+          $ref: '#/components/schemas/RedditImage'
+        role:
+          type: string
+          description: Role label for distinguished accounts
+          example: admin
+        summary:
+          type: string
+          description: User bio
+          example: Reddit CEO
+        published:
+          type: string
+          format: date-time
+          description: Account creation date
+          example: '2005-12-08T07:46:43.000Z'
+        isVerified:
+          type: boolean
+          description: Whether the account is verified
+          example: true
+        isEmployee:
+          type: boolean
+          description: Whether the account belongs to a Reddit employee
+          example: true
+        isMod:
+          type: boolean
+          description: Whether the account is a moderator
+          example: false
+        isPremium:
+          type: boolean
+          description: Whether the account has a paid premium subscription
+          example: false
+        isSearchable:
+          type: boolean
+          description: Whether the profile is visible to search engines
+          example: true
+        isFollowable:
+          type: boolean
+          description: Whether the account can be followed
+          example: true
+        isAdult:
+          type: boolean
+          description: Whether the profile is marked as adult content
+          example: false
+        score:
+          type: integer
+          description: Total Reddit account score
+          example: 999999
+        postScore:
+          type: integer
+          description: Score earned from Reddit posts
+          example: 555555
+        commentScore:
+          type: integer
+          description: Score earned from Reddit comments
+          example: 444444
+        awarderScore:
+          type: integer
+          description: Score earned from giving awards
+          example: 123
+        awardeeScore:
+          type: integer
+          description: Score earned from receiving awards
+          example: 321
+        status:
+          type: string
+          description: Account status
+          example: active
+        image:
+          allOf:
+          - $ref: '#/components/schemas/RedditImage'
+          - description: Banner image
+      required:
+      - type
+      - id
+      - url
+      description: Reddit user profile
+    RedditSubreddit:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Group
+        id:
+          type: string
+          format: uri
+          description: Subreddit URL
+          example: https://www.reddit.com/r/programming/
+        url:
+          type: string
+          format: uri
+          description: Subreddit URL
+          example: https://www.reddit.com/r/programming/
+        entityId:
+          type: string
+          description: Subreddit ID
+          example: 2fwo
+        slug:
+          type: string
+          description: Subreddit slug without `r/`
+          example: programming
+        name:
+          type: string
+          description: Subreddit display title
+          example: programming
+        summary:
+          type: string
+          description: Short subreddit summary
+          example: Subreddit dedicated to the news and discussions about the creation and use of technology and its surrounding issues.
+        description:
+          type: string
+          description: Long-form subreddit description
+          example: /r/technology is a place to share and discuss the latest developments, happenings and curiosities in the world of technology.
+        guidelines:
+          type: string
+          description: Platform-provided community guidelines or posting guidance
+          example: Please read the /r/technology sidebar for a list of our rules and guidelines.
+        published:
+          type: string
+          format: date-time
+          description: Subreddit creation date
+          example: '2008-01-24T17:36:07.000Z'
+        isAdult:
+          type: boolean
+          description: Whether the subreddit is marked as adult content
+          example: false
+        isSearchable:
+          type: boolean
+          description: Whether the subreddit is discoverable in platform search and discovery surfaces
+          example: true
+        category:
+          type: string
+          description: Subreddit category
+          example: Technology
+        memberCount:
+          type: integer
+          description: Subscriber count
+          example: 5000000
+        icon:
+          allOf:
+          - $ref: '#/components/schemas/RedditImage'
+          - description: Community icon
+        image:
+          allOf:
+          - $ref: '#/components/schemas/RedditImage'
+          - description: Banner image
+      required:
+      - type
+      - id
+      - url
+      - name
+      description: Reddit subreddit
+    RedditTag:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Tag
+        name:
+          type: string
+          description: Tag name
+          example: programming
+        href:
+          type: string
+          format: uri
+          description: Subreddit or flair URL
+          example: https://www.reddit.com/r/programming/
+      required:
+      - type
+      - name
+      description: Reddit tag or flair
+    RedditImage:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Image
+        url:
+          type: string
+          format: uri
+          description: Image URL
+          example: https://i.redd.it/post1.png
+        width:
+          type: integer
+          description: Width in pixels
+          example: 1200
+        height:
+          type: integer
+          description: Height in pixels
+          example: 675
+      required:
+      - type
+      - url
+      description: Profile picture
+    RedditRule:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Document
+          description: ActivityStreams object type
+          example: Document
+        entityId:
+          type: string
+          description: Platform-specific rule ID
+          example: keep-it-civil
+        name:
+          type: string
+          description: Rule title
+          example: Keep it civil
+        content:
+          type: string
+          description: Rule description
+          example: Be respectful and avoid personal attacks.
+      required:
+      - type
+      - name
+      description: Reddit community rule
+    RedditComment:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Note
+        id:
+          type: string
+          format: uri
+          description: Comment permalink
+          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/comment_1/
+        url:
+          type: string
+          format: uri
+          description: Comment permalink
+          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/comment_1/
+        entityId:
+          type: string
+          description: Reddit comment ID
+          example: comment_1
+        content:
+          type: string
+          description: Comment text
+          example: First!
+        published:
+          type: string
+          format: date-time
+          description: Publication date in ISO 8601 format
+          example: '2026-02-27T20:37:38.000Z'
+        isPinned:
+          type: boolean
+          description: Whether the comment is stickied
+          example: false
+        isSponsored:
+          type: boolean
+          description: Whether the comment is promoted
+          example: false
+        hasReplies:
+          type: boolean
+          description: Whether the comment has a replies listing available
+          example: true
+        likeCount:
+          type: integer
+          description: Number of likes
+          example: 93210
+        voteCount:
+          type: integer
+          description: Net score
+          example: 9
+        attributedTo:
+          allOf:
+          - $ref: '#/components/schemas/RedditEmbeddedUser'
+          - description: Comment author
+        inReplyTo:
+          type: string
+          format: uri
+          description: Parent post or comment URL
+          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/
+        image:
+          allOf:
+          - $ref: '#/components/schemas/RedditImage'
+          - description: Primary comment image
+        attachment:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/RedditImage'
+            - description: Reddit image resource
+          description: Comment attachments
+      required:
+      - type
+      - id
+      - content
+      - likeCount
+      description: Reddit comment
     RedditLinkAttachment:
       type: object
       properties:
@@ -11238,26 +11419,127 @@ components:
       - type
       - href
       description: Outbound link attachment
-    RedditTag:
+    RedditPost:
       type: object
       properties:
         type:
           type: string
-          description: ActivityStreams object type
-          example: Tag
-        name:
-          type: string
-          description: Tag name
-          example: programming
-        href:
+          enum:
+          - Note
+        id:
           type: string
           format: uri
-          description: Subreddit or flair URL
-          example: https://www.reddit.com/r/programming/
+          description: Post permalink
+          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/
+        url:
+          type: string
+          format: uri
+          description: Post permalink
+          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/
+        entityId:
+          type: string
+          description: Reddit post ID
+          example: post_1
+        name:
+          type: string
+          description: Post title
+          example: Launch day
+        content:
+          type:
+          - string
+          - 'null'
+          description: Post body text
+          example: We shipped Reddit support.
+        published:
+          type: string
+          format: date-time
+          description: Publication date in ISO 8601 format
+          example: '2026-02-27T20:37:38.000Z'
+        isEdited:
+          type: boolean
+          description: Whether the post has been edited
+          example: false
+        isLocked:
+          type: boolean
+          description: Whether the post is locked
+          example: false
+        isOriginal:
+          type: boolean
+          description: Whether the post is marked as original content
+          example: false
+        isPinned:
+          type: boolean
+          description: Whether the post is stickied
+          example: false
+        isSponsored:
+          type: boolean
+          description: Whether the post is promoted
+          example: false
+        isAdult:
+          type: boolean
+          description: Whether the post is marked as adult content
+          example: false
+        isSpoiler:
+          type: boolean
+          description: Whether the post is marked as a spoiler
+          example: false
+        isSearchable:
+          type: boolean
+          description: Whether the post is visible to search engines
+          example: true
+        likeCount:
+          type: integer
+          description: Number of likes
+          example: 93210
+        voteCount:
+          type: integer
+          description: Net score
+          example: 118
+        commentCount:
+          type: integer
+          description: Comment count
+          example: 15
+        shareCount:
+          type: integer
+          description: Number of crossposts
+          example: 8
+        attributedTo:
+          $ref: '#/components/schemas/RedditEmbeddedUser'
+        icon:
+          allOf:
+          - $ref: '#/components/schemas/RedditImage'
+          - description: Thumbnail image
+        image:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/RedditImage'
+            - description: Reddit image resource
+          description: Preview image variants
+        attachment:
+          type: array
+          items:
+            anyOf:
+            - allOf:
+              - $ref: '#/components/schemas/RedditImage'
+              - description: Reddit image resource
+            - $ref: '#/components/schemas/RedditVideoAttachment'
+            - $ref: '#/components/schemas/RedditLinkAttachment'
+          description: Post attachments
+        tag:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedditTag'
+          description: Subreddit and flair tags
+        quote:
+          $ref: '#/components/schemas/RedditQuotedPost'
       required:
       - type
-      - name
-      description: Reddit tag or flair
+      - id
+      - url
+      - content
+      - likeCount
+      description: Reddit post
     RedditQuotedPost:
       type: object
       properties:
@@ -11379,288 +11661,6 @@ components:
       - content
       - likeCount
       description: Quoted or crossposted post
-    RedditComment:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - Note
-        id:
-          type: string
-          format: uri
-          description: Comment permalink
-          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/comment_1/
-        url:
-          type: string
-          format: uri
-          description: Comment permalink
-          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/comment_1/
-        entityId:
-          type: string
-          description: Reddit comment ID
-          example: comment_1
-        content:
-          type: string
-          description: Comment text
-          example: First!
-        published:
-          type: string
-          format: date-time
-          description: Publication date in ISO 8601 format
-          example: '2026-02-27T20:37:38.000Z'
-        isPinned:
-          type: boolean
-          description: Whether the comment is stickied
-          example: false
-        isSponsored:
-          type: boolean
-          description: Whether the comment is promoted
-          example: false
-        hasReplies:
-          type: boolean
-          description: Whether the comment has a replies listing available
-          example: true
-        likeCount:
-          type: integer
-          description: Number of likes
-          example: 93210
-        voteCount:
-          type: integer
-          description: Net score
-          example: 9
-        attributedTo:
-          allOf:
-          - $ref: '#/components/schemas/RedditEmbeddedUser'
-          - description: Comment author
-        inReplyTo:
-          type: string
-          format: uri
-          description: Parent post or comment URL
-          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/
-        image:
-          allOf:
-          - $ref: '#/components/schemas/RedditImage'
-          - description: Primary comment image
-        attachment:
-          type: array
-          items:
-            allOf:
-            - $ref: '#/components/schemas/RedditImage'
-            - description: Reddit image resource
-          description: Comment attachments
-      required:
-      - type
-      - id
-      - content
-      - likeCount
-      description: Reddit comment
-    RedditRule:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - Document
-          description: ActivityStreams object type
-          example: Document
-        entityId:
-          type: string
-          description: Platform-specific rule ID
-          example: keep-it-civil
-        name:
-          type: string
-          description: Rule title
-          example: Keep it civil
-        content:
-          type: string
-          description: Rule description
-          example: Be respectful and avoid personal attacks.
-      required:
-      - type
-      - name
-      description: Reddit community rule
-    RedditSubreddit:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - Group
-        id:
-          type: string
-          format: uri
-          description: Subreddit URL
-          example: https://www.reddit.com/r/programming/
-        url:
-          type: string
-          format: uri
-          description: Subreddit URL
-          example: https://www.reddit.com/r/programming/
-        entityId:
-          type: string
-          description: Subreddit ID
-          example: 2fwo
-        slug:
-          type: string
-          description: Subreddit slug without `r/`
-          example: programming
-        name:
-          type: string
-          description: Subreddit display title
-          example: programming
-        summary:
-          type: string
-          description: Short subreddit summary
-          example: Subreddit dedicated to the news and discussions about the creation and use of technology and its surrounding issues.
-        description:
-          type: string
-          description: Long-form subreddit description
-          example: /r/technology is a place to share and discuss the latest developments, happenings and curiosities in the world of technology.
-        guidelines:
-          type: string
-          description: Platform-provided community guidelines or posting guidance
-          example: Please read the /r/technology sidebar for a list of our rules and guidelines.
-        published:
-          type: string
-          format: date-time
-          description: Subreddit creation date
-          example: '2008-01-24T17:36:07.000Z'
-        isAdult:
-          type: boolean
-          description: Whether the subreddit is marked as adult content
-          example: false
-        isSearchable:
-          type: boolean
-          description: Whether the subreddit is discoverable in platform search and discovery surfaces
-          example: true
-        category:
-          type: string
-          description: Subreddit category
-          example: Technology
-        memberCount:
-          type: integer
-          description: Subscriber count
-          example: 5000000
-        icon:
-          allOf:
-          - $ref: '#/components/schemas/RedditImage'
-          - description: Community icon
-        image:
-          allOf:
-          - $ref: '#/components/schemas/RedditImage'
-          - description: Banner image
-      required:
-      - type
-      - id
-      - url
-      - name
-      description: Reddit subreddit
-    RedditUser:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - Person
-        id:
-          type: string
-          format: uri
-          description: Profile URL
-          example: https://www.reddit.com/user/spez/
-        url:
-          type: string
-          format: uri
-          description: Profile URL
-          example: https://www.reddit.com/user/spez/
-        entityId:
-          type: string
-          description: Platform-specific entity ID
-          example: t2_4x25quk
-        preferredUsername:
-          type: string
-          description: Username or handle
-          example: spez
-        name:
-          type: string
-          description: Display name
-          example: Steve Huffman
-        icon:
-          $ref: '#/components/schemas/RedditImage'
-        role:
-          type: string
-          description: Role label for distinguished accounts
-          example: admin
-        summary:
-          type: string
-          description: User bio
-          example: Reddit CEO
-        published:
-          type: string
-          format: date-time
-          description: Account creation date
-          example: '2005-12-08T07:46:43.000Z'
-        isVerified:
-          type: boolean
-          description: Whether the account is verified
-          example: true
-        isEmployee:
-          type: boolean
-          description: Whether the account belongs to a Reddit employee
-          example: true
-        isMod:
-          type: boolean
-          description: Whether the account is a moderator
-          example: false
-        isPremium:
-          type: boolean
-          description: Whether the account has a paid premium subscription
-          example: false
-        isSearchable:
-          type: boolean
-          description: Whether the profile is visible to search engines
-          example: true
-        isFollowable:
-          type: boolean
-          description: Whether the account can be followed
-          example: true
-        isAdult:
-          type: boolean
-          description: Whether the profile is marked as adult content
-          example: false
-        score:
-          type: integer
-          description: Total Reddit account score
-          example: 999999
-        postScore:
-          type: integer
-          description: Score earned from Reddit posts
-          example: 555555
-        commentScore:
-          type: integer
-          description: Score earned from Reddit comments
-          example: 444444
-        awarderScore:
-          type: integer
-          description: Score earned from giving awards
-          example: 123
-        awardeeScore:
-          type: integer
-          description: Score earned from receiving awards
-          example: 321
-        status:
-          type: string
-          description: Account status
-          example: active
-        image:
-          allOf:
-          - $ref: '#/components/schemas/RedditImage'
-          - description: Banner image
-      required:
-      - type
-      - id
-      - url
-      description: Reddit user profile
   securitySchemes:
     apiKey:
       type: http

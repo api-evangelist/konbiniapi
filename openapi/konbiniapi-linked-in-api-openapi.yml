@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Konbini LinkedIn API
+  title: Konbini Linked In API
   version: 1.0.0
   description: 'Social media API that normalizes Instagram, TikTok, X, Reddit, and LinkedIn data into a consistent ActivityStreams 2.0 format.
 
@@ -16,14 +16,14 @@ servers:
 security:
 - apiKey: []
 tags:
-- name: LinkedIn
+- name: Linked In
   description: LinkedIn data endpoints
 paths:
   /v1/linkedin/users/{username}:
     get:
       operationId: linkedinGetUser
       tags:
-      - LinkedIn
+      - Linked In
       summary: Get user profile
       description: 'Returns profile information for a public LinkedIn member: headline, location, and a simple list of job titles and school/employer names. Fields the member has restricted are omitted.'
       parameters:
@@ -520,7 +520,7 @@ paths:
     get:
       operationId: linkedinGetUserArticles
       tags:
-      - LinkedIn
+      - Linked In
       summary: Get user articles
       description: Returns a public LinkedIn member's published articles. This endpoint is not paginated — everything available is returned in a single response.
       parameters:
@@ -968,7 +968,7 @@ paths:
     get:
       operationId: linkedinGetUserPosts
       tags:
-      - LinkedIn
+      - Linked In
       summary: Get user posts
       description: Returns a public LinkedIn member's recent posts and shares. This endpoint is not paginated — everything available is returned in a single response.
       parameters:
@@ -1416,7 +1416,7 @@ paths:
     get:
       operationId: linkedinGetCompany
       tags:
-      - LinkedIn
+      - Linked In
       summary: Get company page
       description: Returns public information for a LinkedIn company page including description, location, employee count, and logo.
       parameters:
@@ -1914,7 +1914,7 @@ paths:
     get:
       operationId: linkedinGetCompanyPosts
       tags:
-      - LinkedIn
+      - Linked In
       summary: Get company posts
       description: Returns recent posts from a LinkedIn company page, newest first. Use `cursor` to page through further results.
       parameters:
@@ -2393,7 +2393,7 @@ paths:
     get:
       operationId: linkedinGetPost
       tags:
-      - LinkedIn
+      - Linked In
       summary: Get post
       description: Returns a public LinkedIn post including author, engagement counts, and up to ~5 inline comments.
       parameters:
@@ -2931,7 +2931,7 @@ paths:
     get:
       operationId: linkedinGetPostTranscript
       tags:
-      - LinkedIn
+      - Linked In
       summary: Get post video transcript
       description: Returns the caption/transcript for a video post, when the post carries captions. Returns 404 if the post has no video or no captions.
       parameters:
@@ -3468,6 +3468,123 @@ paths:
                 - data
 components:
   schemas:
+    LinkedInVideoAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Video
+        url:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Media download URLs
+          example:
+          - https://dms.licdn.com/playlist/vid/v2/D4E05AQExample/mp4-720p-30fp-crf28/0/1700000000000
+        mediaType:
+          type: string
+          description: MIME type
+          example: video/mp4
+        width:
+          type: integer
+          description: Width in pixels
+          example: 576
+        height:
+          type: integer
+          description: Height in pixels
+          example: 1024
+        duration:
+          type: number
+          description: Duration in seconds
+          example: 45
+        preview:
+          allOf:
+          - $ref: '#/components/schemas/LinkedInImage'
+          - description: Video thumbnail
+            example:
+              type: Image
+              url: https://media.licdn.com/dms/image/v2/D4E05AQExample/thumbnail.jpg
+      required:
+      - type
+      - url
+      description: Post video attachment
+    LinkedInImage:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Image
+        url:
+          type: string
+          format: uri
+          description: Image URL
+          example: https://media.licdn.com/dms/image/v2/D4E03AQExample/profile-displayphoto-shrink_800_800/0/1700000000000
+      required:
+      - type
+      - url
+      description: Profile picture
+    LinkedInComment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Note
+        content:
+          type: string
+          description: Comment text
+          example: Very excited to have Schematic in here and to be building with Stripe on this front!
+        published:
+          type: string
+          format: date-time
+          description: Publication date in ISO 8601 format
+          example: '2026-07-15T20:28:36.758Z'
+        likeCount:
+          type: integer
+          description: Number of likes
+          example: 5
+        attributedTo:
+          type: object
+          properties:
+            type:
+              type: string
+              description: ActivityStreams object type
+              example: Person
+            id:
+              type: string
+              format: uri
+              description: Author profile URL (stable identifier)
+              example: https://www.linkedin.com/in/janedoe
+            url:
+              type: string
+              format: uri
+              description: Author profile URL
+              example: https://www.linkedin.com/in/janedoe
+            name:
+              type: string
+              description: Author display name
+              example: Jane Doe
+            preferredUsername:
+              type: string
+              description: Author username — looks the author up via GET /users/:username
+              example: janedoe
+            followerCount:
+              type: integer
+              description: Author follower count
+              example: 12000
+          required:
+          - type
+          description: Comment author
+          example:
+            type: Person
+            name: Fynn Glover
+      required:
+      - type
+      - content
+      description: Inline post comment
     LinkedInAddress:
       type: object
       properties:
@@ -3490,22 +3607,95 @@ components:
       example:
         addressLocality: United States
         addressCountry: US
-    LinkedInImage:
+    LinkedInCompanyPost:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Image
+          example: Note
+        id:
+          type: string
+          format: uri
+          description: Post URL
+          example: https://www.linkedin.com/posts/stripe_new-providers-on-stripe-projects-are-available-activity-7483253516766109696-xCr3
         url:
           type: string
           format: uri
-          description: Image URL
-          example: https://media.licdn.com/dms/image/v2/D4E03AQExample/profile-displayphoto-shrink_800_800/0/1700000000000
+          description: Post URL
+          example: https://www.linkedin.com/posts/stripe_new-providers-on-stripe-projects-are-available-activity-7483253516766109696-xCr3
+        entityId:
+          type: string
+          description: Numeric activity ID, usable directly as :postId on GET /posts/:postId
+          example: '7483253516766109696'
+        content:
+          type: string
+          description: Comment text
+          example: 'New providers on Stripe Projects are available now:
+
+
+            Chatbase
+
+            Composio
+
+            NodeOps
+
+            Customer.io
+
+            Datadog'
+        published:
+          type: string
+          format: date-time
+          description: Publication date in ISO 8601 format
+          example: '2026-07-15T20:17:50.459Z'
+        likeCount:
+          type: integer
+          description: Number of likes
+          example: 93210
+        attributedTo:
+          type: object
+          properties:
+            type:
+              type: string
+              description: ActivityStreams object type
+              example: Person
+            id:
+              type: string
+              format: uri
+              description: Author profile URL (stable identifier)
+              example: https://www.linkedin.com/in/janedoe
+            url:
+              type: string
+              format: uri
+              description: Author profile URL
+              example: https://www.linkedin.com/in/janedoe
+            name:
+              type: string
+              description: Author display name
+              example: Jane Doe
+            preferredUsername:
+              type: string
+              description: Author username — looks the author up via GET /users/:username
+              example: janedoe
+            followerCount:
+              type: integer
+              description: Author follower count
+              example: 12000
+          required:
+          - type
+          description: Post author (the company)
+          example:
+            type: Organization
+            id: https://www.linkedin.com/company/stripe
+            url: https://www.linkedin.com/company/stripe
+            name: Stripe
+            preferredUsername: stripe
       required:
       - type
+      - id
       - url
-      description: Profile picture
+      - content
+      description: Company post. Some fields, like `published` and `likeCount`, may be absent on individual posts.
     LinkedInArticle:
       type: object
       properties:
@@ -3655,196 +3845,6 @@ components:
       - type
       - content
       description: Recent post or share embedded in a profile
-    LinkedInCompanyPost:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Note
-        id:
-          type: string
-          format: uri
-          description: Post URL
-          example: https://www.linkedin.com/posts/stripe_new-providers-on-stripe-projects-are-available-activity-7483253516766109696-xCr3
-        url:
-          type: string
-          format: uri
-          description: Post URL
-          example: https://www.linkedin.com/posts/stripe_new-providers-on-stripe-projects-are-available-activity-7483253516766109696-xCr3
-        entityId:
-          type: string
-          description: Numeric activity ID, usable directly as :postId on GET /posts/:postId
-          example: '7483253516766109696'
-        content:
-          type: string
-          description: Comment text
-          example: 'New providers on Stripe Projects are available now:
-
-
-            Chatbase
-
-            Composio
-
-            NodeOps
-
-            Customer.io
-
-            Datadog'
-        published:
-          type: string
-          format: date-time
-          description: Publication date in ISO 8601 format
-          example: '2026-07-15T20:17:50.459Z'
-        likeCount:
-          type: integer
-          description: Number of likes
-          example: 93210
-        attributedTo:
-          type: object
-          properties:
-            type:
-              type: string
-              description: ActivityStreams object type
-              example: Person
-            id:
-              type: string
-              format: uri
-              description: Author profile URL (stable identifier)
-              example: https://www.linkedin.com/in/janedoe
-            url:
-              type: string
-              format: uri
-              description: Author profile URL
-              example: https://www.linkedin.com/in/janedoe
-            name:
-              type: string
-              description: Author display name
-              example: Jane Doe
-            preferredUsername:
-              type: string
-              description: Author username — looks the author up via GET /users/:username
-              example: janedoe
-            followerCount:
-              type: integer
-              description: Author follower count
-              example: 12000
-          required:
-          - type
-          description: Post author (the company)
-          example:
-            type: Organization
-            id: https://www.linkedin.com/company/stripe
-            url: https://www.linkedin.com/company/stripe
-            name: Stripe
-            preferredUsername: stripe
-      required:
-      - type
-      - id
-      - url
-      - content
-      description: Company post. Some fields, like `published` and `likeCount`, may be absent on individual posts.
-    LinkedInVideoAttachment:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Video
-        url:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Media download URLs
-          example:
-          - https://dms.licdn.com/playlist/vid/v2/D4E05AQExample/mp4-720p-30fp-crf28/0/1700000000000
-        mediaType:
-          type: string
-          description: MIME type
-          example: video/mp4
-        width:
-          type: integer
-          description: Width in pixels
-          example: 576
-        height:
-          type: integer
-          description: Height in pixels
-          example: 1024
-        duration:
-          type: number
-          description: Duration in seconds
-          example: 45
-        preview:
-          allOf:
-          - $ref: '#/components/schemas/LinkedInImage'
-          - description: Video thumbnail
-            example:
-              type: Image
-              url: https://media.licdn.com/dms/image/v2/D4E05AQExample/thumbnail.jpg
-      required:
-      - type
-      - url
-      description: Post video attachment
-    LinkedInComment:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Note
-        content:
-          type: string
-          description: Comment text
-          example: Very excited to have Schematic in here and to be building with Stripe on this front!
-        published:
-          type: string
-          format: date-time
-          description: Publication date in ISO 8601 format
-          example: '2026-07-15T20:28:36.758Z'
-        likeCount:
-          type: integer
-          description: Number of likes
-          example: 5
-        attributedTo:
-          type: object
-          properties:
-            type:
-              type: string
-              description: ActivityStreams object type
-              example: Person
-            id:
-              type: string
-              format: uri
-              description: Author profile URL (stable identifier)
-              example: https://www.linkedin.com/in/janedoe
-            url:
-              type: string
-              format: uri
-              description: Author profile URL
-              example: https://www.linkedin.com/in/janedoe
-            name:
-              type: string
-              description: Author display name
-              example: Jane Doe
-            preferredUsername:
-              type: string
-              description: Author username — looks the author up via GET /users/:username
-              example: janedoe
-            followerCount:
-              type: integer
-              description: Author follower count
-              example: 12000
-          required:
-          - type
-          description: Comment author
-          example:
-            type: Person
-            name: Fynn Glover
-      required:
-      - type
-      - content
-      description: Inline post comment
   securitySchemes:
     apiKey:
       type: http
