@@ -47,7 +47,7 @@ created: '2026-05-06'
 modified: '2026-08-13'
 specificationVersion: '0.23'
 tags:
-  - Social-Media
+  - Social Media
   - Instagram
   - TikTok
   - X
@@ -63,6 +63,7 @@ tags:
   - MCP
   - Agent Skills
   - Agents
+  - A2A
 tags_raw:
   - API
   - Social Media
@@ -82,6 +83,8 @@ tags_raw:
   - Model Context Protocol
   - Agent Skills
   - Agents
+  - Social-Media
+  - A2A
 url-source: https://konbiniapi.com/
 apis:
 - aid: konbiniapi:konbiniapi-instagram-api
@@ -211,8 +214,6 @@ apis:
   humanURL: https://docs.konbiniapi.com/reference/api/instagram
   baseURL: https://api.konbiniapi.com/v1
   tags:
-  - LinkedIn
-  tags_raw:
   - Linked In
   properties:
   - type: OpenAPI
@@ -336,3 +337,10 @@ x-enrichment:
   status: enriched
   artifacts_added: 35
   pass: local-v1
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://docs.konbiniapi.com/.well-known/agent-card.json"
+  grade: "conformant"
+  protocol_version: "0.3"
+  control: 404

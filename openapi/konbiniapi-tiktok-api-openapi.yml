@@ -10476,119 +10476,6 @@ paths:
                 - data
 components:
   schemas:
-    TikTokVideoAttachment:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Video
-        name:
-          type: string
-          description: Quality label (e.g. h264_540p_829898-0)
-          example: normal_540_0
-        url:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Media download URLs
-          example:
-          - https://v19-webapp.tiktok.com/video/tos/us/tos-useast5-ve-0068c004/video.mp4
-        headers:
-          $ref: '#/components/schemas/TikTokVideoAttachmentHeaders'
-          description: Authentication headers for video download
-        mediaType:
-          type: string
-          description: MIME type
-          example: video/mp4
-        codec:
-          type: string
-          description: Video codec (e.g. h264, h265)
-          example: h264
-        width:
-          type: integer
-          description: Width in pixels
-          example: 576
-        height:
-          type: integer
-          description: Height in pixels
-          example: 1024
-        bitrate:
-          type: integer
-          description: Bitrate in bits per second
-          example: 1101943
-      required:
-      - type
-      - name
-      - url
-      - mediaType
-      - codec
-      - width
-      - height
-      - bitrate
-      description: Video media file with download details
-    TikTokVideoDownloadUrl:
-      type: object
-      properties:
-        '@context':
-          type: array
-          prefixItems:
-          - type: string
-            enum:
-            - https://www.w3.org/ns/activitystreams#
-          - type: string
-            enum:
-            - https://konbiniapi.com/ns/social#
-          description: ActivityStreams JSON-LD context
-          example:
-          - https://www.w3.org/ns/activitystreams#
-          - https://konbiniapi.com/ns/social#
-        type:
-          type: string
-          enum:
-          - Video
-          example: Video
-        url:
-          type: string
-          format: uri
-          description: Downloadable video file URL. Works with a plain GET request — no cookies, auth headers, or special HTTP client required. Not permanent, only valid for a few hours — do not store it for later use, request a fresh one when you need it.
-          example: https://v16m-default.tiktokcdn-us.com/tos-useast2a-ve-0068c001-euttp/oQmXqQqQ1RQkQKEZe6EDMBnZDGFHLupqRIh7p/?a=1988&bti=bGRuZHxvMXIxcm53Zm1cYF9ebWFzaHFmOg%3D%3D&bt=1415&ft=8kQr2FziNORWRapNGIv1tec7kzYrZmXVWxi~jJMsL&mime_type=video_mp4&vvpl=1
-        mediaType:
-          type: string
-          enum:
-          - video/mp4
-          example: video/mp4
-      required:
-      - '@context'
-      - type
-      - url
-      - mediaType
-      description: A temporary link to a downloadable video file
-    TikTokImage:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Image
-        url:
-          type: string
-          format: uri
-          description: Image URL
-          example: https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg
-        width:
-          type: integer
-          description: Width in pixels
-          example: 576
-        height:
-          type: integer
-          description: Height in pixels
-          example: 1024
-      required:
-      - type
-      - url
-      description: Image resource with optional dimensions
     TikTokVideo:
       type: object
       properties:
@@ -10728,6 +10615,294 @@ components:
       - saveCount
       - attributedTo
       description: Video post
+    TikTokLiveStreamAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Video
+        url:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Media download URLs
+          example:
+          - https://webcast.tiktok.com/live/pull/l4/stream.flv
+        mediaType:
+          type: string
+          description: MIME type
+          example: video/x-flv
+        width:
+          type: integer
+          description: Width in pixels
+          example: 576
+        height:
+          type: integer
+          description: Height in pixels
+          example: 1024
+        name:
+          type: string
+          description: Stream quality label
+          example: flv
+        codec:
+          type: string
+          description: Video codec
+          example: h264
+        bitrate:
+          type: integer
+          description: Bitrate in bits per second
+          example: 2500000
+      required:
+      - type
+      - url
+      - mediaType
+      - name
+      description: Live stream media source
+    TikTokLink:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Link
+        href:
+          type: string
+          format: uri
+          description: Link URL
+          example: https://linktr.ee/khaby.lame
+        rel:
+          type: string
+          description: Link relation hint
+          example: preferred
+      required:
+      - type
+      - href
+      description: External link
+    TikTokVideoDownloadUrl:
+      type: object
+      properties:
+        '@context':
+          type: array
+          prefixItems:
+          - type: string
+            enum:
+            - https://www.w3.org/ns/activitystreams#
+          - type: string
+            enum:
+            - https://konbiniapi.com/ns/social#
+          description: ActivityStreams JSON-LD context
+          example:
+          - https://www.w3.org/ns/activitystreams#
+          - https://konbiniapi.com/ns/social#
+        type:
+          type: string
+          enum:
+          - Video
+          example: Video
+        url:
+          type: string
+          format: uri
+          description: Downloadable video file URL. Works with a plain GET request — no cookies, auth headers, or special HTTP client required. Not permanent, only valid for a few hours — do not store it for later use, request a fresh one when you need it.
+          example: https://v16m-default.tiktokcdn-us.com/tos-useast2a-ve-0068c001-euttp/oQmXqQqQ1RQkQKEZe6EDMBnZDGFHLupqRIh7p/?a=1988&bti=bGRuZHxvMXIxcm53Zm1cYF9ebWFzaHFmOg%3D%3D&bt=1415&ft=8kQr2FziNORWRapNGIv1tec7kzYrZmXVWxi~jJMsL&mime_type=video_mp4&vvpl=1
+        mediaType:
+          type: string
+          enum:
+          - video/mp4
+          example: video/mp4
+      required:
+      - '@context'
+      - type
+      - url
+      - mediaType
+      description: A temporary link to a downloadable video file
+    TikTokTag:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Tag
+        name:
+          type: string
+          description: Tag name
+          example: learnfromkhaby
+        href:
+          type: string
+          format: uri
+          description: Tag URL
+          example: https://www.tiktok.com/tag/learnfromkhaby
+        id:
+          type: string
+          format: uri
+          description: Tag permalink
+          example: https://www.tiktok.com/tag/learnfromkhaby
+        entityId:
+          type: string
+          description: TikTok internal tag ID
+          example: '1697657584273413'
+      required:
+      - type
+      - name
+      description: Hashtag or mention
+    TikTokCollection:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: OrderedCollection
+        id:
+          type: string
+          format: uri
+          description: Collection permalink
+          example: https://www.tiktok.com/@khaby.lame/playlist/7200000000000000001
+        name:
+          type: string
+          description: Collection name
+          example: Best of 2025
+        image:
+          type: array
+          items:
+            $ref: '#/components/schemas/TikTokImage'
+          description: Collection cover images
+        totalItems:
+          type:
+          - integer
+          - 'null'
+          description: Number of items in collection
+          example: 42
+        entityId:
+          type: string
+          description: TikTok internal collection ID
+          example: '7200000000000000001'
+        attributedTo:
+          allOf:
+          - $ref: '#/components/schemas/TikTokEmbeddedUser'
+          - description: Collection owner
+      required:
+      - type
+      - id
+      - name
+      - totalItems
+      - entityId
+      - attributedTo
+      description: Video collection or playlist
+    TikTokStory:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Video
+        id:
+          type: string
+          format: uri
+          description: Story permalink
+          example: https://www.tiktok.com/@khaby.lame/video/7600000000000000000
+        url:
+          type: string
+          format: uri
+          description: Story URL
+          example: https://www.tiktok.com/@khaby.lame/video/7600000000000000000
+        entityId:
+          type: string
+          description: TikTok internal story ID
+          example: '7600000000000000000'
+        content:
+          type: string
+          description: Caption or description
+          example: 'When you realize there is a simpler way #learnfromkhaby'
+        published:
+          type: string
+          format: date-time
+          description: Publication date in ISO 8601 format
+          example: '2026-02-27T18:36:42.000Z'
+        endTime:
+          type: string
+          format: date-time
+          description: Story expiration date in ISO 8601 format
+          example: '2026-02-28T18:36:42.000Z'
+        viewCount:
+          type: integer
+          description: Number of views
+          example: 42600000
+        likeCount:
+          type: integer
+          description: Number of likes
+          example: 2800000
+        commentCount:
+          type: integer
+          description: Number of comments
+          example: 29200
+        repostCount:
+          type: integer
+          description: Number of reposts
+          example: 0
+        shareCount:
+          type: integer
+          description: Number of shares
+          example: 157700
+        saveCount:
+          type: integer
+          description: Number of saves
+          example: 153238
+        attributedTo:
+          allOf:
+          - $ref: '#/components/schemas/TikTokEmbeddedUser'
+          - description: Story author
+        duration:
+          type: number
+          description: Duration in seconds
+          example: 23
+        attachment:
+          type: array
+          items:
+            $ref: '#/components/schemas/TikTokStoryAttachment'
+          description: Video files
+        image:
+          type: array
+          items:
+            $ref: '#/components/schemas/TikTokImage'
+          description: Story images
+        preview:
+          allOf:
+          - $ref: '#/components/schemas/TikTokImage'
+          - description: Animated preview thumbnail
+        audio:
+          allOf:
+          - $ref: '#/components/schemas/TikTokAudio'
+          - description: Story audio track
+      required:
+      - type
+      - id
+      - url
+      - entityId
+      - published
+      - viewCount
+      - likeCount
+      - commentCount
+      - repostCount
+      - shareCount
+      - saveCount
+      - attributedTo
+      description: Story post
+    TikTokVideoAttachmentHeaders:
+      type: object
+      properties:
+        Cookie:
+          type: string
+          description: Required cookie header for video download
+          example: tt_chain_token=sTA6PK6OnvhW7YemGVwMig==
+        Referer:
+          type: string
+          description: Required referer header for video download
+          example: https://www.tiktok.com/
+      required:
+      - Cookie
+      - Referer
+      description: HTTP headers required for authenticated media download
     TikTokAudio:
       type: object
       properties:
@@ -10798,35 +10973,30 @@ components:
       - name
       - duration
       description: Audio or music track
-    TikTokTag:
+    TikTokImage:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Tag
-        name:
-          type: string
-          description: Tag name
-          example: learnfromkhaby
-        href:
+          example: Image
+        url:
           type: string
           format: uri
-          description: Tag URL
-          example: https://www.tiktok.com/tag/learnfromkhaby
-        id:
-          type: string
-          format: uri
-          description: Tag permalink
-          example: https://www.tiktok.com/tag/learnfromkhaby
-        entityId:
-          type: string
-          description: TikTok internal tag ID
-          example: '1697657584273413'
+          description: Image URL
+          example: https://p16-sign.tiktokcdn-us.com/tos-maliva-avt-0068/avatar.jpeg
+        width:
+          type: integer
+          description: Width in pixels
+          example: 576
+        height:
+          type: integer
+          description: Height in pixels
+          example: 1024
       required:
       - type
-      - name
-      description: Hashtag or mention
+      - url
+      description: Image resource with optional dimensions
     TikTokEmbeddedUser:
       type: object
       properties:
@@ -10977,6 +11147,58 @@ components:
       - type
       - url
       description: Story media file
+    TikTokVideoAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Video
+        name:
+          type: string
+          description: Quality label (e.g. h264_540p_829898-0)
+          example: normal_540_0
+        url:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Media download URLs
+          example:
+          - https://v19-webapp.tiktok.com/video/tos/us/tos-useast5-ve-0068c004/video.mp4
+        headers:
+          $ref: '#/components/schemas/TikTokVideoAttachmentHeaders'
+          description: Authentication headers for video download
+        mediaType:
+          type: string
+          description: MIME type
+          example: video/mp4
+        codec:
+          type: string
+          description: Video codec (e.g. h264, h265)
+          example: h264
+        width:
+          type: integer
+          description: Width in pixels
+          example: 576
+        height:
+          type: integer
+          description: Height in pixels
+          example: 1024
+        bitrate:
+          type: integer
+          description: Bitrate in bits per second
+          example: 1101943
+      required:
+      - type
+      - name
+      - url
+      - mediaType
+      - codec
+      - width
+      - height
+      - bitrate
+      description: Video media file with download details
     TikTokComment:
       type: object
       properties:
@@ -11047,228 +11269,6 @@ components:
       - likeCount
       - attributedTo
       description: Video comment
-    TikTokStory:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Video
-        id:
-          type: string
-          format: uri
-          description: Story permalink
-          example: https://www.tiktok.com/@khaby.lame/video/7600000000000000000
-        url:
-          type: string
-          format: uri
-          description: Story URL
-          example: https://www.tiktok.com/@khaby.lame/video/7600000000000000000
-        entityId:
-          type: string
-          description: TikTok internal story ID
-          example: '7600000000000000000'
-        content:
-          type: string
-          description: Caption or description
-          example: 'When you realize there is a simpler way #learnfromkhaby'
-        published:
-          type: string
-          format: date-time
-          description: Publication date in ISO 8601 format
-          example: '2026-02-27T18:36:42.000Z'
-        endTime:
-          type: string
-          format: date-time
-          description: Story expiration date in ISO 8601 format
-          example: '2026-02-28T18:36:42.000Z'
-        viewCount:
-          type: integer
-          description: Number of views
-          example: 42600000
-        likeCount:
-          type: integer
-          description: Number of likes
-          example: 2800000
-        commentCount:
-          type: integer
-          description: Number of comments
-          example: 29200
-        repostCount:
-          type: integer
-          description: Number of reposts
-          example: 0
-        shareCount:
-          type: integer
-          description: Number of shares
-          example: 157700
-        saveCount:
-          type: integer
-          description: Number of saves
-          example: 153238
-        attributedTo:
-          allOf:
-          - $ref: '#/components/schemas/TikTokEmbeddedUser'
-          - description: Story author
-        duration:
-          type: number
-          description: Duration in seconds
-          example: 23
-        attachment:
-          type: array
-          items:
-            $ref: '#/components/schemas/TikTokStoryAttachment'
-          description: Video files
-        image:
-          type: array
-          items:
-            $ref: '#/components/schemas/TikTokImage'
-          description: Story images
-        preview:
-          allOf:
-          - $ref: '#/components/schemas/TikTokImage'
-          - description: Animated preview thumbnail
-        audio:
-          allOf:
-          - $ref: '#/components/schemas/TikTokAudio'
-          - description: Story audio track
-      required:
-      - type
-      - id
-      - url
-      - entityId
-      - published
-      - viewCount
-      - likeCount
-      - commentCount
-      - repostCount
-      - shareCount
-      - saveCount
-      - attributedTo
-      description: Story post
-    TikTokVideoAttachmentHeaders:
-      type: object
-      properties:
-        Cookie:
-          type: string
-          description: Required cookie header for video download
-          example: tt_chain_token=sTA6PK6OnvhW7YemGVwMig==
-        Referer:
-          type: string
-          description: Required referer header for video download
-          example: https://www.tiktok.com/
-      required:
-      - Cookie
-      - Referer
-      description: HTTP headers required for authenticated media download
-    TikTokCollection:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: OrderedCollection
-        id:
-          type: string
-          format: uri
-          description: Collection permalink
-          example: https://www.tiktok.com/@khaby.lame/playlist/7200000000000000001
-        name:
-          type: string
-          description: Collection name
-          example: Best of 2025
-        image:
-          type: array
-          items:
-            $ref: '#/components/schemas/TikTokImage'
-          description: Collection cover images
-        totalItems:
-          type:
-          - integer
-          - 'null'
-          description: Number of items in collection
-          example: 42
-        entityId:
-          type: string
-          description: TikTok internal collection ID
-          example: '7200000000000000001'
-        attributedTo:
-          allOf:
-          - $ref: '#/components/schemas/TikTokEmbeddedUser'
-          - description: Collection owner
-      required:
-      - type
-      - id
-      - name
-      - totalItems
-      - entityId
-      - attributedTo
-      description: Video collection or playlist
-    TikTokLiveStreamAttachment:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Video
-        url:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Media download URLs
-          example:
-          - https://webcast.tiktok.com/live/pull/l4/stream.flv
-        mediaType:
-          type: string
-          description: MIME type
-          example: video/x-flv
-        width:
-          type: integer
-          description: Width in pixels
-          example: 576
-        height:
-          type: integer
-          description: Height in pixels
-          example: 1024
-        name:
-          type: string
-          description: Stream quality label
-          example: flv
-        codec:
-          type: string
-          description: Video codec
-          example: h264
-        bitrate:
-          type: integer
-          description: Bitrate in bits per second
-          example: 2500000
-      required:
-      - type
-      - url
-      - mediaType
-      - name
-      description: Live stream media source
-    TikTokLink:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Link
-        href:
-          type: string
-          format: uri
-          description: Link URL
-          example: https://linktr.ee/khaby.lame
-        rel:
-          type: string
-          description: Link relation hint
-          example: preferred
-      required:
-      - type
-      - href
-      description: External link
   securitySchemes:
     apiKey:
       type: http
