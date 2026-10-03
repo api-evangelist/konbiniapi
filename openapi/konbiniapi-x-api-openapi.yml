@@ -3490,46 +3490,110 @@ paths:
                 - data
 components:
   schemas:
-    XTag:
+    XPollOption:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Tag
+          example: Note
         name:
           type: string
-          description: Tag name
-          example: learnfromkhaby
-        href:
-          type: string
-          format: uri
-          description: Tag or mention URL
-          example: https://x.com/hashtag/learnfromkhaby
+          description: Poll option label
+          example: Nissan Formula E car
+        voteCount:
+          type: integer
+          description: Number of votes for this option
+          example: 128
       required:
       - type
       - name
-      description: Hashtag or user mention
-    XLink:
+      description: Poll option
+    XEmbeddedUser:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Link
-        href:
+          example: Person
+        id:
           type: string
           format: uri
-          description: Link URL
-          example: https://t.co/examplelink
-        rel:
+          description: Profile URL
+          example: https://x.com/KhabyLame
+        url:
           type: string
-          description: Link relation hint
-          example: preferred
+          format: uri
+          description: Profile URL
+          example: https://x.com/KhabyLame
+        entityId:
+          type: string
+          description: X user ID
+          example: '221838349'
+        preferredUsername:
+          type: string
+          description: Username or handle
+          example: KhabyLame
+        name:
+          type: string
+          description: Display name
+          example: Khabane Lame
+        icon:
+          $ref: '#/components/schemas/XImage'
+        isPrivate:
+          type: boolean
+          description: Whether account is protected
+          example: false
+        isVerified:
+          type: boolean
+          description: Whether account has legacy verification
+          example: false
+        isPaidVerified:
+          type: boolean
+          description: Whether account has X Premium verification
+          example: true
+        summary:
+          type: string
+          description: Bio text
+          example: Let's Go
+        attachment:
+          type: array
+          items:
+            $ref: '#/components/schemas/XLink'
+          description: Profile links
+        followerCount:
+          type: integer
+          description: Number of followers
+          example: 372131
+        followingCount:
+          type: integer
+          description: Number of accounts followed
+          example: 8
+        likeCount:
+          type: integer
+          description: Number of likes made by the user
+          example: 60
+        postCount:
+          type: integer
+          description: Number of public posts
+          example: 267
+        mediaCount:
+          type: integer
+          description: Number of media posts
+          example: 242
+        listedCount:
+          type: integer
+          description: Number of public X Lists the account appears in
+          example: 215
+        location:
+          type: string
+          description: User location
+          example: Milan, Italy
       required:
       - type
-      - href
-      description: External link
+      - id
+      - url
+      description: Post author
     XArticleAttachment:
       type: object
       properties:
@@ -3660,182 +3724,6 @@ components:
       - content
       - likeCount
       description: X post
-    XPollOption:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Note
-        name:
-          type: string
-          description: Poll option label
-          example: Nissan Formula E car
-        voteCount:
-          type: integer
-          description: Number of votes for this option
-          example: 128
-      required:
-      - type
-      - name
-      description: Poll option
-    XPostAttachment:
-      anyOf:
-      - $ref: '#/components/schemas/XAttachment'
-      - $ref: '#/components/schemas/XLinkAttachment'
-      - $ref: '#/components/schemas/XArticleAttachment'
-      - $ref: '#/components/schemas/XPollAttachment'
-      description: Post attachment
-    XEmbeddedUser:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Person
-        id:
-          type: string
-          format: uri
-          description: Profile URL
-          example: https://x.com/KhabyLame
-        url:
-          type: string
-          format: uri
-          description: Profile URL
-          example: https://x.com/KhabyLame
-        entityId:
-          type: string
-          description: X user ID
-          example: '221838349'
-        preferredUsername:
-          type: string
-          description: Username or handle
-          example: KhabyLame
-        name:
-          type: string
-          description: Display name
-          example: Khabane Lame
-        icon:
-          $ref: '#/components/schemas/XImage'
-        isPrivate:
-          type: boolean
-          description: Whether account is protected
-          example: false
-        isVerified:
-          type: boolean
-          description: Whether account has legacy verification
-          example: false
-        isPaidVerified:
-          type: boolean
-          description: Whether account has X Premium verification
-          example: true
-        summary:
-          type: string
-          description: Bio text
-          example: Let's Go
-        attachment:
-          type: array
-          items:
-            $ref: '#/components/schemas/XLink'
-          description: Profile links
-        followerCount:
-          type: integer
-          description: Number of followers
-          example: 372131
-        followingCount:
-          type: integer
-          description: Number of accounts followed
-          example: 8
-        likeCount:
-          type: integer
-          description: Number of likes made by the user
-          example: 60
-        postCount:
-          type: integer
-          description: Number of public posts
-          example: 267
-        mediaCount:
-          type: integer
-          description: Number of media posts
-          example: 242
-        listedCount:
-          type: integer
-          description: Number of public X Lists the account appears in
-          example: 215
-        location:
-          type: string
-          description: User location
-          example: Milan, Italy
-      required:
-      - type
-      - id
-      - url
-      description: Post author
-    XAttachment:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Video
-        url:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Media download URLs
-          example:
-          - https://video.twimg.com/ext_tw_video/123/pu/vid/avc1/example.mp4
-        mediaType:
-          type: string
-          description: MIME type
-          example: video/mp4
-        width:
-          type: integer
-          description: Width in pixels
-          example: 1280
-        height:
-          type: integer
-          description: Height in pixels
-          example: 720
-        bitrate:
-          type: integer
-          description: Bitrate in bits per second
-          example: 950000
-        duration:
-          type: number
-          description: Duration in seconds
-          example: 16.266
-      required:
-      - type
-      - url
-      description: Post media attachment
-    XPollAttachment:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Question
-        oneOf:
-          type: array
-          items:
-            $ref: '#/components/schemas/XPollOption'
-          minItems: 2
-          description: Poll options
-        voterCount:
-          type: integer
-          description: Total number of votes
-          example: 194
-        closed:
-          type: string
-          format: date-time
-          description: Poll closing time in ISO 8601 format
-          example: '2026-02-20T16:05:03.000Z'
-      required:
-      - type
-      - oneOf
-      description: Poll attachment
     XCommunityRule:
       type: object
       properties:
@@ -3859,61 +3747,33 @@ components:
       - type
       - name
       description: Community rule
-    XImage:
+    XPostAttachment:
+      anyOf:
+      - $ref: '#/components/schemas/XAttachment'
+      - $ref: '#/components/schemas/XLinkAttachment'
+      - $ref: '#/components/schemas/XArticleAttachment'
+      - $ref: '#/components/schemas/XPollAttachment'
+      description: Post attachment
+    XTag:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Image
-        url:
+          example: Tag
+        name:
           type: string
-          format: uri
-          description: Image URL
-          example: https://pbs.twimg.com/amplify_video_thumb/2024515147692195840/img/t8ePmit3Wst1hxAM.jpg
-        width:
-          type: integer
-          description: Width in pixels
-          example: 1536
-        height:
-          type: integer
-          description: Height in pixels
-          example: 2048
-      required:
-      - type
-      - url
-      description: Profile picture
-    XLinkAttachment:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Link
+          description: Tag name
+          example: learnfromkhaby
         href:
           type: string
           format: uri
-          description: Preview URL
-          example: https://www.formulae.com/en/latest/article/nissan-and-khaby-lame-share-the-track-in-jeddah.3xexample
-        name:
-          type: string
-          description: Preview title
-          example: Nissan and Khaby Lame share the track in Jeddah
-        summary:
-          type: string
-          description: Preview description
-          example: A quick recap from Formula E race week in Jeddah.
-        image:
-          type: array
-          items:
-            allOf:
-            - $ref: '#/components/schemas/XImage'
-            - description: Image resource with optional dimensions
-          description: Preview images
+          description: Tag or mention URL
+          example: https://x.com/hashtag/learnfromkhaby
       required:
       - type
-      - href
-      description: Link preview attachment
+      - name
+      description: Hashtag or user mention
     XQuotedPost:
       type: object
       properties:
@@ -3985,6 +3845,146 @@ components:
       - content
       - likeCount
       description: Quoted post
+    XAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Video
+        url:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Media download URLs
+          example:
+          - https://video.twimg.com/ext_tw_video/123/pu/vid/avc1/example.mp4
+        mediaType:
+          type: string
+          description: MIME type
+          example: video/mp4
+        width:
+          type: integer
+          description: Width in pixels
+          example: 1280
+        height:
+          type: integer
+          description: Height in pixels
+          example: 720
+        bitrate:
+          type: integer
+          description: Bitrate in bits per second
+          example: 950000
+        duration:
+          type: number
+          description: Duration in seconds
+          example: 16.266
+      required:
+      - type
+      - url
+      description: Post media attachment
+    XImage:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Image
+        url:
+          type: string
+          format: uri
+          description: Image URL
+          example: https://pbs.twimg.com/amplify_video_thumb/2024515147692195840/img/t8ePmit3Wst1hxAM.jpg
+        width:
+          type: integer
+          description: Width in pixels
+          example: 1536
+        height:
+          type: integer
+          description: Height in pixels
+          example: 2048
+      required:
+      - type
+      - url
+      description: Profile picture
+    XPollAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Question
+        oneOf:
+          type: array
+          items:
+            $ref: '#/components/schemas/XPollOption'
+          minItems: 2
+          description: Poll options
+        voterCount:
+          type: integer
+          description: Total number of votes
+          example: 194
+        closed:
+          type: string
+          format: date-time
+          description: Poll closing time in ISO 8601 format
+          example: '2026-02-20T16:05:03.000Z'
+      required:
+      - type
+      - oneOf
+      description: Poll attachment
+    XLinkAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Link
+        href:
+          type: string
+          format: uri
+          description: Preview URL
+          example: https://www.formulae.com/en/latest/article/nissan-and-khaby-lame-share-the-track-in-jeddah.3xexample
+        name:
+          type: string
+          description: Preview title
+          example: Nissan and Khaby Lame share the track in Jeddah
+        summary:
+          type: string
+          description: Preview description
+          example: A quick recap from Formula E race week in Jeddah.
+        image:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/XImage'
+            - description: Image resource with optional dimensions
+          description: Preview images
+      required:
+      - type
+      - href
+      description: Link preview attachment
+    XLink:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Link
+        href:
+          type: string
+          format: uri
+          description: Link URL
+          example: https://t.co/examplelink
+        rel:
+          type: string
+          description: Link relation hint
+          example: preferred
+      required:
+      - type
+      - href
+      description: External link
   securitySchemes:
     apiKey:
       type: http

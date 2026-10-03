@@ -10929,106 +10929,31 @@ paths:
                 - data
 components:
   schemas:
-    RedditLinkAttachment:
+    RedditRule:
       type: object
       properties:
         type:
           type: string
           enum:
-          - Link
-        href:
-          type: string
-          format: uri
-          description: Linked URL
-          example: https://example.com/article
-        name:
-          type: string
-          description: Link title
-          example: External article
-        summary:
-          type: string
-          description: Link preview summary
-          example: A quick summary from the linked article.
-      required:
-      - type
-      - href
-      description: Outbound link attachment
-    RedditComment:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - Note
-        id:
-          type: string
-          format: uri
-          description: Comment permalink
-          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/comment_1/
-        url:
-          type: string
-          format: uri
-          description: Comment permalink
-          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/comment_1/
+          - Document
+          description: ActivityStreams object type
+          example: Document
         entityId:
           type: string
-          description: Reddit comment ID
-          example: comment_1
+          description: Platform-specific rule ID
+          example: keep-it-civil
+        name:
+          type: string
+          description: Rule title
+          example: Keep it civil
         content:
           type: string
-          description: Comment text
-          example: First!
-        published:
-          type: string
-          format: date-time
-          description: Publication date in ISO 8601 format
-          example: '2026-02-27T20:37:38.000Z'
-        isPinned:
-          type: boolean
-          description: Whether the comment is stickied
-          example: false
-        isSponsored:
-          type: boolean
-          description: Whether the comment is promoted
-          example: false
-        hasReplies:
-          type: boolean
-          description: Whether the comment has a replies listing available
-          example: true
-        likeCount:
-          type: integer
-          description: Number of likes
-          example: 93210
-        voteCount:
-          type: integer
-          description: Net score
-          example: 9
-        attributedTo:
-          allOf:
-          - $ref: '#/components/schemas/RedditEmbeddedUser'
-          - description: Comment author
-        inReplyTo:
-          type: string
-          format: uri
-          description: Parent post or comment URL
-          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/
-        image:
-          allOf:
-          - $ref: '#/components/schemas/RedditImage'
-          - description: Primary comment image
-        attachment:
-          type: array
-          items:
-            allOf:
-            - $ref: '#/components/schemas/RedditImage'
-            - description: Reddit image resource
-          description: Comment attachments
+          description: Rule description
+          example: Be respectful and avoid personal attacks.
       required:
       - type
-      - id
-      - content
-      - likeCount
-      description: Reddit comment
+      - name
+      description: Reddit community rule
     RedditPost:
       type: object
       properties:
@@ -11150,6 +11075,106 @@ components:
       - content
       - likeCount
       description: Reddit post
+    RedditImage:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Image
+        url:
+          type: string
+          format: uri
+          description: Image URL
+          example: https://i.redd.it/post1.png
+        width:
+          type: integer
+          description: Width in pixels
+          example: 1200
+        height:
+          type: integer
+          description: Height in pixels
+          example: 675
+      required:
+      - type
+      - url
+      description: Profile picture
+    RedditSubreddit:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Group
+        id:
+          type: string
+          format: uri
+          description: Subreddit URL
+          example: https://www.reddit.com/r/programming/
+        url:
+          type: string
+          format: uri
+          description: Subreddit URL
+          example: https://www.reddit.com/r/programming/
+        entityId:
+          type: string
+          description: Subreddit ID
+          example: 2fwo
+        slug:
+          type: string
+          description: Subreddit slug without `r/`
+          example: programming
+        name:
+          type: string
+          description: Subreddit display title
+          example: programming
+        summary:
+          type: string
+          description: Short subreddit summary
+          example: Subreddit dedicated to the news and discussions about the creation and use of technology and its surrounding issues.
+        description:
+          type: string
+          description: Long-form subreddit description
+          example: /r/technology is a place to share and discuss the latest developments, happenings and curiosities in the world of technology.
+        guidelines:
+          type: string
+          description: Platform-provided community guidelines or posting guidance
+          example: Please read the /r/technology sidebar for a list of our rules and guidelines.
+        published:
+          type: string
+          format: date-time
+          description: Subreddit creation date
+          example: '2008-01-24T17:36:07.000Z'
+        isAdult:
+          type: boolean
+          description: Whether the subreddit is marked as adult content
+          example: false
+        isSearchable:
+          type: boolean
+          description: Whether the subreddit is discoverable in platform search and discovery surfaces
+          example: true
+        category:
+          type: string
+          description: Subreddit category
+          example: Technology
+        memberCount:
+          type: integer
+          description: Subscriber count
+          example: 5000000
+        icon:
+          allOf:
+          - $ref: '#/components/schemas/RedditImage'
+          - description: Community icon
+        image:
+          allOf:
+          - $ref: '#/components/schemas/RedditImage'
+          - description: Banner image
+      required:
+      - type
+      - id
+      - url
+      - name
+      description: Reddit subreddit
     RedditQuotedPost:
       type: object
       properties:
@@ -11271,31 +11296,82 @@ components:
       - content
       - likeCount
       description: Quoted or crossposted post
-    RedditRule:
+    RedditComment:
       type: object
       properties:
         type:
           type: string
           enum:
-          - Document
-          description: ActivityStreams object type
-          example: Document
+          - Note
+        id:
+          type: string
+          format: uri
+          description: Comment permalink
+          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/comment_1/
+        url:
+          type: string
+          format: uri
+          description: Comment permalink
+          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/comment_1/
         entityId:
           type: string
-          description: Platform-specific rule ID
-          example: keep-it-civil
-        name:
-          type: string
-          description: Rule title
-          example: Keep it civil
+          description: Reddit comment ID
+          example: comment_1
         content:
           type: string
-          description: Rule description
-          example: Be respectful and avoid personal attacks.
+          description: Comment text
+          example: First!
+        published:
+          type: string
+          format: date-time
+          description: Publication date in ISO 8601 format
+          example: '2026-02-27T20:37:38.000Z'
+        isPinned:
+          type: boolean
+          description: Whether the comment is stickied
+          example: false
+        isSponsored:
+          type: boolean
+          description: Whether the comment is promoted
+          example: false
+        hasReplies:
+          type: boolean
+          description: Whether the comment has a replies listing available
+          example: true
+        likeCount:
+          type: integer
+          description: Number of likes
+          example: 93210
+        voteCount:
+          type: integer
+          description: Net score
+          example: 9
+        attributedTo:
+          allOf:
+          - $ref: '#/components/schemas/RedditEmbeddedUser'
+          - description: Comment author
+        inReplyTo:
+          type: string
+          format: uri
+          description: Parent post or comment URL
+          example: https://www.reddit.com/r/programming/comments/post_1/launch_day/
+        image:
+          allOf:
+          - $ref: '#/components/schemas/RedditImage'
+          - description: Primary comment image
+        attachment:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/RedditImage'
+            - description: Reddit image resource
+          description: Comment attachments
       required:
       - type
-      - name
-      description: Reddit community rule
+      - id
+      - content
+      - likeCount
+      description: Reddit comment
     RedditUser:
       type: object
       properties:
@@ -11401,30 +11477,85 @@ components:
       - id
       - url
       description: Reddit user profile
-    RedditImage:
+    RedditVideoAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Video
+        url:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Media download URLs
+          example:
+          - https://v.redd.it/abc123/DASH_720.mp4
+        mediaType:
+          type: string
+          description: MIME type
+          example: video/mp4
+        width:
+          type: integer
+          description: Width in pixels
+          example: 576
+        height:
+          type: integer
+          description: Height in pixels
+          example: 1024
+        duration:
+          type: number
+          description: Duration in seconds
+          example: 15
+      required:
+      - type
+      - url
+      description: Reddit video attachment
+    RedditTag:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Image
-        url:
+          example: Tag
+        name:
+          type: string
+          description: Tag name
+          example: programming
+        href:
           type: string
           format: uri
-          description: Image URL
-          example: https://i.redd.it/post1.png
-        width:
-          type: integer
-          description: Width in pixels
-          example: 1200
-        height:
-          type: integer
-          description: Height in pixels
-          example: 675
+          description: Subreddit or flair URL
+          example: https://www.reddit.com/r/programming/
       required:
       - type
-      - url
-      description: Profile picture
+      - name
+      description: Reddit tag or flair
+    RedditLinkAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Link
+        href:
+          type: string
+          format: uri
+          description: Linked URL
+          example: https://example.com/article
+        name:
+          type: string
+          description: Link title
+          example: External article
+        summary:
+          type: string
+          description: Link preview summary
+          example: A quick summary from the linked article.
+      required:
+      - type
+      - href
+      description: Outbound link attachment
     RedditEmbeddedUser:
       type: object
       properties:
@@ -11530,137 +11661,6 @@ components:
       - id
       - url
       description: Post author
-    RedditTag:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Tag
-        name:
-          type: string
-          description: Tag name
-          example: programming
-        href:
-          type: string
-          format: uri
-          description: Subreddit or flair URL
-          example: https://www.reddit.com/r/programming/
-      required:
-      - type
-      - name
-      description: Reddit tag or flair
-    RedditSubreddit:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - Group
-        id:
-          type: string
-          format: uri
-          description: Subreddit URL
-          example: https://www.reddit.com/r/programming/
-        url:
-          type: string
-          format: uri
-          description: Subreddit URL
-          example: https://www.reddit.com/r/programming/
-        entityId:
-          type: string
-          description: Subreddit ID
-          example: 2fwo
-        slug:
-          type: string
-          description: Subreddit slug without `r/`
-          example: programming
-        name:
-          type: string
-          description: Subreddit display title
-          example: programming
-        summary:
-          type: string
-          description: Short subreddit summary
-          example: Subreddit dedicated to the news and discussions about the creation and use of technology and its surrounding issues.
-        description:
-          type: string
-          description: Long-form subreddit description
-          example: /r/technology is a place to share and discuss the latest developments, happenings and curiosities in the world of technology.
-        guidelines:
-          type: string
-          description: Platform-provided community guidelines or posting guidance
-          example: Please read the /r/technology sidebar for a list of our rules and guidelines.
-        published:
-          type: string
-          format: date-time
-          description: Subreddit creation date
-          example: '2008-01-24T17:36:07.000Z'
-        isAdult:
-          type: boolean
-          description: Whether the subreddit is marked as adult content
-          example: false
-        isSearchable:
-          type: boolean
-          description: Whether the subreddit is discoverable in platform search and discovery surfaces
-          example: true
-        category:
-          type: string
-          description: Subreddit category
-          example: Technology
-        memberCount:
-          type: integer
-          description: Subscriber count
-          example: 5000000
-        icon:
-          allOf:
-          - $ref: '#/components/schemas/RedditImage'
-          - description: Community icon
-        image:
-          allOf:
-          - $ref: '#/components/schemas/RedditImage'
-          - description: Banner image
-      required:
-      - type
-      - id
-      - url
-      - name
-      description: Reddit subreddit
-    RedditVideoAttachment:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - Video
-        url:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Media download URLs
-          example:
-          - https://v.redd.it/abc123/DASH_720.mp4
-        mediaType:
-          type: string
-          description: MIME type
-          example: video/mp4
-        width:
-          type: integer
-          description: Width in pixels
-          example: 576
-        height:
-          type: integer
-          description: Height in pixels
-          example: 1024
-        duration:
-          type: number
-          description: Duration in seconds
-          example: 15
-      required:
-      - type
-      - url
-      description: Reddit video attachment
   securitySchemes:
     apiKey:
       type: http
