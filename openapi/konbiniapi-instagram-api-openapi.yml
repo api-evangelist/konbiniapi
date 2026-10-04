@@ -4968,116 +4968,50 @@ paths:
                 - data
 components:
   schemas:
-    InstagramHighlight:
+    InstagramEmbeddedUser:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: OrderedCollection
+          example: Person
         id:
           type: string
           format: uri
-          description: Collection permalink
-          example: https://www.instagram.com/stories/highlights/17890000000000001/
-        entityId:
-          type: string
-          description: Instagram internal highlight ID
-          example: highlight:17890000000000001
-        name:
-          type: string
-          description: Collection name
-          example: Best of 2025
-        image:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstagramImage'
-          description: Highlight cover images
-        totalItems:
-          type:
-          - integer
-          - 'null'
-          description: Number of items in collection
-          example: 42
-      required:
-      - type
-      - id
-      - entityId
-      - totalItems
-      description: Story highlight collection
-    InstagramLink:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Link
-        href:
-          type: string
-          format: uri
-          description: Link URL
-          example: https://linktr.ee/khabylame
-        rel:
-          type: string
-          description: Link relation hint
-          example: preferred
-      required:
-      - type
-      - href
-      description: External link
-    InstagramTag:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Tag
-        name:
-          type: string
-          description: Tag name
-          example: learnfromkhaby
-        href:
-          type: string
-          format: uri
-          description: Tag URL
-          example: https://www.instagram.com/explore/tags/learnfromkhaby/
-      required:
-      - type
-      - name
-      - href
-      description: Hashtag or user mention
-    InstagramLocation:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Place
-        id:
-          type: string
-          description: Location ID
-          example: '213385402'
-        name:
-          type: string
-          description: Location name or country code
-          example: Los Angeles, California
+          description: Profile URL
+          example: https://www.instagram.com/khaby00/
         url:
           type: string
           format: uri
-          description: Location page URL
-          example: https://www.instagram.com/explore/locations/213385402/
-        latitude:
-          type: number
-          description: Geographic latitude
-          example: 34.0522
-        longitude:
-          type: number
-          description: Geographic longitude
-          example: -118.2437
+          description: Profile URL
+          example: https://www.instagram.com/khaby00/
+        entityId:
+          type: string
+          description: Platform-specific entity ID
+          example: '779085683'
+        preferredUsername:
+          type: string
+          description: Username or handle
+          example: khaby00
+        name:
+          type: string
+          description: Display name
+          example: Khabane Lame
+        icon:
+          allOf:
+          - $ref: '#/components/schemas/InstagramImage'
+          - description: Author avatar
+        role:
+          type: string
+          description: Role label (e.g. collaborator)
+          example: collaborator
       required:
       - type
-      - name
-      description: Geographic location
+      - id
+      - url
+      - entityId
+      - preferredUsername
+      description: Compact user profile for embedded contexts
     InstagramStoryItem:
       type: object
       properties:
@@ -5131,120 +5065,38 @@ components:
       - type
       - entityId
       description: Individual story item
-    InstagramEmbeddedUser:
+    InstagramLocation:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Person
+          example: Place
         id:
           type: string
-          format: uri
-          description: Profile URL
-          example: https://www.instagram.com/khaby00/
+          description: Location ID
+          example: '213385402'
+        name:
+          type: string
+          description: Location name or country code
+          example: Los Angeles, California
         url:
           type: string
           format: uri
-          description: Profile URL
-          example: https://www.instagram.com/khaby00/
-        entityId:
-          type: string
-          description: Platform-specific entity ID
-          example: '779085683'
-        preferredUsername:
-          type: string
-          description: Username or handle
-          example: khaby00
-        name:
-          type: string
-          description: Display name
-          example: Khabane Lame
-        icon:
-          allOf:
-          - $ref: '#/components/schemas/InstagramImage'
-          - description: Author avatar
-        role:
-          type: string
-          description: Role label (e.g. collaborator)
-          example: collaborator
-      required:
-      - type
-      - id
-      - url
-      - entityId
-      - preferredUsername
-      description: Compact user profile for embedded contexts
-    InstagramAudio:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Audio
-        id:
-          type: string
-          format: uri
-          description: Audio permalink
-          example: https://www.instagram.com/reels/audio/293394603591002/
-        entityId:
-          type: string
-          description: Platform-specific audio ID
-          example: '293394603591002'
-        name:
-          type: string
-          description: Track name
-          example: Original audio
-        artist:
-          type: string
-          description: Artist name
-          example: khaby00
-        isOriginal:
-          type: boolean
-          description: Whether audio is user-created vs a licensed track
-          example: true
-        duration:
+          description: Location page URL
+          example: https://www.instagram.com/explore/locations/213385402/
+        latitude:
           type: number
-          description: Duration in seconds
-          example: 85.216
+          description: Geographic latitude
+          example: 34.0522
+        longitude:
+          type: number
+          description: Geographic longitude
+          example: -118.2437
       required:
       - type
-      - entityId
       - name
-      - artist
-      - isOriginal
-      description: Audio track metadata
-    InstagramAttachment:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Video
-        url:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Media download URLs
-          example:
-          - https://scontent.cdninstagram.com/v/t50.2886-16/video.mp4
-        mediaType:
-          type: string
-          description: MIME type
-          example: video/mp4
-        width:
-          type: integer
-          description: Width in pixels
-          example: 576
-        height:
-          type: integer
-          description: Height in pixels
-          example: 1024
-      required:
-      - type
-      - url
-      description: Media file attachment
+      description: Geographic location
     InstagramImageWithDimensions:
       allOf:
       - $ref: '#/components/schemas/InstagramImage'
@@ -5259,6 +5111,58 @@ components:
             description: Height in pixels
             example: 1920
       description: Image resource with optional dimensions
+    InstagramComment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Note
+        id:
+          type: string
+          format: uri
+          description: Comment permalink
+          example: https://www.instagram.com/p/CybWViruta1/c/17890000000000001/
+        entityId:
+          type: string
+          description: Instagram internal comment ID
+          example: '17890000000000001'
+        content:
+          type: string
+          description: Comment text
+          example: This man hasn't been in my fyp for so long
+        published:
+          type: string
+          format: date-time
+          description: Publication date in ISO 8601 format
+          example: '2026-02-27T20:37:38.000Z'
+        likeCount:
+          type: integer
+          description: Number of likes
+          example: 93210
+        replyCount:
+          type: integer
+          description: Number of replies
+          example: 12
+        attributedTo:
+          allOf:
+          - $ref: '#/components/schemas/InstagramEmbeddedUser'
+          - description: Comment author
+        inReplyTo:
+          type: string
+          format: uri
+          description: Post permalink
+          example: https://www.instagram.com/p/CybWViruta1/
+      required:
+      - type
+      - id
+      - entityId
+      - content
+      - likeCount
+      - replyCount
+      - attributedTo
+      - inReplyTo
+      description: Post comment
     InstagramPost:
       type: object
       properties:
@@ -5368,74 +5272,133 @@ components:
       - url
       - entityId
       description: Instagram post (photo, video, or carousel)
-    InstagramComment:
+    InstagramHighlight:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Note
+          example: OrderedCollection
         id:
           type: string
           format: uri
-          description: Comment permalink
-          example: https://www.instagram.com/p/CybWViruta1/c/17890000000000001/
+          description: Collection permalink
+          example: https://www.instagram.com/stories/highlights/17890000000000001/
         entityId:
           type: string
-          description: Instagram internal comment ID
-          example: '17890000000000001'
-        content:
+          description: Instagram internal highlight ID
+          example: highlight:17890000000000001
+        name:
           type: string
-          description: Comment text
-          example: This man hasn't been in my fyp for so long
-        published:
-          type: string
-          format: date-time
-          description: Publication date in ISO 8601 format
-          example: '2026-02-27T20:37:38.000Z'
-        likeCount:
-          type: integer
-          description: Number of likes
-          example: 93210
-        replyCount:
-          type: integer
-          description: Number of replies
-          example: 12
-        attributedTo:
-          allOf:
-          - $ref: '#/components/schemas/InstagramEmbeddedUser'
-          - description: Comment author
-        inReplyTo:
-          type: string
-          format: uri
-          description: Post permalink
-          example: https://www.instagram.com/p/CybWViruta1/
+          description: Collection name
+          example: Best of 2025
+        image:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstagramImage'
+          description: Highlight cover images
+        totalItems:
+          type:
+          - integer
+          - 'null'
+          description: Number of items in collection
+          example: 42
       required:
       - type
       - id
       - entityId
-      - content
-      - likeCount
-      - replyCount
-      - attributedTo
-      - inReplyTo
-      description: Post comment
-    InstagramImage:
+      - totalItems
+      description: Story highlight collection
+    InstagramAudio:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Image
-        url:
+          example: Audio
+        id:
           type: string
           format: uri
-          description: Image URL
-          example: https://scontent.cdninstagram.com/v/t51.2885-19/avatar.jpg
+          description: Audio permalink
+          example: https://www.instagram.com/reels/audio/293394603591002/
+        entityId:
+          type: string
+          description: Platform-specific audio ID
+          example: '293394603591002'
+        name:
+          type: string
+          description: Track name
+          example: Original audio
+        artist:
+          type: string
+          description: Artist name
+          example: khaby00
+        isOriginal:
+          type: boolean
+          description: Whether audio is user-created vs a licensed track
+          example: true
+        duration:
+          type: number
+          description: Duration in seconds
+          example: 85.216
+      required:
+      - type
+      - entityId
+      - name
+      - artist
+      - isOriginal
+      description: Audio track metadata
+    InstagramAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Video
+        url:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Media download URLs
+          example:
+          - https://scontent.cdninstagram.com/v/t50.2886-16/video.mp4
+        mediaType:
+          type: string
+          description: MIME type
+          example: video/mp4
+        width:
+          type: integer
+          description: Width in pixels
+          example: 576
+        height:
+          type: integer
+          description: Height in pixels
+          example: 1024
       required:
       - type
       - url
-      description: Image resource
+      description: Media file attachment
+    InstagramLink:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Link
+        href:
+          type: string
+          format: uri
+          description: Link URL
+          example: https://linktr.ee/khabylame
+        rel:
+          type: string
+          description: Link relation hint
+          example: preferred
+      required:
+      - type
+      - href
+      description: External link
     InstagramCarouselItem:
       type: object
       properties:
@@ -5465,6 +5428,43 @@ components:
       - type
       - entityId
       description: Individual slide in a carousel post
+    InstagramImage:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Image
+        url:
+          type: string
+          format: uri
+          description: Image URL
+          example: https://scontent.cdninstagram.com/v/t51.2885-19/avatar.jpg
+      required:
+      - type
+      - url
+      description: Image resource
+    InstagramTag:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Tag
+        name:
+          type: string
+          description: Tag name
+          example: learnfromkhaby
+        href:
+          type: string
+          format: uri
+          description: Tag URL
+          example: https://www.instagram.com/explore/tags/learnfromkhaby/
+      required:
+      - type
+      - name
+      - href
+      description: Hashtag or user mention
   securitySchemes:
     apiKey:
       type: http

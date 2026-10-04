@@ -3490,110 +3490,6 @@ paths:
                 - data
 components:
   schemas:
-    XPollOption:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Note
-        name:
-          type: string
-          description: Poll option label
-          example: Nissan Formula E car
-        voteCount:
-          type: integer
-          description: Number of votes for this option
-          example: 128
-      required:
-      - type
-      - name
-      description: Poll option
-    XEmbeddedUser:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Person
-        id:
-          type: string
-          format: uri
-          description: Profile URL
-          example: https://x.com/KhabyLame
-        url:
-          type: string
-          format: uri
-          description: Profile URL
-          example: https://x.com/KhabyLame
-        entityId:
-          type: string
-          description: X user ID
-          example: '221838349'
-        preferredUsername:
-          type: string
-          description: Username or handle
-          example: KhabyLame
-        name:
-          type: string
-          description: Display name
-          example: Khabane Lame
-        icon:
-          $ref: '#/components/schemas/XImage'
-        isPrivate:
-          type: boolean
-          description: Whether account is protected
-          example: false
-        isVerified:
-          type: boolean
-          description: Whether account has legacy verification
-          example: false
-        isPaidVerified:
-          type: boolean
-          description: Whether account has X Premium verification
-          example: true
-        summary:
-          type: string
-          description: Bio text
-          example: Let's Go
-        attachment:
-          type: array
-          items:
-            $ref: '#/components/schemas/XLink'
-          description: Profile links
-        followerCount:
-          type: integer
-          description: Number of followers
-          example: 372131
-        followingCount:
-          type: integer
-          description: Number of accounts followed
-          example: 8
-        likeCount:
-          type: integer
-          description: Number of likes made by the user
-          example: 60
-        postCount:
-          type: integer
-          description: Number of public posts
-          example: 267
-        mediaCount:
-          type: integer
-          description: Number of media posts
-          example: 242
-        listedCount:
-          type: integer
-          description: Number of public X Lists the account appears in
-          example: 215
-        location:
-          type: string
-          description: User location
-          example: Milan, Italy
-      required:
-      - type
-      - id
-      - url
-      description: Post author
     XArticleAttachment:
       type: object
       properties:
@@ -3628,6 +3524,155 @@ components:
       required:
       - type
       description: Article preview attachment
+    XPollOption:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Note
+        name:
+          type: string
+          description: Poll option label
+          example: Nissan Formula E car
+        voteCount:
+          type: integer
+          description: Number of votes for this option
+          example: 128
+      required:
+      - type
+      - name
+      description: Poll option
+    XAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Video
+        url:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Media download URLs
+          example:
+          - https://video.twimg.com/ext_tw_video/123/pu/vid/avc1/example.mp4
+        mediaType:
+          type: string
+          description: MIME type
+          example: video/mp4
+        width:
+          type: integer
+          description: Width in pixels
+          example: 1280
+        height:
+          type: integer
+          description: Height in pixels
+          example: 720
+        bitrate:
+          type: integer
+          description: Bitrate in bits per second
+          example: 950000
+        duration:
+          type: number
+          description: Duration in seconds
+          example: 16.266
+      required:
+      - type
+      - url
+      description: Post media attachment
+    XLink:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Link
+        href:
+          type: string
+          format: uri
+          description: Link URL
+          example: https://t.co/examplelink
+        rel:
+          type: string
+          description: Link relation hint
+          example: preferred
+      required:
+      - type
+      - href
+      description: External link
+    XQuotedPost:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Note
+        id:
+          type: string
+          format: uri
+          description: Quoted post permalink
+          example: https://x.com/NISMO/status/2024100000000000000
+        url:
+          type: string
+          format: uri
+          description: Quoted post permalink
+          example: https://x.com/NISMO/status/2024100000000000000
+        entityId:
+          type: string
+          description: Quoted X post ID
+          example: '2024100000000000000'
+        content:
+          type: string
+          description: Comment text
+          example: Ready for race week.
+        published:
+          type: string
+          format: date-time
+          description: Publication date in ISO 8601 format
+          example: '2026-02-18T12:00:00.000Z'
+        likeCount:
+          type: integer
+          description: Number of likes
+          example: 93210
+        replyCount:
+          type: integer
+          description: Number of replies
+          example: 96
+        contentFormat:
+          type: string
+          description: Content format (`post` for regular posts, `longform` for longer posts)
+          example: longform
+        attributedTo:
+          allOf:
+          - $ref: '#/components/schemas/XEmbeddedUser'
+          - description: Compact X profile for embedded contexts
+          description: Quoted post author
+        image:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/XImage'
+            - description: Image resource with optional dimensions
+          description: Primary images and thumbnails
+        attachment:
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/XAttachment'
+            - $ref: '#/components/schemas/XLinkAttachment'
+            - $ref: '#/components/schemas/XArticleAttachment'
+            - $ref: '#/components/schemas/XPollAttachment'
+          description: Quoted post attachments
+      required:
+      - type
+      - id
+      - url
+      - entityId
+      - content
+      - likeCount
+      description: Quoted post
     XPost:
       type: object
       properties:
@@ -3724,190 +3769,6 @@ components:
       - content
       - likeCount
       description: X post
-    XCommunityRule:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Document
-        entityId:
-          type: string
-          description: Platform-specific rule ID
-          example: '1848458992051159411'
-        name:
-          type: string
-          description: Rule title
-          example: Post memes only
-        content:
-          type: string
-          description: Rule description
-          example: Posts should be memes. No unrelated content or spam.
-      required:
-      - type
-      - name
-      description: Community rule
-    XPostAttachment:
-      anyOf:
-      - $ref: '#/components/schemas/XAttachment'
-      - $ref: '#/components/schemas/XLinkAttachment'
-      - $ref: '#/components/schemas/XArticleAttachment'
-      - $ref: '#/components/schemas/XPollAttachment'
-      description: Post attachment
-    XTag:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Tag
-        name:
-          type: string
-          description: Tag name
-          example: learnfromkhaby
-        href:
-          type: string
-          format: uri
-          description: Tag or mention URL
-          example: https://x.com/hashtag/learnfromkhaby
-      required:
-      - type
-      - name
-      description: Hashtag or user mention
-    XQuotedPost:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Note
-        id:
-          type: string
-          format: uri
-          description: Quoted post permalink
-          example: https://x.com/NISMO/status/2024100000000000000
-        url:
-          type: string
-          format: uri
-          description: Quoted post permalink
-          example: https://x.com/NISMO/status/2024100000000000000
-        entityId:
-          type: string
-          description: Quoted X post ID
-          example: '2024100000000000000'
-        content:
-          type: string
-          description: Comment text
-          example: Ready for race week.
-        published:
-          type: string
-          format: date-time
-          description: Publication date in ISO 8601 format
-          example: '2026-02-18T12:00:00.000Z'
-        likeCount:
-          type: integer
-          description: Number of likes
-          example: 93210
-        replyCount:
-          type: integer
-          description: Number of replies
-          example: 96
-        contentFormat:
-          type: string
-          description: Content format (`post` for regular posts, `longform` for longer posts)
-          example: longform
-        attributedTo:
-          allOf:
-          - $ref: '#/components/schemas/XEmbeddedUser'
-          - description: Compact X profile for embedded contexts
-          description: Quoted post author
-        image:
-          type: array
-          items:
-            allOf:
-            - $ref: '#/components/schemas/XImage'
-            - description: Image resource with optional dimensions
-          description: Primary images and thumbnails
-        attachment:
-          type: array
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/XAttachment'
-            - $ref: '#/components/schemas/XLinkAttachment'
-            - $ref: '#/components/schemas/XArticleAttachment'
-            - $ref: '#/components/schemas/XPollAttachment'
-          description: Quoted post attachments
-      required:
-      - type
-      - id
-      - url
-      - entityId
-      - content
-      - likeCount
-      description: Quoted post
-    XAttachment:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Video
-        url:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Media download URLs
-          example:
-          - https://video.twimg.com/ext_tw_video/123/pu/vid/avc1/example.mp4
-        mediaType:
-          type: string
-          description: MIME type
-          example: video/mp4
-        width:
-          type: integer
-          description: Width in pixels
-          example: 1280
-        height:
-          type: integer
-          description: Height in pixels
-          example: 720
-        bitrate:
-          type: integer
-          description: Bitrate in bits per second
-          example: 950000
-        duration:
-          type: number
-          description: Duration in seconds
-          example: 16.266
-      required:
-      - type
-      - url
-      description: Post media attachment
-    XImage:
-      type: object
-      properties:
-        type:
-          type: string
-          description: ActivityStreams object type
-          example: Image
-        url:
-          type: string
-          format: uri
-          description: Image URL
-          example: https://pbs.twimg.com/amplify_video_thumb/2024515147692195840/img/t8ePmit3Wst1hxAM.jpg
-        width:
-          type: integer
-          description: Width in pixels
-          example: 1536
-        height:
-          type: integer
-          description: Height in pixels
-          example: 2048
-      required:
-      - type
-      - url
-      description: Profile picture
     XPollAttachment:
       type: object
       properties:
@@ -3934,6 +3795,134 @@ components:
       - type
       - oneOf
       description: Poll attachment
+    XCommunityRule:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Document
+        entityId:
+          type: string
+          description: Platform-specific rule ID
+          example: '1848458992051159411'
+        name:
+          type: string
+          description: Rule title
+          example: Post memes only
+        content:
+          type: string
+          description: Rule description
+          example: Posts should be memes. No unrelated content or spam.
+      required:
+      - type
+      - name
+      description: Community rule
+    XEmbeddedUser:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Person
+        id:
+          type: string
+          format: uri
+          description: Profile URL
+          example: https://x.com/KhabyLame
+        url:
+          type: string
+          format: uri
+          description: Profile URL
+          example: https://x.com/KhabyLame
+        entityId:
+          type: string
+          description: X user ID
+          example: '221838349'
+        preferredUsername:
+          type: string
+          description: Username or handle
+          example: KhabyLame
+        name:
+          type: string
+          description: Display name
+          example: Khabane Lame
+        icon:
+          $ref: '#/components/schemas/XImage'
+        isPrivate:
+          type: boolean
+          description: Whether account is protected
+          example: false
+        isVerified:
+          type: boolean
+          description: Whether account has legacy verification
+          example: false
+        isPaidVerified:
+          type: boolean
+          description: Whether account has X Premium verification
+          example: true
+        summary:
+          type: string
+          description: Bio text
+          example: Let's Go
+        attachment:
+          type: array
+          items:
+            $ref: '#/components/schemas/XLink'
+          description: Profile links
+        followerCount:
+          type: integer
+          description: Number of followers
+          example: 372131
+        followingCount:
+          type: integer
+          description: Number of accounts followed
+          example: 8
+        likeCount:
+          type: integer
+          description: Number of likes made by the user
+          example: 60
+        postCount:
+          type: integer
+          description: Number of public posts
+          example: 267
+        mediaCount:
+          type: integer
+          description: Number of media posts
+          example: 242
+        listedCount:
+          type: integer
+          description: Number of public X Lists the account appears in
+          example: 215
+        location:
+          type: string
+          description: User location
+          example: Milan, Italy
+      required:
+      - type
+      - id
+      - url
+      description: Post author
+    XTag:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Tag
+        name:
+          type: string
+          description: Tag name
+          example: learnfromkhaby
+        href:
+          type: string
+          format: uri
+          description: Tag or mention URL
+          example: https://x.com/hashtag/learnfromkhaby
+      required:
+      - type
+      - name
+      description: Hashtag or user mention
     XLinkAttachment:
       type: object
       properties:
@@ -3965,26 +3954,37 @@ components:
       - type
       - href
       description: Link preview attachment
-    XLink:
+    XImage:
       type: object
       properties:
         type:
           type: string
           description: ActivityStreams object type
-          example: Link
-        href:
+          example: Image
+        url:
           type: string
           format: uri
-          description: Link URL
-          example: https://t.co/examplelink
-        rel:
-          type: string
-          description: Link relation hint
-          example: preferred
+          description: Image URL
+          example: https://pbs.twimg.com/amplify_video_thumb/2024515147692195840/img/t8ePmit3Wst1hxAM.jpg
+        width:
+          type: integer
+          description: Width in pixels
+          example: 1536
+        height:
+          type: integer
+          description: Height in pixels
+          example: 2048
       required:
       - type
-      - href
-      description: External link
+      - url
+      description: Profile picture
+    XPostAttachment:
+      anyOf:
+      - $ref: '#/components/schemas/XAttachment'
+      - $ref: '#/components/schemas/XLinkAttachment'
+      - $ref: '#/components/schemas/XArticleAttachment'
+      - $ref: '#/components/schemas/XPollAttachment'
+      description: Post attachment
   securitySchemes:
     apiKey:
       type: http
