@@ -46,6 +46,10 @@ description: >-
 created: '2026-05-06'
 modified: '2026-08-13'
 specificationVersion: '0.23'
+x-docs-platform: mintlify
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
+x-docs-hosting: vercel
 tags:
   - Social Media
   - Instagram
@@ -214,6 +218,8 @@ apis:
   humanURL: https://docs.konbiniapi.com/reference/api/instagram
   baseURL: https://api.konbiniapi.com/v1
   tags:
+  - LinkedIn
+  tags_raw:
   - Linked In
   properties:
   - type: OpenAPI

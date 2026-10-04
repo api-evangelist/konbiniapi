@@ -1,31 +1,30 @@
-# Kin Score artifact — konbiniapi — 2026-09-01T222808
+# Kin Score artifact — konbiniapi — 2026-09-25T210408
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: konbiniapi
-  schema_version: 0.18.0
-  scored_at: '2026-09-01'
-  run_ts: 2026-09-01T222808
-  composite: 71.7
-  band: exemplar
+  schema_version: 0.23.0
+  scored_at: '2026-09-25'
+  run_ts: 2026-09-25T210408
+  composite: 65.1
+  band: strong
   facets:
-    discoverability: 75.9
-    contract_quality: 72.1
-    governance: 33.3
+    discoverability: 75.0
+    contract_quality: 65.9
+    contract_governance: 31.8
     operational_transparency: 28.9
     developer_ergonomics: 66.7
-    commercial_clarity: 84.2
-    contract_governance: 33.3
     access_clarity: 84.2
   agent_readiness:
-    score: 34.7
+    score: 56.1
     band: agent-ready
+    band_gated_from: agent-native
     dimensions:
       spec_presence: true
       agentic_access: derived
       reversibility_documented: false
-      mcp_server: documented
-      auth_clarity: bearer
+      mcp_server: verified
+      auth_clarity: served
       idempotency: false
       error_semantics: documented
       openapi_examples: verified
@@ -36,15 +35,15 @@ kin_score:
       consent_identity: false
       agent_card: false
       dry_run_mode: false
-      delegated_identity: false
-      protected_resource_metadata: false
-      dynamic_client_registration: false
+      delegated_identity: served
+      protected_resource_metadata: verified
+      dynamic_client_registration: true
       agentic_commerce: false
   regulatory:
     applies: true
     regime: Government & Public Sector
     regime_id: government
-    score: 75.9
+    score: 40.2
     matched_via: tags
   provenance:
     mcp: first-party
