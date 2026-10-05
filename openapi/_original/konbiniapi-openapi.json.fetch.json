@@ -1,0 +1,12 @@
+{
+ "url": "https://docs.konbiniapi.com/openapi.json",
+ "requested_url": "https://docs.konbiniapi.com/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 782055,
+ "sha256": "2010cc0a10e9da22ceb6d0368afb13136db40dba5aeaebefa0083b87a70f24c4",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.944), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
