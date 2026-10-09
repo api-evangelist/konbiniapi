@@ -1,6 +1,6 @@
-generated: '2026-08-13'
+generated: '2026-09-23'
 method: generated
-source: openapi/konbiniapi-instagram-api-openapi.yml, openapi/konbiniapi-linkedin-api-openapi.yml,
+source: openapi/konbiniapi-instagram-api-openapi.yml, openapi/konbiniapi-linked-in-api-openapi.yml,
   openapi/konbiniapi-reddit-api-openapi.yml, openapi/konbiniapi-tiktok-api-openapi.yml, openapi/konbiniapi-x-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
@@ -8,11 +8,9 @@ description: Recommended x-agentic-access execution contracts, classified heuris
 summary:
   operations: 67
   by_action_class:
-    connected: 64
-    acting: 3
+    connected: 67
   by_consequence:
-    read: 64
-    write: 3
+    read: 67
   human_in_the_loop_required: 0
 operations:
 - path: /v1/instagram/users/{username}
@@ -289,18 +287,12 @@ operations:
   method: post
   operationId: redditGetSubredditsBatch
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /v1/reddit/posts/{postId}
   method: get
   operationId: redditGetPost
@@ -355,34 +347,22 @@ operations:
   method: post
   operationId: redditGetPostsBatch
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /v1/reddit/comments/batch
   method: post
   operationId: redditGetCommentsBatch
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /v1/reddit/feeds/{feed}
   method: get
   operationId: redditGetFeed

@@ -570,3 +570,17 @@ tools:
     pinned post is repeated on every page, so deduplicate by id when paging.'
   docs: https://docs.konbiniapi.com/reference/mcp/tools/x/get-user-posts
 crosswalk: mcp/konbiniapi-tool-crosswalk.yml
+rfc9728:
+  endpoint: https://mcp.konbiniapi.com
+  metadata_url: https://mcp.konbiniapi.com/.well-known/oauth-protected-resource
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://mcp.konbiniapi.com
+    authorization_servers:
+    - https://app.konbiniapi.com/api/auth
+    scopes_supported:
+    - api_key
+    - offline_access
