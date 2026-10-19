@@ -1,0 +1,3644 @@
+openapi: 3.2.0
+info:
+  title: Konbini YouTube API
+  version: 1.0.0
+  description: 'Social media API that normalizes TikTok, Instagram, YouTube, Reddit, X, and LinkedIn data into a consistent ActivityStreams 2.0 format.
+
+
+    Every authenticated response includes `X-Credits-Remaining` and `X-Credits-Used` headers. Each successful request costs 1 credit. Requests that fail with 400, 5xx, or upstream errors are refunded (X-Credits-Used: 0).'
+  contact:
+    name: KonbiniAPI
+    email: hello@konbiniapi.com
+    url: https://konbiniapi.com
+servers:
+- url: https://api.konbiniapi.com
+  description: Production
+security:
+- apiKey: []
+tags:
+- name: Youtube
+  description: YouTube data endpoints
+paths:
+  /v1/youtube/channels/{channel}:
+    get:
+      operationId: youtubeGetChannel
+      tags:
+      - Youtube
+      summary: Get channel
+      description: 'Returns a public YouTube channel: name, handle, description, avatar, banner, subscriber and video counts, links, and RSS feed.'
+      parameters:
+      - schema:
+          type: string
+          description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+          example: '@MrBeast'
+        required: true
+        description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+        name: channel
+        in: path
+      - schema:
+          type: string
+          description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+          example: UCX6OQ3DkcsbYNE6H8uQQuVA
+        required: false
+        description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+        name: channelId
+        in: query
+      responses:
+        '200':
+          description: Returns the channel
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        enum:
+                        - Person
+                        example: Person
+                      id:
+                        type: string
+                        format: uri
+                        description: Channel URL
+                        example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+                      url:
+                        type: string
+                        format: uri
+                        description: Channel URL
+                        example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+                      entityId:
+                        type: string
+                        description: YouTube channel ID
+                        example: UCX6OQ3DkcsbYNE6H8uQQuVA
+                      preferredUsername:
+                        type: string
+                        example: '@MrBeast'
+                        description: Channel handle
+                      name:
+                        type: string
+                        description: Channel name
+                        example: MrBeast
+                      content:
+                        type: string
+                        example: 'SUBSCRIBE FOR A COOKIE!
+
+                          New MrBeast or MrBeast Gaming video every single Saturday at noon eastern time!
+
+                          Accomplishments:
+
+                          - Raised $20,000,000 To Plant 20,000,000 Trees
+
+                          - Removed 30,000,000 pounds of trash from the ocean
+
+                          - Helped 2,000 people walk again
+
+                          - Helped 1,000 blind…'
+                        description: Channel description
+                      followerCount:
+                        type: integer
+                        description: Rounded to what YouTube displays (515M becomes 515000000); no exact figure exists
+                        example: 522000000
+                      videoCount:
+                        type: integer
+                        description: Rounded to what YouTube displays (515M becomes 515000000); no exact figure exists
+                        example: 1000
+                      isAdult:
+                        type: boolean
+                        example: false
+                        description: Whether the channel is marked not family-safe
+                      icon:
+                        $ref: '#/components/schemas/YoutubeImage'
+                      image:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeImage'
+                        description: Channel banner image
+                      tag:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              description: ActivityStreams object type
+                              example: Tag
+                            name:
+                              type: string
+                              description: Tag name
+                              example: mrbeast6000
+                          required:
+                          - type
+                          - name
+                        description: Channel keywords
+                      availableIn:
+                        type: array
+                        items:
+                          type: string
+                          example: US
+                        description: ISO 3166-1 alpha-2 country codes the channel is available in
+                      attachment:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - Link
+                              example: Link
+                            href:
+                              type: string
+                              format: uri
+                              example: https://www.youtube.com/feeds/videos.xml?channel_id=UCX6OQ3DkcsbYNE6H8uQQuVA
+                            rel:
+                              type: string
+                              example: alternate
+                            mediaType:
+                              type: string
+                              example: application/rss+xml
+                          required:
+                          - type
+                          - href
+                        description: 'The channel''s RSS feed (`rel: ''alternate''`), then the links it lists: its website and other social profiles'
+                    required:
+                    - '@context'
+                    - type
+                    - id
+                    - url
+                    - entityId
+                    - name
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/channels/{channel}/about:
+    get:
+      operationId: youtubeGetChannelAbout
+      tags:
+      - Youtube
+      summary: Get channel about page
+      description: 'Returns a public YouTube channel''s About panel: full description, lifetime view count, creation date, and country.'
+      parameters:
+      - schema:
+          type: string
+          description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+          example: '@MrBeast'
+        required: true
+        description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+        name: channel
+        in: path
+      - schema:
+          type: string
+          description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+          example: UCX6OQ3DkcsbYNE6H8uQQuVA
+        required: false
+        description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+        name: channelId
+        in: query
+      responses:
+        '200':
+          description: Returns the channel about info
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        enum:
+                        - Person
+                        example: Person
+                      id:
+                        type: string
+                        format: uri
+                        description: Channel URL
+                        example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+                      url:
+                        type: string
+                        format: uri
+                        description: Channel URL
+                        example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+                      entityId:
+                        type: string
+                        description: YouTube channel ID
+                        example: UCX6OQ3DkcsbYNE6H8uQQuVA
+                      content:
+                        type: string
+                        example: 'SUBSCRIBE FOR A COOKIE!
+
+                          New MrBeast or MrBeast Gaming video every single Saturday at noon eastern time!
+
+                          Accomplishments:
+
+                          - Raised $20,000,000 To Plant 20,000,000 Trees
+
+                          - Removed 30,000,000 pounds of trash from the ocean
+
+                          - Helped 2,000 people walk again
+
+                          - Helped 1,000 blind…'
+                        description: Channel description
+                      published:
+                        type: string
+                        format: date-time
+                        example: '2012-02-19T00:00:00.000Z'
+                        description: Channel creation date
+                      viewCount:
+                        type: integer
+                        example: 143240927814
+                        description: Exact lifetime view count across the channel
+                      followerCount:
+                        type: integer
+                        description: Rounded to what YouTube displays (515M becomes 515000000); no exact figure exists
+                        example: 522000000
+                      videoCount:
+                        type: integer
+                        description: Rounded to what YouTube displays (515M becomes 515000000); no exact figure exists
+                        example: 1008
+                      addressCountry:
+                        type: string
+                        example: United States
+                        description: Country the channel is registered to
+                    required:
+                    - '@context'
+                    - type
+                    - id
+                    - url
+                    - entityId
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/channels/{channel}/videos:
+    get:
+      operationId: youtubeGetChannelVideos
+      tags:
+      - Youtube
+      summary: Get channel videos
+      description: Returns a public YouTube channel's uploaded videos, most recent first.
+      parameters:
+      - schema:
+          type: string
+          description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+          example: '@MrBeast'
+        required: true
+        description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+        name: channel
+        in: path
+      - schema:
+          type: string
+          description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+          example: UCX6OQ3DkcsbYNE6H8uQQuVA
+        required: false
+        description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+        name: channelId
+        in: query
+      - schema:
+          type: string
+          enum:
+          - newest
+          - popular
+          - oldest
+          description: Sort order for the listing
+          example: popular
+        required: false
+        description: Sort order for the listing
+        name: order
+        in: query
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns the channel videos
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/youtube/channels/UCX6OQ3DkcsbYNE6H8uQQuVA/videos
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: null
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: <token>
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/youtube/channels/UCX6OQ3DkcsbYNE6H8uQQuVA/videos?cursor=<token>
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeChannelVideoItem'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/channels/{channel}/shorts:
+    get:
+      operationId: youtubeGetChannelShorts
+      tags:
+      - Youtube
+      summary: Get channel shorts
+      description: Returns a public YouTube channel's Shorts, most recent first.
+      parameters:
+      - schema:
+          type: string
+          description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+          example: '@MrBeast'
+        required: true
+        description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+        name: channel
+        in: path
+      - schema:
+          type: string
+          description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+          example: UCX6OQ3DkcsbYNE6H8uQQuVA
+        required: false
+        description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+        name: channelId
+        in: query
+      - schema:
+          type: string
+          enum:
+          - newest
+          - popular
+          - oldest
+          description: Sort order for the listing
+          example: popular
+        required: false
+        description: Sort order for the listing
+        name: order
+        in: query
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns the channel shorts
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/youtube/channels/UCX6OQ3DkcsbYNE6H8uQQuVA/shorts
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: null
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: <token>
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/youtube/channels/UCX6OQ3DkcsbYNE6H8uQQuVA/shorts?cursor=<token>
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeChannelShortItem'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/channels/{channel}/streams:
+    get:
+      operationId: youtubeGetChannelStreams
+      tags:
+      - Youtube
+      summary: Get channel streams
+      description: Returns a public YouTube channel's streams, past broadcasts and any live now, most recent first. Returns an empty list when the channel has never streamed.
+      parameters:
+      - schema:
+          type: string
+          description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+          example: '@MrBeast'
+        required: true
+        description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+        name: channel
+        in: path
+      - schema:
+          type: string
+          description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+          example: UCX6OQ3DkcsbYNE6H8uQQuVA
+        required: false
+        description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+        name: channelId
+        in: query
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns the channel live streams
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/youtube/channels/UCX6OQ3DkcsbYNE6H8uQQuVA/streams
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: null
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: <token>
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/youtube/channels/UCX6OQ3DkcsbYNE6H8uQQuVA/streams?cursor=<token>
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeChannelVideoItem'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/channels/{channel}/playlists:
+    get:
+      operationId: youtubeGetChannelPlaylists
+      tags:
+      - Youtube
+      summary: Get channel playlists
+      description: Returns a public YouTube channel's Playlists tab, in the order YouTube displays them. Returns an empty list when the channel has no playlists.
+      parameters:
+      - schema:
+          type: string
+          description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+          example: '@MrBeast'
+        required: true
+        description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+        name: channel
+        in: path
+      - schema:
+          type: string
+          description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+          example: UCX6OQ3DkcsbYNE6H8uQQuVA
+        required: false
+        description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+        name: channelId
+        in: query
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns the channel playlists
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/youtube/channels/UCX6OQ3DkcsbYNE6H8uQQuVA/playlists
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: null
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: <token>
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/youtube/channels/UCX6OQ3DkcsbYNE6H8uQQuVA/playlists?cursor=<token>
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeChannelPlaylistItem'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/channels/{channel}/posts:
+    get:
+      operationId: youtubeGetChannelPosts
+      tags:
+      - Youtube
+      summary: Get channel posts
+      description: Returns a public YouTube channel's posts, most recent first.
+      parameters:
+      - schema:
+          type: string
+          description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+          example: '@MrBeast'
+        required: true
+        description: 'Channel handle, with or without the `@`: the name in a channel URL. If you pass `channelId`, this is ignored and any placeholder works.'
+        name: channel
+        in: path
+      - schema:
+          type: string
+          description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+          example: UCX6OQ3DkcsbYNE6H8uQQuVA
+        required: false
+        description: Look up the channel by its `UC…` ID instead of its handle. If you already have the ID (e.g. from a video's `attributedTo` in another response), passing it here returns the channel faster than a handle lookup. When set, it overrides the handle in the URL.
+        name: channelId
+        in: query
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns the channel community posts
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/youtube/channels/UCX6OQ3DkcsbYNE6H8uQQuVA/posts
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: null
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: <token>
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/youtube/channels/UCX6OQ3DkcsbYNE6H8uQQuVA/posts?cursor=<token>
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeCommunityPost'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/playlists/{playlistId}:
+    get:
+      operationId: youtubeGetPlaylist
+      tags:
+      - Youtube
+      summary: Get playlist videos
+      description: Returns a public YouTube playlist's videos, in playlist order.
+      parameters:
+      - schema:
+          type: string
+          description: YouTube playlist ID (the `list=` value from a playlist URL)
+          example: UUX6OQ3DkcsbYNE6H8uQQuVA
+        required: true
+        description: YouTube playlist ID (the `list=` value from a playlist URL)
+        name: playlistId
+        in: path
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns the playlist videos
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/youtube/playlists/UUX6OQ3DkcsbYNE6H8uQQuVA
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: null
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: <token>
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/youtube/playlists/UUX6OQ3DkcsbYNE6H8uQQuVA?cursor=<token>
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubePlaylistItem'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/videos/{videoId}:
+    get:
+      operationId: youtubeGetVideo
+      tags:
+      - Youtube
+      summary: Get video
+      description: 'Returns a public YouTube video: title, description, counts, publish date, channel, thumbnails, keywords, and available caption languages. For the transcript text, use the transcript endpoint.'
+      parameters:
+      - schema:
+          type: string
+          description: YouTube video ID (the `v=` value from a watch URL)
+          example: plN7JMbadRg
+        required: true
+        description: YouTube video ID (the `v=` value from a watch URL)
+        name: videoId
+        in: path
+      responses:
+        '200':
+          description: Returns the video
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams object type
+                        example: Video
+                      id:
+                        type: string
+                        format: uri
+                        description: Video URL
+                        example: https://www.youtube.com/watch?v=plN7JMbadRg
+                      url:
+                        type: string
+                        format: uri
+                        description: Video URL
+                        example: https://www.youtube.com/watch?v=plN7JMbadRg
+                      entityId:
+                        type: string
+                        description: YouTube video ID
+                        example: plN7JMbadRg
+                      name:
+                        type: string
+                        description: Video title
+                        example: Eat Everything In A Grocery Store, Win $1,000,000
+                      content:
+                        type: string
+                        example: 'I trapped 4 strangers in an entire supermarket and the only way out is eating everything inside
+
+
+                          The guys wore Fitbit Air to track their health and fitness throughout their entire time in the store. See what they achieved during the Google Health Awards. GooglePartner
+
+                          Google…'
+                        description: Video description
+                      published:
+                        type: string
+                        format: date-time
+                        description: Publication date in ISO 8601 format
+                        example: '2026-10-03T16:00:01.000Z'
+                      duration:
+                        type: number
+                        example: 3479
+                        description: Duration in seconds
+                      viewCount:
+                        type: integer
+                        description: Exact number of views
+                        example: 275722212
+                      likeCount:
+                        type: integer
+                        example: 4155962
+                        description: Exact number of likes
+                      commentCount:
+                        type: integer
+                        example: 155000
+                        description: Comment count, rounded to what YouTube displays (155K becomes 155000)
+                      isAdult:
+                        type: boolean
+                        example: false
+                        description: Whether the video is marked not family-safe
+                      visibility:
+                        type: string
+                        enum:
+                        - unlisted
+                        description: Present and set to "unlisted" when the video is unlisted. Absent otherwise — YouTube gives no signal distinguishing public from private.
+                        example: unlisted
+                      availableIn:
+                        type: array
+                        items:
+                          type: string
+                          example: US
+                        description: ISO 3166-1 alpha-2 country codes the video is available in
+                      category:
+                        type: string
+                        example: Entertainment
+                        description: YouTube category the video is filed under
+                      isLive:
+                        type: boolean
+                        example: false
+                        description: Whether the video is a livestream (currently live or was streamed live)
+                      startTime:
+                        type: string
+                        format: date-time
+                        description: When a livestream started broadcasting
+                        example: '2026-01-01T18:00:00.000Z'
+                      endTime:
+                        type: string
+                        format: date-time
+                        description: When a livestream ended
+                        example: '2026-01-01T20:00:00.000Z'
+                      attributedTo:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            description: ActivityStreams object type
+                            example: Person
+                          id:
+                            type: string
+                            format: uri
+                            description: Profile URL
+                            example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+                          url:
+                            type: string
+                            format: uri
+                            description: Profile URL
+                            example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+                          entityId:
+                            type: string
+                            example: UCX6OQ3DkcsbYNE6H8uQQuVA
+                            description: Platform-specific entity ID
+                          name:
+                            type: string
+                            example: MrBeast
+                            description: Display name
+                          preferredUsername:
+                            type: string
+                            example: '@MrBeast'
+                            description: Channel handle, with its leading @
+                          isVerified:
+                            type: boolean
+                            example: true
+                            description: Whether the channel is verified
+                          followerCount:
+                            type: integer
+                            description: Rounded to what YouTube displays (515M becomes 515000000); no exact figure exists
+                            example: 522000000
+                          icon:
+                            $ref: '#/components/schemas/YoutubeImage'
+                        required:
+                        - type
+                        - id
+                        - url
+                        description: Channel that uploaded the video
+                      image:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeImage'
+                        description: Thumbnail images
+                      tag:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              description: ActivityStreams object type
+                              example: Tag
+                            name:
+                              type: string
+                              description: Tag name
+                              example: mrbeast6000
+                          required:
+                          - type
+                          - name
+                        description: Video keywords
+                      captions:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeCaptionTrack'
+                        description: Caption tracks available for this video. Lists languages offered, not the transcript text.
+                    required:
+                    - '@context'
+                    - type
+                    - id
+                    - url
+                    - entityId
+                    - name
+                    - published
+                    - viewCount
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/videos/{videoId}/comments:
+    get:
+      operationId: youtubeGetVideoComments
+      tags:
+      - Youtube
+      summary: Get video comments
+      description: Returns a public YouTube video's top-level comments, roughly 20 per page. On the first page, `totalItems` is the video's exact comment count, replies included; later pages return `null`.
+      parameters:
+      - schema:
+          type: string
+          description: YouTube video ID (the `v=` value from a watch URL)
+          example: plN7JMbadRg
+        required: true
+        description: YouTube video ID (the `v=` value from a watch URL)
+        name: videoId
+        in: path
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns the video comments
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/youtube/videos/plN7JMbadRg/comments
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: 155204
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: <token>
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/youtube/videos/plN7JMbadRg/comments?cursor=<token>
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeComment'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/videos/{videoId}/comments/{commentId}/replies:
+    get:
+      operationId: youtubeGetCommentReplies
+      tags:
+      - Youtube
+      summary: Get comment replies
+      description: Returns a paginated list of replies to one YouTube comment, addressed by the video and comment ids. Reply threads are roughly 10 per page.
+      parameters:
+      - schema:
+          type: string
+          description: YouTube video ID (the `v=` value from a watch URL)
+          example: plN7JMbadRg
+        required: true
+        description: YouTube video ID (the `v=` value from a watch URL)
+        name: videoId
+        in: path
+      - schema:
+          type: string
+          description: YouTube comment ID
+          example: UgwNO2zsb4fIY1MaeAN4AaABAg
+        required: true
+        description: YouTube comment ID
+        name: commentId
+        in: path
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns the comment replies
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/youtube/videos/plN7JMbadRg/comments/UgwNO2zsb4fIY1MaeAN4AaABAg/replies
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: null
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: <token>
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/youtube/videos/plN7JMbadRg/comments/UgwNO2zsb4fIY1MaeAN4AaABAg/replies?cursor=<token>
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeComment'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/videos/{videoId}/transcript:
+    get:
+      operationId: youtubeGetVideoTranscript
+      tags:
+      - Youtube
+      summary: Get video transcript
+      description: Returns the transcript for a public video, in WebVTT format.
+      parameters:
+      - schema:
+          type: string
+          description: YouTube video ID (the `v=` value from a watch URL)
+          example: plN7JMbadRg
+        required: true
+        description: YouTube video ID (the `v=` value from a watch URL)
+        name: videoId
+        in: path
+      - schema:
+          type: string
+          description: Language code of the caption track to return, as listed in the video-detail endpoint's `captions[].languageCode`. Defaults to the channel's default track, or the first available one if none is set.
+          example: en
+        required: false
+        description: Language code of the caption track to return, as listed in the video-detail endpoint's `captions[].languageCode`. Defaults to the channel's default track, or the first available one if none is set.
+        name: language
+        in: query
+      responses:
+        '200':
+          description: Returns the transcript
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams object type
+                        example: Document
+                      id:
+                        type: string
+                        format: uri
+                        description: Transcript permalink
+                        example: https://www.youtube.com/watch?v=plN7JMbadRg&transcript=en
+                      url:
+                        type: string
+                        format: uri
+                        description: Video permalink
+                        example: https://www.youtube.com/watch?v=plN7JMbadRg
+                      mediaType:
+                        type: string
+                        description: MIME type
+                        example: text/vtt
+                      language:
+                        type: string
+                        description: BCP-47 (or bare) language code of the returned track
+                        example: en
+                      size:
+                        type: integer
+                        example: 376111
+                        description: File size in bytes
+                      source:
+                        type: string
+                        description: Present and set to "ASR" when the track is auto-generated (speech recognition). Absent for a manually uploaded track.
+                        example: ASR
+                      content:
+                        type: string
+                        description: WebVTT formatted transcript content
+                        example: 'WEBVTT
+
+
+                          00:00:00.133 --> 00:00:02.033
+
+                          ​​​ ​I just bought this entire ​ ​​
+
+                          ​​ ​grocery store--​ ​​
+
+
+                          00:00:00.133 --> 00:00:02.033
+
+                          ​​​ ​I just bought this entire ​ ​​
+
+                          ​​ ​grocery store--​ ​​'
+                    required:
+                    - '@context'
+                    - type
+                    - id
+                    - url
+                    - mediaType
+                    - language
+                    - content
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/videos/{videoId}/download:
+    get:
+      operationId: youtubeGetVideoDownloadUrl
+      tags:
+      - Youtube
+      summary: Get video download URLs
+      description: 'Returns every rendition YouTube serves for this video, each with a direct file URL you can download with a plain GET request: no cookies, auth headers, or special HTTP client needed. Above 360p, video and audio are separate renditions to combine.'
+      parameters:
+      - schema:
+          type: string
+          description: YouTube video ID (the `v=` value from a watch URL)
+          example: plN7JMbadRg
+        required: true
+        description: YouTube video ID (the `v=` value from a watch URL)
+        name: videoId
+        in: path
+      responses:
+        '200':
+          description: Returns the download URL
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        enum:
+                        - Collection
+                        example: Collection
+                      totalItems:
+                        type: integer
+                        description: Number of renditions returned
+                        example: 115
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeDownloadRendition'
+                        description: Every rendition YouTube serves for this video. Only the 360p rendition (mediaType video/mp4 with audioChannels set) is a complete, playable file on its own — every other video/* rendition is silent, and every audio/* rendition has no picture. Pick a video/* and an audio/* rendition and mux them together to get anything above 360p.
+                      expiresAt:
+                        type: string
+                        format: date-time
+                        example: '2026-10-18T16:58:23.801Z'
+                        description: When every URL in this response stops working (absolute time, not a duration — still accurate no matter how long you hold onto this response). Request a fresh response rather than storing these URLs for later.
+                    required:
+                    - '@context'
+                    - type
+                    - totalItems
+                    - items
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/posts/{postId}:
+    get:
+      operationId: youtubeGetPost
+      tags:
+      - Youtube
+      summary: Get community post
+      description: Returns a single YouTube community post.
+      parameters:
+      - schema:
+          type: string
+          description: YouTube community post ID (the `/post/` value from a post URL)
+          example: UgkxZusu9I1Z-VuU5PGZNA2gclHi8V9CJVZk
+        required: true
+        description: YouTube community post ID (the `/post/` value from a post URL)
+        name: postId
+        in: path
+      responses:
+        '200':
+          description: Returns the community post
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        enum:
+                        - Note
+                        example: Note
+                      id:
+                        type: string
+                        format: uri
+                        description: Community post URL
+                        example: https://www.youtube.com/post/UgkxZusu9I1Z-VuU5PGZNA2gclHi8V9CJVZk
+                      url:
+                        type: string
+                        format: uri
+                        description: Community post URL
+                        example: https://www.youtube.com/post/UgkxZusu9I1Z-VuU5PGZNA2gclHi8V9CJVZk
+                      entityId:
+                        type: string
+                        description: YouTube post ID
+                        example: UgkxZusu9I1Z-VuU5PGZNA2gclHi8V9CJVZk
+                      content:
+                        type: string
+                        description: Post text
+                        example: Would you rather stop aging for 100 years or receive 1 billion dollars right now?
+                      likeCount:
+                        type: integer
+                        example: 107000
+                        description: Like count, rounded to what YouTube displays (9.6M becomes 9600000)
+                      replyCount:
+                        type: integer
+                        description: Comment count, rounded to what YouTube displays (5.3K becomes 5300)
+                        example: 5300
+                      attributedTo:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            description: ActivityStreams object type
+                            example: Person
+                          id:
+                            type: string
+                            format: uri
+                            description: Profile URL
+                            example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+                          url:
+                            type: string
+                            format: uri
+                            description: Profile URL
+                            example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+                          entityId:
+                            type: string
+                            example: UCX6OQ3DkcsbYNE6H8uQQuVA
+                            description: Platform-specific entity ID
+                          name:
+                            type: string
+                            example: MrBeast
+                            description: Display name
+                          icon:
+                            $ref: '#/components/schemas/YoutubeImage'
+                        required:
+                        - type
+                        - id
+                        - url
+                        description: Channel that made the post
+                      image:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeImage'
+                        description: Attached images
+                      attachment:
+                        type: array
+                        items:
+                          anyOf:
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                enum:
+                                - Question
+                                example: Question
+                              oneOf:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    type:
+                                      type: string
+                                      enum:
+                                      - Note
+                                      example: Note
+                                    name:
+                                      type: string
+                                      description: Choice text
+                                      example: 100 Years Of No Aging
+                                    isCorrect:
+                                      type: boolean
+                                      example: true
+                                      description: Present on a quiz choice only, absent on a plain poll
+                                    summary:
+                                      type: string
+                                      example: Shown once you answer.
+                                      description: Explanation for this choice — quizzes only, when YouTube supplies one
+                                  required:
+                                  - type
+                                  - name
+                                minItems: 2
+                                description: Poll or quiz choices
+                              voterCount:
+                                type: integer
+                                example: 1800000
+                                description: Approximate number of respondents
+                            required:
+                            - type
+                            - oneOf
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                enum:
+                                - Video
+                              id:
+                                type: string
+                                format: uri
+                              url:
+                                type: string
+                                format: uri
+                              entityId:
+                                type: string
+                                description: YouTube video ID
+                              name:
+                                type: string
+                                description: Video title
+                              summary:
+                                type: string
+                                description: Short description excerpt
+                              duration:
+                                type: number
+                                description: Duration in seconds
+                              viewCount:
+                                type: integer
+                                description: Exact number of views
+                              isVerified:
+                                type: boolean
+                                description: Whether the video's channel has a verification badge
+                            required:
+                            - type
+                            - id
+                            - url
+                            - entityId
+                        description: A poll/quiz or a shared video attached to the post, if any
+                    required:
+                    - '@context'
+                    - type
+                    - id
+                    - url
+                    - entityId
+                    - content
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/tags/{tag}:
+    get:
+      operationId: youtubeGetTagVideos
+      tags:
+      - Youtube
+      summary: Get videos with tag
+      description: Returns videos tagged with a YouTube hashtag. Not paginated — YouTube returns a single page of results for a hashtag.
+      parameters:
+      - schema:
+          type: string
+          description: Tag name, with or without a leading "#"
+          example: mrbeast
+        required: true
+        description: Tag name, with or without a leading "#"
+        name: tag
+        in: path
+      responses:
+        '200':
+          description: Returns the hashtag videos
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        enum:
+                        - Collection
+                        example: Collection
+                      totalItems:
+                        type: integer
+                        description: 'Number of videos returned. Not paginated: this is every video YouTube returned on the one page it serves.'
+                        example: 1
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeSearchResult'
+                        description: Videos tagged with this hashtag
+                    required:
+                    - '@context'
+                    - type
+                    - totalItems
+                    - items
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/search:
+    get:
+      operationId: youtubeSearch
+      tags:
+      - Youtube
+      summary: Search videos
+      description: Searches public YouTube videos. YouTube has no public trending chart; sorting by view count within an upload window (`order`, `published`) is the closest equivalent, for a query rather than platform-wide.
+      parameters:
+      - schema:
+          type: string
+          minLength: 1
+          description: Search query
+          example: mrbeast
+        required: true
+        description: Search query
+        name: query
+        in: query
+      - schema:
+          type: string
+          enum:
+          - relevance
+          - rating
+          - newest
+          - views
+          description: 'Sort order: relevance (default), rating, newest, or views'
+          example: views
+        required: false
+        description: 'Sort order: relevance (default), rating, newest, or views'
+        name: order
+        in: query
+      - schema:
+          type: string
+          enum:
+          - hour
+          - today
+          - week
+          - month
+          - year
+          description: Restrict results to videos uploaded within this window
+          example: week
+        required: false
+        description: Restrict results to videos uploaded within this window
+        name: published
+        in: query
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns the search results
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/youtube/search?query=mrbeast
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: null
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: <token>
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/youtube/search?query=mrbeast&cursor=<token>
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/YoutubeSearchResult'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+  /v1/youtube/search/typeahead:
+    get:
+      operationId: youtubeGetSearchTypeahead
+      tags:
+      - Youtube
+      summary: Get search suggestions
+      description: Returns YouTube's search-box autocomplete suggestions for a partial query. Not paginated.
+      parameters:
+      - schema:
+          type: string
+          minLength: 1
+          description: Partial query to complete, as typed into the search box
+          example: mrbe
+        required: true
+        description: Partial query to complete, as typed into the search box
+        name: query
+        in: query
+      responses:
+        '200':
+          description: Returns the search suggestions
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        enum:
+                        - Collection
+                        example: Collection
+                      totalItems:
+                        type: integer
+                        description: Number of suggestions returned
+                        example: 3
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - Link
+                              example: Link
+                            name:
+                              type: string
+                              description: The suggested search query
+                              example: mrbeast
+                            href:
+                              type: string
+                              format: uri
+                              description: YouTube's search results page for this query
+                              example: https://www.youtube.com/results?search_query=mrbeast
+                          required:
+                          - type
+                          - name
+                          - href
+                        description: Suggested search queries, most relevant first
+                    required:
+                    - '@context'
+                    - type
+                    - totalItems
+                    - items
+                required:
+                - data
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/CreditsExhaustedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLargeError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '502':
+          $ref: '#/components/responses/PlatformError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+        '504':
+          $ref: '#/components/responses/PlatformTimeoutError'
+components:
+  schemas:
+    NotFoundError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                enum:
+                - not_found
+                - route_not_found
+                description: Machine-readable error code
+              message:
+                type: string
+                example: Not found
+                description: Human-readable error message
+            required:
+            - code
+            - message
+          description: List of errors
+        data:
+          type: 'null'
+          description: Always null for error responses
+      required:
+      - errors
+      - data
+    ValidationError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                enum:
+                - validation_error
+                description: Machine-readable error code
+              message:
+                type: string
+                example: Validation error
+                description: Human-readable error message
+            required:
+            - code
+            - message
+          description: List of errors
+        data:
+          type: 'null'
+          description: Always null for error responses
+      required:
+      - errors
+      - data
+    PlatformError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                enum:
+                - platform_error
+                description: Machine-readable error code
+              message:
+                type: string
+                example: Platform error
+                description: Human-readable error message
+            required:
+            - code
+            - message
+          description: List of errors
+        data:
+          type: 'null'
+          description: Always null for error responses
+      required:
+      - errors
+      - data
+    YoutubeImage:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Image
+        url:
+          type: string
+          format: uri
+          description: Image URL
+          example: https://i.ytimg.com/vi/plN7JMbadRg/hqdefault.jpg?sqp=-oaymwEmCKgBEF5IWvKriqkDGQgBFQAAiEIYAdgBAeIBCggYEAIYBjgBQAE=&rs=AOn4CLCiT6Vj47A7NogeJusgz-_sjWhu7A
+        width:
+          type: integer
+          example: 168
+          description: Width in pixels
+        height:
+          type: integer
+          example: 94
+          description: Height in pixels
+      required:
+      - type
+      - url
+      description: Channel avatar
+    PlatformTimeoutError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                enum:
+                - platform_error
+                description: Machine-readable error code
+              message:
+                type: string
+                example: Platform error
+                description: Human-readable error message
+            required:
+            - code
+            - message
+          description: List of errors
+        data:
+          type: 'null'
+          description: Always null for error responses
+      required:
+      - errors
+      - data
+    YoutubeChannelPlaylistItem:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Collection
+          example: Collection
+        id:
+          type: string
+          format: uri
+          description: Playlist URL
+          example: https://www.youtube.com/playlist?list=UUX6OQ3DkcsbYNE6H8uQQuVA
+        url:
+          type: string
+          format: uri
+          description: Playlist URL
+          example: https://www.youtube.com/playlist?list=UUX6OQ3DkcsbYNE6H8uQQuVA
+        entityId:
+          type: string
+          description: YouTube playlist ID
+          example: UUX6OQ3DkcsbYNE6H8uQQuVA
+        name:
+          type: string
+          example: Uploads from MrBeast
+          description: Playlist title
+        itemCount:
+          type: integer
+          example: 999
+          description: Number of videos in the playlist
+        image:
+          type: array
+          items:
+            $ref: '#/components/schemas/YoutubeImage'
+          description: Thumbnail images
+      required:
+      - type
+      - id
+      - url
+      - entityId
+    PayloadTooLargeError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                enum:
+                - validation_error
+                description: Machine-readable error code
+              message:
+                type: string
+                example: Request body too large
+                description: Human-readable error message
+            required:
+            - code
+            - message
+          description: List of errors
+        data:
+          type: 'null'
+          description: Always null for error responses
+      required:
+      - errors
+      - data
+    YoutubeCommunityPost:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Note
+          example: Note
+        id:
+          type: string
+          format: uri
+          description: Community post URL
+          example: https://www.youtube.com/post/UgkxZusu9I1Z-VuU5PGZNA2gclHi8V9CJVZk
+        url:
+          type: string
+          format: uri
+          description: Community post URL
+          example: https://www.youtube.com/post/UgkxZusu9I1Z-VuU5PGZNA2gclHi8V9CJVZk
+        entityId:
+          type: string
+          description: YouTube post ID
+          example: UgkxZusu9I1Z-VuU5PGZNA2gclHi8V9CJVZk
+        content:
+          type: string
+          description: Post text
+          example: Would you rather stop aging for 100 years or receive 1 billion dollars right now?
+        likeCount:
+          type: integer
+          example: 107000
+          description: Like count, rounded to what YouTube displays (9.6M becomes 9600000)
+        replyCount:
+          type: integer
+          description: Comment count, rounded to what YouTube displays (5.3K becomes 5300)
+          example: 5300
+        attributedTo:
+          type: object
+          properties:
+            type:
+              type: string
+              description: ActivityStreams object type
+              example: Person
+            id:
+              type: string
+              format: uri
+              description: Profile URL
+              example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+            url:
+              type: string
+              format: uri
+              description: Profile URL
+              example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+            entityId:
+              type: string
+              example: UCX6OQ3DkcsbYNE6H8uQQuVA
+              description: Platform-specific entity ID
+            name:
+              type: string
+              example: MrBeast
+              description: Display name
+            icon:
+              $ref: '#/components/schemas/YoutubeImage'
+          required:
+          - type
+          - id
+          - url
+          description: Channel that made the post
+        image:
+          type: array
+          items:
+            $ref: '#/components/schemas/YoutubeImage'
+          description: Attached images
+        attachment:
+          type: array
+          items:
+            anyOf:
+            - type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - Question
+                  example: Question
+                oneOf:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                        - Note
+                        example: Note
+                      name:
+                        type: string
+                        description: Choice text
+                        example: 100 Years Of No Aging
+                      isCorrect:
+                        type: boolean
+                        example: true
+                        description: Present on a quiz choice only, absent on a plain poll
+                      summary:
+                        type: string
+                        example: Shown once you answer.
+                        description: Explanation for this choice — quizzes only, when YouTube supplies one
+                    required:
+                    - type
+                    - name
+                  minItems: 2
+                  description: Poll or quiz choices
+                voterCount:
+                  type: integer
+                  example: 1800000
+                  description: Approximate number of respondents
+              required:
+              - type
+              - oneOf
+            - type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - Video
+                id:
+                  type: string
+                  format: uri
+                url:
+                  type: string
+                  format: uri
+                entityId:
+                  type: string
+                  description: YouTube video ID
+                name:
+                  type: string
+                  description: Video title
+                summary:
+                  type: string
+                  description: Short description excerpt
+                duration:
+                  type: number
+                  description: Duration in seconds
+                viewCount:
+                  type: integer
+                  description: Exact number of views
+                isVerified:
+                  type: boolean
+                  description: Whether the video's channel has a verification badge
+              required:
+              - type
+              - id
+              - url
+              - entityId
+          description: A poll/quiz or a shared video attached to the post, if any
+      required:
+      - type
+      - id
+      - url
+      - entityId
+      - content
+    YoutubeSearchResult:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Video
+          example: Video
+        id:
+          type: string
+          format: uri
+          description: Video URL
+          example: https://www.youtube.com/watch?v=plN7JMbadRg
+        url:
+          type: string
+          format: uri
+          description: Video URL
+          example: https://www.youtube.com/watch?v=plN7JMbadRg
+        entityId:
+          type: string
+          description: YouTube video ID
+          example: plN7JMbadRg
+        name:
+          type: string
+          example: Eat Everything In A Grocery Store, Win $1,000,000
+          description: Video title
+        content:
+          type: string
+          example: 'I trapped 4 strangers in an entire supermarket and the only way out is eating everything inside
+
+
+            The guys wore Fitbit Air to track their health and fitness throughout their entire time in the store. See what they achieved during the Google Health Awards. GooglePartner
+
+            Google…'
+          description: Full video description
+        summary:
+          type: string
+          example: I trapped 4 strangers in an entire supermarket and the only way out is eating everything inside
+          description: A short excerpt of the description, as YouTube highlights it in search results
+        duration:
+          type: number
+          example: 3479
+          description: Duration in seconds
+        viewCount:
+          type: integer
+          example: 275722212
+          description: Exact number of views.
+        tag:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: ActivityStreams object type
+                example: Tag
+              name:
+                type: string
+                description: Tag name
+                example: New
+            required:
+            - type
+            - name
+          description: Badges YouTube shows on the result ("4K", "New")
+        attributedTo:
+          type: object
+          properties:
+            type:
+              type: string
+              description: ActivityStreams object type
+              example: Person
+            id:
+              type: string
+              format: uri
+              description: Profile URL
+              example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+            url:
+              type: string
+              format: uri
+              description: Profile URL
+              example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+            entityId:
+              type: string
+              example: UCX6OQ3DkcsbYNE6H8uQQuVA
+              description: Platform-specific entity ID
+            name:
+              type: string
+              example: MrBeast
+              description: Display name
+            isVerified:
+              type: boolean
+              example: true
+              description: Whether the channel has a YouTube verification badge
+          required:
+          - type
+          - id
+          - url
+          description: Channel that uploaded the video
+        image:
+          type: array
+          items:
+            $ref: '#/components/schemas/YoutubeImage'
+          description: Thumbnail images
+      required:
+      - type
+      - id
+      - url
+      - entityId
+    YoutubeDownloadRendition:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Video
+          - Audio
+          description: '"Audio" for an audio-only rendition, "Video" for anything else'
+          example: Video
+        entityId:
+          type: string
+          description: YouTube itag — the rendition ID
+          example: '18'
+        url:
+          type: string
+          format: uri
+          description: Downloadable file URL for this rendition. Works with a plain GET request — no cookies, auth headers, or special HTTP client required.
+          example: https://rr2---sn-uxax4vopj5xn-h5ql.googlevideo.com/videoplayback
+        mediaType:
+          type: string
+          description: MIME type, including codecs
+          example: video/mp4; codecs="avc1.42001E, mp4a.40.2"
+        name:
+          type: string
+          example: 360p
+          description: Resolution label
+        width:
+          type: integer
+          example: 640
+        height:
+          type: integer
+          example: 360
+        fps:
+          type: integer
+          example: 30
+        bitrate:
+          type: integer
+          example: 586287
+          description: Bits per second
+        size:
+          type: integer
+          example: 254935281
+          description: File size in bytes
+        duration:
+          type: number
+          example: 3479
+          description: Duration in seconds
+        audioChannels:
+          type: integer
+          example: 2
+          description: Present only on a rendition that carries audio
+        audioSampleRate:
+          type: integer
+          example: 44100
+          description: Hz. Present only on a rendition that carries audio
+      required:
+      - type
+      - entityId
+      - url
+      - mediaType
+    YoutubeComment:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Note
+          example: Note
+        id:
+          type: string
+          format: uri
+          description: Comment permalink
+          example: https://www.youtube.com/watch?v=plN7JMbadRg&lc=UgwNO2zsb4fIY1MaeAN4AaABAg
+        entityId:
+          type: string
+          description: YouTube comment ID
+          example: UgwNO2zsb4fIY1MaeAN4AaABAg
+        content:
+          type: string
+          description: Comment text
+          example: could you eat an entire grocery store for $1,000,000?
+        likeCount:
+          type: integer
+          description: Like count, rounded to what YouTube displays (9.6M becomes 9600000)
+          example: 123000
+        isPinned:
+          type: boolean
+          example: true
+          description: Present and `true` on the comment the creator pinned
+        isLiked:
+          type: boolean
+          example: false
+          description: Whether the video's creator hearted the comment
+        replyCount:
+          type: integer
+          example: 967
+          description: Number of replies, rounded to what YouTube displays (1.2K becomes 1200)
+        attributedTo:
+          type: object
+          properties:
+            type:
+              type: string
+              description: ActivityStreams object type
+              example: Person
+            id:
+              type: string
+              format: uri
+              description: Profile URL
+              example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+            url:
+              type: string
+              format: uri
+              description: Profile URL
+              example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+            entityId:
+              type: string
+              example: UCX6OQ3DkcsbYNE6H8uQQuVA
+              description: Platform-specific entity ID
+            preferredUsername:
+              type: string
+              example: '@MrBeast'
+              description: Username or handle
+            icon:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: ActivityStreams object type
+                  example: Image
+                url:
+                  type: string
+                  format: uri
+                  description: Image URL
+                  example: https://yt3.ggpht.com/nxYrc_1_2f77DoBadyxMTmv7ZpRZapHR5jbuYe7PlPd5cIRJxtNNEYyOC0ZsxaDyJJzXrnJiuDE=s88-c-k-c0x00ffffff-no-rj
+              required:
+              - type
+              - url
+              description: Profile picture
+            isVerified:
+              type: boolean
+              example: true
+              description: Whether the channel has a YouTube verification badge
+            role:
+              type: string
+              enum:
+              - creator
+              - artist
+              example: creator
+              description: 'The commenter''s relationship to the video: "creator" if they made it, "artist" if they''re the credited musician. Absent for an ordinary commenter.'
+          required:
+          - type
+          - id
+          - url
+          description: Channel that wrote the comment
+        inReplyTo:
+          type: string
+          format: uri
+          description: URL of the video (top-level comment) or parent comment (reply) this responds to
+          example: https://www.youtube.com/watch?v=plN7JMbadRg
+      required:
+      - type
+      - id
+      - entityId
+      - content
+      - likeCount
+      - inReplyTo
+    YoutubeChannelShortItem:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Video
+          example: Video
+        id:
+          type: string
+          format: uri
+          description: Short URL
+          example: https://www.youtube.com/shorts/Y8IJi7iP5vk
+        url:
+          type: string
+          format: uri
+          description: Short URL
+          example: https://www.youtube.com/shorts/Y8IJi7iP5vk
+        entityId:
+          type: string
+          description: YouTube video ID
+          example: Y8IJi7iP5vk
+        name:
+          type: string
+          example: Last To Fall Wins
+          description: Short title
+        viewCount:
+          type: integer
+          example: 31970400
+          description: View count. Exact for a channel's 15 most recent uploads and a playlist's first 15 videos; rounded to what YouTube displays on the rest (9.6M becomes 9600000)
+        likeCount:
+          type: integer
+          example: 374867
+          description: Like count. Only on a channel's 15 most recent uploads and a playlist's first 15 videos
+        published:
+          type: string
+          format: date-time
+          example: '2026-10-16T16:00:02.000Z'
+          description: When the video was published. Only on a channel's 15 most recent uploads and a playlist's first 15 videos
+        image:
+          type: array
+          items:
+            $ref: '#/components/schemas/YoutubeImage'
+          description: Thumbnail images
+      required:
+      - type
+      - id
+      - url
+      - entityId
+    YoutubeCaptionTrack:
+      type: object
+      properties:
+        languageCode:
+          type: string
+          description: BCP-47 language code of the caption track
+          example: en
+        name:
+          type: string
+          example: English
+          description: Human-readable name of the caption track
+        isAutoGenerated:
+          type: boolean
+          description: Whether the track was auto-generated rather than uploaded
+          example: false
+      required:
+      - languageCode
+      - isAutoGenerated
+    ServiceUnavailableError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                enum:
+                - service_unavailable
+                description: Machine-readable error code
+              message:
+                type: string
+                example: Service unavailable
+                description: Human-readable error message
+            required:
+            - code
+            - message
+          description: List of errors
+        data:
+          type: 'null'
+          description: Always null for error responses
+      required:
+      - errors
+      - data
+    InternalError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                enum:
+                - internal_error
+                description: Machine-readable error code
+              message:
+                type: string
+                example: Internal error
+                description: Human-readable error message
+            required:
+            - code
+            - message
+          description: List of errors
+        data:
+          type: 'null'
+          description: Always null for error responses
+      required:
+      - errors
+      - data
+    CreditsExhaustedError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                enum:
+                - credits_exhausted
+                description: Machine-readable error code
+              message:
+                type: string
+                example: Credits exhausted. Upgrade your plan at konbiniapi.com
+                description: Human-readable error message
+            required:
+            - code
+            - message
+          description: List of errors
+        data:
+          type: 'null'
+          description: Always null for error responses
+      required:
+      - errors
+      - data
+    YoutubeChannelVideoItem:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Video
+          example: Video
+        id:
+          type: string
+          format: uri
+          description: Video URL
+          example: https://www.youtube.com/watch?v=RE3_PGwDwhw
+        url:
+          type: string
+          format: uri
+          description: Video URL
+          example: https://www.youtube.com/watch?v=RE3_PGwDwhw
+        entityId:
+          type: string
+          description: YouTube video ID
+          example: RE3_PGwDwhw
+        name:
+          type: string
+          example: Lose 150 Lbs Together, Win $250,000
+          description: Video title
+        viewCount:
+          type: integer
+          example: 63898701
+          description: View count. Exact for a channel's 15 most recent uploads and a playlist's first 15 videos; rounded to what YouTube displays on the rest (9.6M becomes 9600000)
+        likeCount:
+          type: integer
+          example: 1157237
+          description: Like count. Only on a channel's 15 most recent uploads and a playlist's first 15 videos
+        published:
+          type: string
+          format: date-time
+          example: '2026-10-17T16:00:18.000Z'
+          description: When the video was published. Only on a channel's 15 most recent uploads and a playlist's first 15 videos
+        duration:
+          type: number
+          example: 2597
+          description: Duration in seconds
+        isLive:
+          type: boolean
+          example: false
+          description: Whether this is streaming right now
+        image:
+          type: array
+          items:
+            $ref: '#/components/schemas/YoutubeImage'
+          description: Thumbnail images
+      required:
+      - type
+      - id
+      - url
+      - entityId
+    YoutubePlaylistItem:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Video
+          example: Video
+        id:
+          type: string
+          format: uri
+          description: Video URL
+          example: https://www.youtube.com/watch?v=RE3_PGwDwhw
+        url:
+          type: string
+          format: uri
+          description: Video URL
+          example: https://www.youtube.com/watch?v=RE3_PGwDwhw
+        entityId:
+          type: string
+          description: YouTube video ID
+          example: RE3_PGwDwhw
+        name:
+          type: string
+          example: Lose 150 Lbs Together, Win $250,000
+          description: Video title
+        viewCount:
+          type: integer
+          example: 64316630
+          description: View count. Exact for a channel's 15 most recent uploads and a playlist's first 15 videos; rounded to what YouTube displays on the rest (9.6M becomes 9600000)
+        likeCount:
+          type: integer
+          example: 1161725
+          description: Like count. Only on a channel's 15 most recent uploads and a playlist's first 15 videos
+        published:
+          type: string
+          format: date-time
+          example: '2026-10-17T16:00:18.000Z'
+          description: When the video was published. Only on a channel's 15 most recent uploads and a playlist's first 15 videos
+        duration:
+          type: number
+          example: 2597
+          description: Duration in seconds
+        isLive:
+          type: boolean
+          example: false
+          description: Whether this is streaming right now
+        image:
+          type: array
+          items:
+            $ref: '#/components/schemas/YoutubeImage'
+          description: Thumbnail images
+        attributedTo:
+          type: object
+          properties:
+            type:
+              type: string
+              description: ActivityStreams object type
+              example: Person
+            id:
+              type: string
+              format: uri
+              description: Profile URL
+              example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+            url:
+              type: string
+              format: uri
+              description: Profile URL
+              example: https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA
+            entityId:
+              type: string
+              example: UCX6OQ3DkcsbYNE6H8uQQuVA
+              description: Platform-specific entity ID
+            name:
+              type: string
+              example: MrBeast
+              description: Display name
+          required:
+          - type
+          - id
+          - url
+          description: Channel that uploaded the video; a playlist can mix channels
+      required:
+      - type
+      - id
+      - url
+      - entityId
+    UnauthorizedError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                enum:
+                - missing_api_key
+                - invalid_api_key
+                description: Machine-readable error code
+              message:
+                type: string
+                example: Invalid API key
+                description: Human-readable error message
+            required:
+            - code
+            - message
+          description: List of errors
+        data:
+          type: 'null'
+          description: Always null for error responses
+      required:
+      - errors
+      - data
+    ForbiddenError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                enum:
+                - api_key_disabled
+                - api_key_expired
+                description: Machine-readable error code
+              message:
+                type: string
+                example: API key is disabled
+                description: Human-readable error message
+            required:
+            - code
+            - message
+          description: List of errors
+        data:
+          type: 'null'
+          description: Always null for error responses
+      required:
+      - errors
+      - data
+  responses:
+    ForbiddenError:
+      description: Forbidden — API key disabled or expired
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ForbiddenError'
+    CreditsExhaustedError:
+      description: Payment Required — Credits exhausted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreditsExhaustedError'
+    UnauthorizedError:
+      description: Unauthorized — Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnauthorizedError'
+    NotFoundError:
+      description: Not Found
+      headers:
+        X-Credits-Remaining:
+          schema:
+            type: integer
+          description: Credits remaining after this request
+        X-Credits-Used:
+          schema:
+            type: integer
+          description: Credits consumed (1 if charged, 0 if refunded on error)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundError'
+    ValidationError:
+      description: Bad Request — Invalid parameters
+      headers:
+        X-Credits-Remaining:
+          schema:
+            type: integer
+          description: Credits remaining after this request
+        X-Credits-Used:
+          schema:
+            type: integer
+          description: Credits consumed (1 if charged, 0 if refunded on error)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+    PlatformTimeoutError:
+      description: Gateway Timeout — Upstream platform timed out
+      headers:
+        X-Credits-Remaining:
+          schema:
+            type: integer
+          description: Credits remaining after this request
+        X-Credits-Used:
+          schema:
+            type: integer
+          description: Credits consumed (1 if charged, 0 if refunded on error)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PlatformTimeoutError'
+    PayloadTooLargeError:
+      description: Content Too Large — Request body exceeds 1 MB
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PayloadTooLargeError'
+    ServiceUnavailableError:
+      description: Service Unavailable
+      headers:
+        X-Credits-Remaining:
+          schema:
+            type: integer
+          description: Credits remaining after this request
+        X-Credits-Used:
+          schema:
+            type: integer
+          description: Credits consumed (1 if charged, 0 if refunded on error)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ServiceUnavailableError'
+    InternalError:
+      description: Internal Server Error
+      headers:
+        X-Credits-Remaining:
+          schema:
+            type: integer
+          description: Credits remaining after this request
+        X-Credits-Used:
+          schema:
+            type: integer
+          description: Credits consumed (1 if charged, 0 if refunded on error)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalError'
+    PlatformError:
+      description: Bad Gateway — Upstream platform error
+      headers:
+        X-Credits-Remaining:
+          schema:
+            type: integer
+          description: Credits remaining after this request
+        X-Credits-Used:
+          schema:
+            type: integer
+          description: Credits consumed (1 if charged, 0 if refunded on error)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PlatformError'
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: bearer
+      description: 'Send your API key in the Authorization header as a Bearer token.
+
+        Example: `Authorization: Bearer <your-api-key>`'

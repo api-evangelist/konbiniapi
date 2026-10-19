@@ -212,14 +212,28 @@ apis:
     url: https://docs.konbiniapi.com/reference/mcp/tools/overview
   - type: X-mcp
     url: https://mcp.konbiniapi.com
+- aid: konbiniapi:konbiniapi-youtube-api
+  name: KonbiniAPI YouTube API
+  description: YouTube data endpoints
+  humanURL: https://docs.konbiniapi.com/reference/api/instagram
+  baseURL: https://api.konbiniapi.com/v1
+  tags:
+  - YouTube
+  properties:
+  - type: OpenAPI
+    url: openapi/konbiniapi-youtube-api-openapi.yml
+  - type: Documentation
+    url: https://docs.konbiniapi.com/reference/api/linkedin
+  - type: APIReference
+    url: https://docs.konbiniapi.com/reference/api/linkedin
+  - type: PostmanWorkspace
+    url: https://www.postman.com/konbiniapi
 - aid: konbiniapi:konbiniapi-linked-in-api
   name: KonbiniAPI Linked In API
   description: LinkedIn data endpoints
   humanURL: https://docs.konbiniapi.com/reference/api/instagram
   baseURL: https://api.konbiniapi.com/v1
   tags:
-  - LinkedIn
-  tags_raw:
   - Linked In
   properties:
   - type: OpenAPI

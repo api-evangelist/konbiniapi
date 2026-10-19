@@ -1,0 +1,3994 @@
+openapi: 3.2.0
+info:
+  title: Konbini X API
+  version: 1.0.0
+  description: 'Social media API that normalizes Instagram, TikTok, X, Reddit, and LinkedIn data into a consistent ActivityStreams 2.0 format.
+
+
+    Every authenticated response includes `X-Credits-Remaining` and `X-Credits-Used` headers. Each successful request costs 1 credit. Requests that fail with 400, 5xx, or upstream errors are refunded (X-Credits-Used: 0).'
+  contact:
+    name: KonbiniAPI
+    email: hello@konbiniapi.com
+    url: https://konbiniapi.com
+servers:
+- url: https://api.konbiniapi.com
+  description: Production
+security:
+- apiKey: []
+tags:
+- name: X
+  description: X data endpoints
+paths:
+  /v1/x/users/{username}:
+    get:
+      operationId: xGetUser
+      tags:
+      - X
+      summary: Get user profile
+      description: Returns profile information for a public X account including bio, follower counts, verification flags, and profile images.
+      parameters:
+      - schema:
+          type: string
+          description: X username (with or without @ symbol)
+          example: Austen
+        required: true
+        description: X username (with or without @ symbol)
+        name: username
+        in: path
+      responses:
+        '200':
+          description: Returns the X user profile
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams object type
+                        example: Person
+                      id:
+                        type: string
+                        format: uri
+                        description: Profile URL
+                        example: https://x.com/KhabyLame
+                      url:
+                        type: string
+                        format: uri
+                        description: Profile URL
+                        example: https://x.com/KhabyLame
+                      entityId:
+                        type: string
+                        description: X user ID
+                        example: '1379925457689268227'
+                      name:
+                        type: string
+                        description: Display name
+                        example: Khaby lame
+                      preferredUsername:
+                        type: string
+                        description: Username or handle
+                        example: KhabyLame
+                      summary:
+                        type: string
+                        description: Bio text
+                        example: Let's Go
+                      attachment:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/XLink'
+                        description: Profile links
+                      published:
+                        type: string
+                        format: date-time
+                        description: Account creation date in ISO 8601 format
+                        example: '2010-12-01T19:13:23.000Z'
+                      isPrivate:
+                        type: boolean
+                        description: Whether account is protected
+                        example: false
+                      isVerified:
+                        type: boolean
+                        description: Whether account has legacy verification
+                        example: false
+                      isPaidVerified:
+                        type: boolean
+                        description: Whether account has X Premium verification
+                        example: true
+                      followerCount:
+                        type: integer
+                        description: Number of followers
+                        example: 372131
+                      followingCount:
+                        type: integer
+                        description: Number of accounts followed
+                        example: 8
+                      likeCount:
+                        type: integer
+                        description: Number of likes made by the user
+                        example: 60
+                      postCount:
+                        type: integer
+                        description: Number of public posts
+                        example: 267
+                      mediaCount:
+                        type: integer
+                        description: Number of media posts
+                        example: 242
+                      listedCount:
+                        type: integer
+                        description: Number of public X Lists the account appears in
+                        example: 215
+                      location:
+                        type: string
+                        description: User location
+                        example: Chivasso, Italy
+                      icon:
+                        $ref: '#/components/schemas/XImage'
+                      image:
+                        type: array
+                        items:
+                          allOf:
+                          - $ref: '#/components/schemas/XImage'
+                          - description: Image resource with optional dimensions
+                        description: Banner image and other non-avatar profile images
+                    required:
+                    - '@context'
+                    - type
+                    - id
+                    - url
+                    - entityId
+                    - name
+                    - preferredUsername
+                    - isPrivate
+                    - isVerified
+                    - isPaidVerified
+                    - followerCount
+                    - followingCount
+                    - likeCount
+                    - postCount
+                    - mediaCount
+                required:
+                - data
+        '400':
+          description: Bad Request — Invalid parameters
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Validation error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '401':
+          description: Unauthorized — Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - missing_api_key
+                          - invalid_api_key
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Invalid API key
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '402':
+          description: Payment Required — Credits exhausted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - credits_exhausted
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Credits exhausted. Upgrade your plan at konbiniapi.com
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '403':
+          description: Forbidden — API key disabled or expired
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - api_key_disabled
+                          - api_key_expired
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: API key is disabled
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '404':
+          description: Not Found
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - not_found
+                          - route_not_found
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Not found
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '413':
+          description: Content Too Large — Request body exceeds 1 MB
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Request body too large
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '500':
+          description: Internal Server Error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - internal_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Internal error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '502':
+          description: Bad Gateway — Upstream platform error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '503':
+          description: Service Unavailable
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - service_unavailable
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Service unavailable
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '504':
+          description: Gateway Timeout — Upstream platform timed out
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+  /v1/x/users/{username}/posts:
+    get:
+      operationId: xGetUserPosts
+      tags:
+      - X
+      summary: Get user posts
+      description: 'Returns public posts from a user''s profile as visible to not logged in users. This feed is not guaranteed to be chronological and is often a ranked public selection. Pages may overlap: a pinned post is repeated on every page, so deduplicate by id when paging.'
+      parameters:
+      - schema:
+          type: string
+          description: X username (with or without @ symbol)
+          example: Austen
+        required: true
+        description: X username (with or without @ symbol)
+        name: username
+        in: path
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns public posts from an X user profile
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/x/users/KhabyLame/posts
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: null
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: DAABCgABHOkX2xF__-8LAAIAAAATMj
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/x/users/KhabyLame/posts?cursor=DAABCgABHOkX2xF__-8LAAIAAAATMj
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/XPost'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          description: Bad Request — Invalid parameters
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Validation error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '401':
+          description: Unauthorized — Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - missing_api_key
+                          - invalid_api_key
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Invalid API key
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '402':
+          description: Payment Required — Credits exhausted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - credits_exhausted
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Credits exhausted. Upgrade your plan at konbiniapi.com
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '403':
+          description: Forbidden — API key disabled or expired
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - api_key_disabled
+                          - api_key_expired
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: API key is disabled
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '404':
+          description: Not Found
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - not_found
+                          - route_not_found
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Not found
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '413':
+          description: Content Too Large — Request body exceeds 1 MB
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Request body too large
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '500':
+          description: Internal Server Error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - internal_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Internal error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '502':
+          description: Bad Gateway — Upstream platform error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '503':
+          description: Service Unavailable
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - service_unavailable
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Service unavailable
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '504':
+          description: Gateway Timeout — Upstream platform timed out
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+  /v1/x/users/{username}/highlights:
+    get:
+      operationId: xGetUserHighlights
+      tags:
+      - X
+      summary: Get user highlights
+      description: 'Returns the public Highlights tab selection as visible to not logged in users. This feed is not guaranteed to be chronological. Pages may overlap: a pinned post is repeated on every page, so deduplicate by id when paging.'
+      parameters:
+      - schema:
+          type: string
+          description: X username (with or without @ symbol)
+          example: Austen
+        required: true
+        description: X username (with or without @ symbol)
+        name: username
+        in: path
+      - schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 40
+          description: 'Number of highlighted posts to return per page (maximum: 100)'
+          example: 40
+        required: false
+        description: 'Number of highlighted posts to return per page (maximum: 100)'
+        name: count
+        in: query
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns the public Highlights tab selection from an X user's profile
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/x/users/KhabyLame/highlights
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: null
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: DAABCgABHOkX2xF__-8LAAIAAAATMj
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/x/users/KhabyLame/highlights?cursor=DAABCgABHOkX2xF__-8LAAIAAAATMj&count=40
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/XPost'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          description: Bad Request — Invalid parameters
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Validation error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '401':
+          description: Unauthorized — Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - missing_api_key
+                          - invalid_api_key
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Invalid API key
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '402':
+          description: Payment Required — Credits exhausted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - credits_exhausted
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Credits exhausted. Upgrade your plan at konbiniapi.com
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '403':
+          description: Forbidden — API key disabled or expired
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - api_key_disabled
+                          - api_key_expired
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: API key is disabled
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '404':
+          description: Not Found
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - not_found
+                          - route_not_found
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Not found
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '413':
+          description: Content Too Large — Request body exceeds 1 MB
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Request body too large
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '500':
+          description: Internal Server Error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - internal_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Internal error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '502':
+          description: Bad Gateway — Upstream platform error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '503':
+          description: Service Unavailable
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - service_unavailable
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Service unavailable
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '504':
+          description: Gateway Timeout — Upstream platform timed out
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+  /v1/x/posts/{postId}:
+    get:
+      operationId: xGetPost
+      tags:
+      - X
+      summary: Get post
+      description: Returns a public X post including text, author, engagement counts, and media attachments.
+      parameters:
+      - schema:
+          type: string
+          description: X post ID
+          example: '1935730646267158797'
+        required: true
+        description: X post ID
+        name: postId
+        in: path
+      responses:
+        '200':
+          description: Returns the X post
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams object type
+                        example: Note
+                      id:
+                        type: string
+                        format: uri
+                        description: Post permalink
+                        example: https://x.com/KhabyLame/status/2024515585569083437
+                      url:
+                        type: string
+                        format: uri
+                        description: Post permalink
+                        example: https://x.com/KhabyLame/status/2024515585569083437
+                      entityId:
+                        type: string
+                        description: X post ID
+                        example: '2024515585569083437'
+                      content:
+                        type: string
+                        description: Comment text
+                        example: This man hasn't been in my fyp for so long
+                      published:
+                        type: string
+                        format: date-time
+                        description: Publication date in ISO 8601 format
+                        example: '2026-02-27T20:37:38.000Z'
+                      likeCount:
+                        type: integer
+                        description: Number of likes
+                        example: 93210
+                      replyCount:
+                        type: integer
+                        description: Number of replies
+                        example: 96
+                      viewCount:
+                        type: integer
+                        description: Number of views
+                        example: 10195
+                      repostCount:
+                        type: integer
+                        description: Number of reposts/retweets
+                        example: 3
+                      quoteCount:
+                        type: integer
+                        description: Number of quote posts
+                        example: 0
+                      saveCount:
+                        type: integer
+                        description: Number of saves/bookmarks
+                        example: 3
+                      contentFormat:
+                        type: string
+                        description: Content format (`post` for regular posts, `longform` for longer posts)
+                        example: longform
+                      isEdited:
+                        type: boolean
+                        description: Whether the post has been edited
+                        example: false
+                      attributedTo:
+                        $ref: '#/components/schemas/XEmbeddedUser'
+                      inReplyTo:
+                        type: string
+                        format: uri
+                        description: URL of parent content
+                        example: https://x.com/NISMO/status/2024100000000000000
+                      quote:
+                        $ref: '#/components/schemas/XQuotedPost'
+                      image:
+                        type: array
+                        items:
+                          allOf:
+                          - $ref: '#/components/schemas/XImage'
+                          - description: Image resource with optional dimensions
+                        description: Primary images and thumbnails
+                      attachment:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/XPostAttachment'
+                        description: Media, poll, and preview attachments
+                      tag:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/XTag'
+                        description: Hashtags and mentions
+                    required:
+                    - '@context'
+                    - type
+                    - id
+                    - url
+                    - entityId
+                    - content
+                    - likeCount
+                required:
+                - data
+        '400':
+          description: Bad Request — Invalid parameters
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Validation error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '401':
+          description: Unauthorized — Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - missing_api_key
+                          - invalid_api_key
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Invalid API key
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '402':
+          description: Payment Required — Credits exhausted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - credits_exhausted
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Credits exhausted. Upgrade your plan at konbiniapi.com
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '403':
+          description: Forbidden — API key disabled or expired
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - api_key_disabled
+                          - api_key_expired
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: API key is disabled
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '404':
+          description: Not Found
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - not_found
+                          - route_not_found
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Not found
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '413':
+          description: Content Too Large — Request body exceeds 1 MB
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Request body too large
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '500':
+          description: Internal Server Error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - internal_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Internal error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '502':
+          description: Bad Gateway — Upstream platform error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '503':
+          description: Service Unavailable
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - service_unavailable
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Service unavailable
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '504':
+          description: Gateway Timeout — Upstream platform timed out
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+  /v1/x/communities/{communityId}:
+    get:
+      operationId: xGetCommunity
+      tags:
+      - X
+      summary: Get community
+      description: Returns public metadata for an X community, including description, member count, topic, creator, and banner image.
+      parameters:
+      - schema:
+          type: string
+          description: X community ID
+          example: '1669501013441806336'
+        required: true
+        description: X community ID
+        name: communityId
+        in: path
+      responses:
+        '200':
+          description: Returns the X community detail
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams object type
+                        example: Group
+                      id:
+                        type: string
+                        format: uri
+                        description: Community URL
+                        example: https://x.com/i/communities/1669501013441806336
+                      url:
+                        type: string
+                        format: uri
+                        description: Community URL
+                        example: https://x.com/i/communities/1669501013441806336
+                      entityId:
+                        type: string
+                        description: X community ID
+                        example: '1669501013441806336'
+                      name:
+                        type: string
+                        description: Community name
+                        example: Memes
+                      summary:
+                        type: string
+                        description: Community description
+                        example: Post the funniest memes you can find!
+                      published:
+                        type: string
+                        format: date-time
+                        description: Community creation date in ISO 8601 format
+                        example: '2023-06-16T00:23:54.093Z'
+                      memberCount:
+                        type: integer
+                        description: Number of community members
+                        example: 515319
+                      category:
+                        type: string
+                        description: Primary community topic
+                        example: Entertainment
+                      tag:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/XTag'
+                        description: Trending hashtags associated with the community
+                      rule:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/XCommunityRule'
+                        description: Community rules
+                      attributedTo:
+                        allOf:
+                        - $ref: '#/components/schemas/XEmbeddedUser'
+                        - description: Compact X profile for embedded contexts
+                        description: Community creator
+                      image:
+                        type: array
+                        items:
+                          allOf:
+                          - $ref: '#/components/schemas/XImage'
+                          - description: Image resource with optional dimensions
+                        description: Community banner images
+                    required:
+                    - '@context'
+                    - type
+                    - id
+                    - url
+                    - entityId
+                    - name
+                required:
+                - data
+        '400':
+          description: Bad Request — Invalid parameters
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Validation error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '401':
+          description: Unauthorized — Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - missing_api_key
+                          - invalid_api_key
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Invalid API key
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '402':
+          description: Payment Required — Credits exhausted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - credits_exhausted
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Credits exhausted. Upgrade your plan at konbiniapi.com
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '403':
+          description: Forbidden — API key disabled or expired
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - api_key_disabled
+                          - api_key_expired
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: API key is disabled
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '404':
+          description: Not Found
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - not_found
+                          - route_not_found
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Not found
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '413':
+          description: Content Too Large — Request body exceeds 1 MB
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Request body too large
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '500':
+          description: Internal Server Error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - internal_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Internal error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '502':
+          description: Bad Gateway — Upstream platform error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '503':
+          description: Service Unavailable
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - service_unavailable
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Service unavailable
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '504':
+          description: Gateway Timeout — Upstream platform timed out
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+  /v1/x/communities/{communityId}/posts:
+    get:
+      operationId: xGetCommunityPosts
+      tags:
+      - X
+      summary: Get community posts
+      description: Returns public posts from an X community timeline as visible to not logged in users.
+      parameters:
+      - schema:
+          type: string
+          description: X community ID
+          example: '1669501013441806336'
+        required: true
+        description: X community ID
+        name: communityId
+        in: path
+      - schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 40
+          description: 'Maximum number of posts to return from the community timeline (maximum: 100)'
+          example: 40
+        required: false
+        description: 'Maximum number of posts to return from the community timeline (maximum: 100)'
+        name: count
+        in: query
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns posts from an X community timeline
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/x/communities/1669501013441806336/posts
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: null
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: DAABCgABHOkX2xF__-8LAAIAAAATMj
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/x/communities/1669501013441806336/posts?cursor=DAABCgABHOkX2xF__-8LAAIAAAATMj&count=40
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/XPost'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          description: Bad Request — Invalid parameters
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Validation error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '401':
+          description: Unauthorized — Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - missing_api_key
+                          - invalid_api_key
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Invalid API key
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '402':
+          description: Payment Required — Credits exhausted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - credits_exhausted
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Credits exhausted. Upgrade your plan at konbiniapi.com
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '403':
+          description: Forbidden — API key disabled or expired
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - api_key_disabled
+                          - api_key_expired
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: API key is disabled
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '404':
+          description: Not Found
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - not_found
+                          - route_not_found
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Not found
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '413':
+          description: Content Too Large — Request body exceeds 1 MB
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Request body too large
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '500':
+          description: Internal Server Error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - internal_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Internal error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '502':
+          description: Bad Gateway — Upstream platform error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '503':
+          description: Service Unavailable
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - service_unavailable
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Service unavailable
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '504':
+          description: Gateway Timeout — Upstream platform timed out
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+  /v1/x/communities/{communityId}/media:
+    get:
+      operationId: xGetCommunityMedia
+      tags:
+      - X
+      summary: Get community media
+      description: Returns public posts from an X community's Media tab as visible to not logged in users.
+      parameters:
+      - schema:
+          type: string
+          description: X community ID
+          example: '1669501013441806336'
+        required: true
+        description: X community ID
+        name: communityId
+        in: path
+      - schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 40
+          description: 'Maximum number of media posts to return from the community media timeline (maximum: 100)'
+          example: 40
+        required: false
+        description: 'Maximum number of media posts to return from the community media timeline (maximum: 100)'
+        name: count
+        in: query
+      - schema:
+          type: string
+          description: Pagination cursor
+          example: '0'
+        required: false
+        description: Pagination cursor
+        name: cursor
+        in: query
+      responses:
+        '200':
+          description: Returns media posts from an X community timeline
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      '@context':
+                        type: array
+                        prefixItems:
+                        - type: string
+                          enum:
+                          - https://www.w3.org/ns/activitystreams#
+                        - type: string
+                          enum:
+                          - https://konbiniapi.com/ns/social#
+                        description: ActivityStreams JSON-LD context
+                        example:
+                        - https://www.w3.org/ns/activitystreams#
+                        - https://konbiniapi.com/ns/social#
+                      type:
+                        type: string
+                        description: ActivityStreams collection type
+                        example: OrderedCollectionPage
+                      partOf:
+                        type: string
+                        format: uri
+                        description: URL of the full collection
+                        example: https://api.konbiniapi.com/v1/x/communities/1669501013441806336/media
+                      totalItems:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of items, null if unknown
+                        example: null
+                      cursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Current page cursor, null on first page
+                        example: null
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Cursor for the next page, null on last page
+                        example: DAABCgABHOkX2xF__-8LAAIAAAATMj
+                      next:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                        description: URL for the next page, null on last page
+                        example: https://api.konbiniapi.com/v1/x/communities/1669501013441806336/media?cursor=DAABCgABHOkX2xF__-8LAAIAAAATMj&count=40
+                      itemCount:
+                        type: integer
+                        description: Number of items returned in this page
+                        example: 30
+                      orderedItems:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/XPost'
+                        description: Items in this page
+                    required:
+                    - '@context'
+                    - type
+                    - partOf
+                    - totalItems
+                    - cursor
+                    - nextCursor
+                    - next
+                    - itemCount
+                    - orderedItems
+                required:
+                - data
+        '400':
+          description: Bad Request — Invalid parameters
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Validation error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '401':
+          description: Unauthorized — Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - missing_api_key
+                          - invalid_api_key
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Invalid API key
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '402':
+          description: Payment Required — Credits exhausted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - credits_exhausted
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Credits exhausted. Upgrade your plan at konbiniapi.com
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '403':
+          description: Forbidden — API key disabled or expired
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - api_key_disabled
+                          - api_key_expired
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: API key is disabled
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '404':
+          description: Not Found
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - not_found
+                          - route_not_found
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Not found
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '413':
+          description: Content Too Large — Request body exceeds 1 MB
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - validation_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Request body too large
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '500':
+          description: Internal Server Error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - internal_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Internal error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '502':
+          description: Bad Gateway — Upstream platform error
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '503':
+          description: Service Unavailable
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - service_unavailable
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Service unavailable
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+        '504':
+          description: Gateway Timeout — Upstream platform timed out
+          headers:
+            X-Credits-Remaining:
+              schema:
+                type: integer
+              description: Credits remaining after this request
+            X-Credits-Used:
+              schema:
+                type: integer
+              description: Credits consumed (1 if charged, 0 if refunded on error)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          enum:
+                          - platform_error
+                          description: Machine-readable error code
+                        message:
+                          type: string
+                          example: Platform error
+                          description: Human-readable error message
+                      required:
+                      - code
+                      - message
+                    description: List of errors
+                  data:
+                    type: 'null'
+                    description: Always null for error responses
+                required:
+                - errors
+                - data
+components:
+  schemas:
+    XArticleAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Article
+        entityId:
+          type: string
+          description: X article ID
+          example: '1971521477247789275'
+        url:
+          type: string
+          format: uri
+          description: Article URL
+          example: https://www.formulae.com/en/latest/article/nissan-and-khaby-lame-share-the-track-in-jeddah.3xexample
+        name:
+          type: string
+          description: Article title
+          example: Nissan and Khaby Lame share the track in Jeddah
+        summary:
+          type: string
+          description: Article preview text
+          example: A quick recap from Formula E race week in Jeddah.
+        image:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/XImage'
+            - description: Image resource with optional dimensions
+          description: Article cover images
+      required:
+      - type
+      description: Article preview attachment
+    XPollOption:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Note
+        name:
+          type: string
+          description: Poll option label
+          example: Nissan Formula E car
+        voteCount:
+          type: integer
+          description: Number of votes for this option
+          example: 128
+      required:
+      - type
+      - name
+      description: Poll option
+    XAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Video
+        url:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Media download URLs
+          example:
+          - https://video.twimg.com/ext_tw_video/123/pu/vid/avc1/example.mp4
+        mediaType:
+          type: string
+          description: MIME type
+          example: video/mp4
+        width:
+          type: integer
+          description: Width in pixels
+          example: 1280
+        height:
+          type: integer
+          description: Height in pixels
+          example: 720
+        bitrate:
+          type: integer
+          description: Bitrate in bits per second
+          example: 950000
+        duration:
+          type: number
+          description: Duration in seconds
+          example: 16.266
+      required:
+      - type
+      - url
+      description: Post media attachment
+    XLink:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Link
+        href:
+          type: string
+          format: uri
+          description: Link URL
+          example: https://t.co/examplelink
+        rel:
+          type: string
+          description: Link relation hint
+          example: preferred
+      required:
+      - type
+      - href
+      description: External link
+    XQuotedPost:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Note
+        id:
+          type: string
+          format: uri
+          description: Quoted post permalink
+          example: https://x.com/NISMO/status/2024100000000000000
+        url:
+          type: string
+          format: uri
+          description: Quoted post permalink
+          example: https://x.com/NISMO/status/2024100000000000000
+        entityId:
+          type: string
+          description: Quoted X post ID
+          example: '2024100000000000000'
+        content:
+          type: string
+          description: Comment text
+          example: Ready for race week.
+        published:
+          type: string
+          format: date-time
+          description: Publication date in ISO 8601 format
+          example: '2026-02-18T12:00:00.000Z'
+        likeCount:
+          type: integer
+          description: Number of likes
+          example: 93210
+        replyCount:
+          type: integer
+          description: Number of replies
+          example: 96
+        contentFormat:
+          type: string
+          description: Content format (`post` for regular posts, `longform` for longer posts)
+          example: longform
+        attributedTo:
+          allOf:
+          - $ref: '#/components/schemas/XEmbeddedUser'
+          - description: Compact X profile for embedded contexts
+          description: Quoted post author
+        image:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/XImage'
+            - description: Image resource with optional dimensions
+          description: Primary images and thumbnails
+        attachment:
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/XAttachment'
+            - $ref: '#/components/schemas/XLinkAttachment'
+            - $ref: '#/components/schemas/XArticleAttachment'
+            - $ref: '#/components/schemas/XPollAttachment'
+          description: Quoted post attachments
+      required:
+      - type
+      - id
+      - url
+      - entityId
+      - content
+      - likeCount
+      description: Quoted post
+    XPost:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Note
+        id:
+          type: string
+          format: uri
+          description: Post permalink
+          example: https://x.com/KhabyLame/status/2024515585569083437
+        url:
+          type: string
+          format: uri
+          description: Post permalink
+          example: https://x.com/KhabyLame/status/2024515585569083437
+        entityId:
+          type: string
+          description: X post ID
+          example: '2024515585569083437'
+        content:
+          type: string
+          description: Comment text
+          example: This man hasn't been in my fyp for so long
+        published:
+          type: string
+          format: date-time
+          description: Publication date in ISO 8601 format
+          example: '2026-02-27T20:37:38.000Z'
+        likeCount:
+          type: integer
+          description: Number of likes
+          example: 93210
+        replyCount:
+          type: integer
+          description: Number of replies
+          example: 96
+        viewCount:
+          type: integer
+          description: Number of views
+          example: 10195
+        repostCount:
+          type: integer
+          description: Number of reposts/retweets
+          example: 3
+        quoteCount:
+          type: integer
+          description: Number of quote posts
+          example: 0
+        saveCount:
+          type: integer
+          description: Number of saves/bookmarks
+          example: 3
+        contentFormat:
+          type: string
+          description: Content format (`post` for regular posts, `longform` for longer posts)
+          example: longform
+        isEdited:
+          type: boolean
+          description: Whether the post has been edited
+          example: false
+        attributedTo:
+          $ref: '#/components/schemas/XEmbeddedUser'
+        inReplyTo:
+          type: string
+          format: uri
+          description: URL of parent content
+          example: https://x.com/NISMO/status/2024100000000000000
+        quote:
+          $ref: '#/components/schemas/XQuotedPost'
+        image:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/XImage'
+            - description: Image resource with optional dimensions
+          description: Primary images and thumbnails
+        attachment:
+          type: array
+          items:
+            $ref: '#/components/schemas/XPostAttachment'
+          description: Media, poll, and preview attachments
+        tag:
+          type: array
+          items:
+            $ref: '#/components/schemas/XTag'
+          description: Hashtags and mentions
+      required:
+      - type
+      - id
+      - url
+      - entityId
+      - content
+      - likeCount
+      description: X post
+    XPollAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Question
+        oneOf:
+          type: array
+          items:
+            $ref: '#/components/schemas/XPollOption'
+          minItems: 2
+          description: Poll options
+        voterCount:
+          type: integer
+          description: Total number of votes
+          example: 194
+        closed:
+          type: string
+          format: date-time
+          description: Poll closing time in ISO 8601 format
+          example: '2026-02-20T16:05:03.000Z'
+      required:
+      - type
+      - oneOf
+      description: Poll attachment
+    XCommunityRule:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Document
+        entityId:
+          type: string
+          description: Platform-specific rule ID
+          example: '1848458992051159411'
+        name:
+          type: string
+          description: Rule title
+          example: Post memes only
+        content:
+          type: string
+          description: Rule description
+          example: Posts should be memes. No unrelated content or spam.
+      required:
+      - type
+      - name
+      description: Community rule
+    XEmbeddedUser:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Person
+        id:
+          type: string
+          format: uri
+          description: Profile URL
+          example: https://x.com/KhabyLame
+        url:
+          type: string
+          format: uri
+          description: Profile URL
+          example: https://x.com/KhabyLame
+        entityId:
+          type: string
+          description: X user ID
+          example: '221838349'
+        preferredUsername:
+          type: string
+          description: Username or handle
+          example: KhabyLame
+        name:
+          type: string
+          description: Display name
+          example: Khabane Lame
+        icon:
+          $ref: '#/components/schemas/XImage'
+        isPrivate:
+          type: boolean
+          description: Whether account is protected
+          example: false
+        isVerified:
+          type: boolean
+          description: Whether account has legacy verification
+          example: false
+        isPaidVerified:
+          type: boolean
+          description: Whether account has X Premium verification
+          example: true
+        summary:
+          type: string
+          description: Bio text
+          example: Let's Go
+        attachment:
+          type: array
+          items:
+            $ref: '#/components/schemas/XLink'
+          description: Profile links
+        followerCount:
+          type: integer
+          description: Number of followers
+          example: 372131
+        followingCount:
+          type: integer
+          description: Number of accounts followed
+          example: 8
+        likeCount:
+          type: integer
+          description: Number of likes made by the user
+          example: 60
+        postCount:
+          type: integer
+          description: Number of public posts
+          example: 267
+        mediaCount:
+          type: integer
+          description: Number of media posts
+          example: 242
+        listedCount:
+          type: integer
+          description: Number of public X Lists the account appears in
+          example: 215
+        location:
+          type: string
+          description: User location
+          example: Milan, Italy
+      required:
+      - type
+      - id
+      - url
+      description: Post author
+    XTag:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Tag
+        name:
+          type: string
+          description: Tag name
+          example: learnfromkhaby
+        href:
+          type: string
+          format: uri
+          description: Tag or mention URL
+          example: https://x.com/hashtag/learnfromkhaby
+      required:
+      - type
+      - name
+      description: Hashtag or user mention
+    XLinkAttachment:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Link
+        href:
+          type: string
+          format: uri
+          description: Preview URL
+          example: https://www.formulae.com/en/latest/article/nissan-and-khaby-lame-share-the-track-in-jeddah.3xexample
+        name:
+          type: string
+          description: Preview title
+          example: Nissan and Khaby Lame share the track in Jeddah
+        summary:
+          type: string
+          description: Preview description
+          example: A quick recap from Formula E race week in Jeddah.
+        image:
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/XImage'
+            - description: Image resource with optional dimensions
+          description: Preview images
+      required:
+      - type
+      - href
+      description: Link preview attachment
+    XImage:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ActivityStreams object type
+          example: Image
+        url:
+          type: string
+          format: uri
+          description: Image URL
+          example: https://pbs.twimg.com/amplify_video_thumb/2024515147692195840/img/t8ePmit3Wst1hxAM.jpg
+        width:
+          type: integer
+          description: Width in pixels
+          example: 1536
+        height:
+          type: integer
+          description: Height in pixels
+          example: 2048
+      required:
+      - type
+      - url
+      description: Profile picture
+    XPostAttachment:
+      anyOf:
+      - $ref: '#/components/schemas/XAttachment'
+      - $ref: '#/components/schemas/XLinkAttachment'
+      - $ref: '#/components/schemas/XArticleAttachment'
+      - $ref: '#/components/schemas/XPollAttachment'
+      description: Post attachment
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: bearer
+      description: 'Send your API key in the Authorization header as a Bearer token.
+
+        Example: `Authorization: Bearer <your-api-key>`'
