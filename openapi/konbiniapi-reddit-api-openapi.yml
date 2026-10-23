@@ -5823,3 +5823,9 @@ components:
       description: 'Send your API key in the Authorization header as a Bearer token.
 
         Example: `Authorization: Bearer <your-api-key>`'
+x-provenance:
+  method: harvested
+  publisher: KonbiniAPI
+  source: https://docs.konbiniapi.com/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
